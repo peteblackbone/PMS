@@ -1,0 +1,16 @@
+{
+  "APP": {
+    "APP_NAME": "Project Management Systems",
+    "LANGUAGE": "English"
+  },
+  "DASHBOARD": {
+    "NAVIGATION_DRAWER": {
+      "OVERVIEW": "Overview",
+      "PROJECT_DESCRIPTION": "Project Description",
+      "APPOINTMENT": "Appointment",
+      "DEVELOPMENT_TOOLS": "Development Tools",
+      "ASSIGNMENTS": "Assignments",
+      "ASSOCIATED_DOCUMENTS":"Associated Documents"
+    }
+  }
+}

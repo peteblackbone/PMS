@@ -1,0 +1,16 @@
+{
+  "APP": {
+    "APP_NAME": "ระบบบริหารและจัดการโครงงาน",
+    "LANGUAGE": "ไทย"
+  },
+  "DASHBOARD": {
+    "NAVIGATION_DRAWER": {
+      "OVERVIEW": "ภาพรวม",
+      "PROJECT_DESCRIPTION": "รายละเอียดโครงงาน",
+      "APPOINTMENT": "นัดหมาย",
+      "DEVELOPMENT_TOOLS": "เครื่องมือพัฒนา",
+      "ASSIGNMENTS": "งานมอบหมาย",
+      "ASSOCIATED_DOCUMENTS":"เอกสารที่เกี่ยวข้อง"
+    }
+  }
+}
