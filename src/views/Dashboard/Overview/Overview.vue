@@ -1,10 +1,17 @@
 <template>
   <div class="gray ligthen-5">
+    <v-app-bar dense>
+      <v-toolbar-title>Overview</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn icon small>
+        <v-icon @click="showModal">{{ "mdi-cog-outline" }}</v-icon>
+      </v-btn>
+    </v-app-bar>
     <div class="grid-layout-container scrollable overflow-y-auto">
       <grid-layout
         :layout.sync="layout_2"
         :col-num="16"
-        :row-height="96"
+        :row-height="90"
         :is-draggable="true"
         :is-resizable="true"
         :is-mirrored="false"
@@ -28,6 +35,17 @@
         </grid-item>
       </grid-layout>
     </div>
+    <template>
+      <div>
+        <modal-container
+          :active="OverviewSetting"
+          :cancellable="1"
+          @close="hideModal"
+        >
+          <overview-setting></overview-setting>
+        </modal-container>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -35,10 +53,13 @@
 import VueGridLayout from "vue-grid-layout";
 import { Container, Draggable } from "vue-smooth-dnd";
 import { applyDrag } from "@/utils/helper";
-import OverviewCard from "@/components/OverviewCard";
 
-var data1 = {type:"burndown"}
-var data2 = {type:"piechart"}
+import OverviewCard from "@/components/OverviewCard";
+import ModalContainer from "@/components/ModalContainer";
+import OverviewSetting from "@/components/OverviewSetting";
+
+var data1 = { type: "burndown" };
+var data2 = { type: "piechart" };
 export default {
   components: {
     GridLayout: VueGridLayout.GridLayout,
@@ -46,13 +67,16 @@ export default {
     Container,
     Draggable,
     OverviewCard,
+    ModalContainer,
+    OverviewSetting,
   },
   data() {
     return {
-      layout_1: [{ x: 0, y: 0, w: 16, h: 6, i: "0" ,}],
+      OverviewSetting: false,
+      layout_1: [{ x: 0, y: 0, w: 16, h: 6, i: "0" }],
       layout_2: [
-        { x: 0, y: 0, w: 8, h: 6, i: "0" ,data:data1},
-        { x: 8, y: 0, w: 8, h: 6, i: "1" ,data:data2},
+        { x: 0, y: 0, w: 8, h: 6, i: "0", data: data1 },
+        { x: 8, y: 0, w: 8, h: 6, i: "1", data: data2 },
       ],
       layout_3: [
         { x: 0, y: 0, w: 8, h: 6, i: "0" },
@@ -83,7 +107,12 @@ export default {
     };
   },
   methods: {
-    
+    showModal() {
+      this.OverviewSetting = true;
+    },
+    hideModal() {
+      this.OverviewSetting = false;
+    },
   },
 };
 </script>

@@ -39,7 +39,7 @@ export default {
   },
   data() {
     return {
-      isLogin: true,
+      isLogin: false,
       account_data: { name: "asdasd", email: "cvcvxcv@dasd.com" },
       recent_project: [
         {

@@ -17,7 +17,7 @@
                         {{tag}}
                         <!-- <v-avatar right>
                           <v-icon size="16">{{icon[tag]}}</v-icon>
-                        </v-avatar>-->
+                        </v-avatar> -->
                       </v-chip>
                     </div>
                     <v-spacer></v-spacer>จำนวนครั้งที่ชม 15

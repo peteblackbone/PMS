@@ -1,10 +1,14 @@
 <template>
   <div ref="bg" class="board-bg">
     <v-app-bar dense>
-      <v-toolbar-title>{{board.name}}</v-toolbar-title>
+      <v-toolbar-title>{{ board.name }}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <div v-for="(item,index) in board.memberships" :key="index">
-        <member :initial="item.initials" :fullname="item.fullName" :username="item.username"></member>
+      <div v-for="(item, index) in board.memberships" :key="index">
+        <member
+          :initial="item.initials"
+          :fullname="item.fullName"
+          :username="item.username"
+        ></member>
       </div>
     </v-app-bar>
     <div v-if="token" class="board scrollable">
@@ -27,7 +31,7 @@
               drop-class="card-ghost-drop"
               non-drag-area-selector=".icon"
               :animation-duration="100"
-              @drop="e => onCardDrop(e, list, listIndex)"
+              @drop="(e) => onCardDrop(e, list, listIndex)"
               class="item-container scrollable"
             >
               <Draggable v-for="item in list.items" :key="item.id">
@@ -54,9 +58,7 @@
       <!-- <v-btn @click="Oauth">login with trello</v-btn> -->
       <!-- <v-btn @click="selectBoard">aaa</v-btn> -->
       <div style="display:flex;height:77vh">
-        <div v-for="(item, index) in boards" :key="index">
-          <iframe :src="`https://trello.com/embed/board?id=`+item+`&compact=true`" frameborder="0"></iframe>
-        </div>
+        <div v-for="(item, index) in boards" :key="index"></div>
       </div>
       <div>
         <v-btn style="align:left">next</v-btn>
@@ -87,7 +89,7 @@ import Entry from "@/components/Entry";
 import TrelloCard from "@/components/TrelloCard";
 import ItemForm from "@/components/TrelloItemForm";
 import ItemEntry from "@/components/TrelloItemEntry";
-import ItemModal from "@/components/TrelloItemModal";
+import ItemModal from "@/components/ModalContainer";
 import Member from "@/components/TrelloMember";
 
 export default {
@@ -180,7 +182,7 @@ export default {
 
     onListDrop: makeDropHandler("onListDropComplete"),
 
-    onListDropComplete: function (src, trg) {
+    onListDropComplete: function(src, trg) {
       this.$store.commit("moveList", [src.index, trg.index]);
     },
 

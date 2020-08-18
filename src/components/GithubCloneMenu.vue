@@ -28,7 +28,6 @@
         </v-card-actions>
       </v-card>
     </v-menu>
-    <v-icon>{{"mdi-cog-outline"}}</v-icon>
   </div>
 </template>
 

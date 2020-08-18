@@ -43,7 +43,7 @@ var Trello = {
         "/memberships?key=" +
         key +
         "&token=" +
-        token
+        token     //+"&member=true"
     ).then((res) => {
       var temp = [];
       for (const i in res.data) {
