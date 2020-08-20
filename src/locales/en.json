@@ -10,7 +10,8 @@
       "APPOINTMENT": "Appointment",
       "DEVELOPMENT_TOOLS": "Development Tools",
       "ASSIGNMENTS": "Assignments",
-      "ASSOCIATED_DOCUMENTS":"Associated Documents"
+      "PROJECT_MANUAL":"Project Manual",
+      "TOPIC_PROPOSAL":"Topic Proposal"
     }
   }
 }

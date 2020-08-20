@@ -4,7 +4,7 @@
     :items="desserts"
     :footer-props="{ disableItemsPerPage: true }"
     :search="search"
-    class="elevation-1 scrollable"
+    class="elevation-1 scrolable"
     height="74vh"
   >
     <template v-slot:top>

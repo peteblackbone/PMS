@@ -10,7 +10,8 @@
       "APPOINTMENT": "นัดหมาย",
       "DEVELOPMENT_TOOLS": "เครื่องมือพัฒนา",
       "ASSIGNMENTS": "งานมอบหมาย",
-      "ASSOCIATED_DOCUMENTS":"เอกสารที่เกี่ยวข้อง"
+      "PROJECT_MANUAL":"คู่มือปริญญานิพนธ์",
+      "TOPIC_PROPOSAL":"เสนอหัวข้อ"
     }
   }
 }

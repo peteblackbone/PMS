@@ -15,7 +15,7 @@
           <entry
             @url="getRepoDetails"
             :hint="hint"
-            :url="`https://github.com/srimoidev/vuejs`"
+            :url="`https://github.com/peteblackbone/PMS`"
             :label="`Github Repository`"
           ></entry>
         </div>

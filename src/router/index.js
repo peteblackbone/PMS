@@ -13,7 +13,9 @@ import Github from "../views/Dashboard/Github/Github.vue";
 import GoogleCalendar from "../views/Dashboard/GoogleCalendar/GoogleCalendar.vue";
 import Trello from "../views/Dashboard/Trello/TrelloBoard.vue";
 import GoogleDrive from "../views/Dashboard/GoogleDrive/GoogleDrive.vue";
-import AssociatedDocuments from "../views/Dashboard/AssociatedDocuments/AssociatedDocuments.vue";
+import ProjectManual from "../views/Dashboard/ProjectManual/ProjectManual.vue";
+import TopicProposal from "../views/Dashboard/TopicProposal/TopicProposal.vue";
+import CE01 from "../views/Dashboard/CE01/CE01.vue"
 
 Vue.use(VueRouter);
 
@@ -98,10 +100,22 @@ const routes = [
       },
       {
         path: "assocdoc",
-        name: "AssociatedDocuments",
-        component: AssociatedDocuments,
+        name: "ProjectManual",
+        component: ProjectManual,
         meta: { title: "Associated Documents | PMS" },
       },
+      {
+        path:"topic-proposal",
+        name:"TopicProposal",
+        component:TopicProposal,
+        meta:{title:"Topic Proposal | PMS"},
+      },
+      {
+        path:"ce01",
+        name:"CE01",
+        component:CE01,
+        meta:{title:"CE01 | PMS"}
+      }
     ],
   },
   { path: "*", redirect: "/" },

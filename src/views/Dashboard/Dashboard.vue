@@ -2,7 +2,7 @@
   <div>
     <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
       <v-list dense>
-        <template v-for="item in menu">
+        <template v-for="item in menu" class="scrollable">
           <!-- <v-row v-if="item.heading" :key="item.heading" align="center">
             <v-col cols="4">
               <v-subheader v-if="item.heading">{{ item.heading }}</v-subheader>
@@ -97,13 +97,18 @@ export default {
         route: "/student/description",
       },
       {
+        icon: "",
+        name: "DASHBOARD.NAVIGATION_DRAWER.TOPIC_PROPOSAL",
+        route: "/student/topic-proposal"
+      },
+      {
         icon: "mdi-bell",
         name: "DASHBOARD.NAVIGATION_DRAWER.APPOINTMENT",
         route: "/student/appointment",
       },
       {
         icon: "mdi-file-document-multiple-outline",
-        name: "DASHBOARD.NAVIGATION_DRAWER.ASSOCIATED_DOCUMENTS",
+        name: "DASHBOARD.NAVIGATION_DRAWER.PROJECT_MANUAL",
         route: "/student/assocdoc",
       },
       {
@@ -131,7 +136,7 @@ export default {
         "icon-alt": "mdi-chevron-down",
         name: "DASHBOARD.NAVIGATION_DRAWER.ASSIGNMENTS",
         children: [
-          { icon: "mdi-github", name: "CE01" },
+          { icon: "mdi-github", name: "CE01", route:"/student/ce01"},
           { icon: "mdi-trello", name: "CE02" },
           { icon: "mdi-folder-google-drive", name: "CE03" },
           { icon: "mdi-calendar-month", name: "CE04" },

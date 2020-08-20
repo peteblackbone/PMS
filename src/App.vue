@@ -40,12 +40,11 @@ export default {
 ::-webkit-scrollbar-track-piece {
   width: 8px;
 }
-.scrollable::-webkit-scrollbar-thumb {
-  /* background: transparent; */
+/* .scrollable::-webkit-scrollbar-thumb {
   color: #00000000;
   transition: color 0.5s;
-}
-.scrollable:hover::-webkit-scrollbar-thumb {
+} */
+::-webkit-scrollbar-thumb {
   color: #666666ff;
 }
 </style>

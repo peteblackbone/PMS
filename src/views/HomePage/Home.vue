@@ -20,11 +20,15 @@
     <div class="home-container">
       <div class="d-lg-flex">
         <div class="recent-list-container">
-          <!-- recent list -->
           <recent-list :data="recent_project"></recent-list>
         </div>
         <div>ค้นหาโปรเจค</div>
       </div>
+      <v-footer absolute class="font-weight-medium">
+        <v-col class="text-center" cols="12">
+          {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
+        </v-col>
+      </v-footer>
     </div>
   </div>
 </template>
@@ -51,7 +55,8 @@ export default {
           title: "เว็บแปลภาษา",
           advisor: "อาจารย์ bbbbbbb",
           tags: ["Software", "Vuejs"],
-        },{
+        },
+        {
           title: "เครื่องขายขนมอัตโนมัติ",
           advisor: "อาจารย์ aaaaaaaa",
           tags: ["Hardware", "Iot", "Arduino"],
@@ -70,7 +75,7 @@ export default {
 <style>
 .recent-list-container {
   width: 50vw;
-  height: 86vh;
+  height: 70vh;
   padding: 100px;
 }
 .middle {
@@ -83,7 +88,6 @@ export default {
   left: 0;
 }
 .home-container {
-
-  height: 86vh;
+  height: 80vh;
 }
 </style>
