@@ -65,9 +65,9 @@
         <dashboard-profile :data="account_data"></dashboard-profile>
       </div>
     </v-app-bar>
-    <v-content style="height:100vh">
+    <v-main style="height:100vh">
       <router-view></router-view>
-    </v-content>
+    </v-main>
   </div>
 </template>
 

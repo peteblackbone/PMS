@@ -47,4 +47,8 @@ export default {
 ::-webkit-scrollbar-thumb {
   color: #666666ff;
 }
+/* html, body {
+  height: 100%;
+  margin: 0;
+} */
 </style>

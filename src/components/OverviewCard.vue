@@ -7,19 +7,21 @@
     <div v-else-if="data.type === 'piechart'">
       <pie-chart></pie-chart>
     </div>
-    <div v-else-if="data.type === 'activity'"></div>
+    <div v-else-if="data.type === 'activities'">
+      <project-activities></project-activities>
+    </div>
   </v-card>
 </template>
 
 <script>
 import BurndownChart from "@/components/BurndownChart";
-import ProjectActivity from "@/components/ProjectActivity";
 import PieChart from "@/components/PieChart";
+import ProjectActivities from "@/components/ProjectActivities"
 export default {
   components: {
     BurndownChart,
-    ProjectActivity,
     PieChart,
+    ProjectActivities
   },
   data() {
     return {

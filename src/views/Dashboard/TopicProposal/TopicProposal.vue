@@ -15,7 +15,7 @@
         </v-toolbar>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
-        <v-icon small class="mr-2" @click="join(item.Group_ID)">
+        <v-icon small class="mr-2" @click="joinGroup(item.Group_ID)">
           mdi-pencil
         </v-icon>
         <v-icon small>
@@ -24,25 +24,38 @@
       </template>
     </v-data-table>
     <template>
-        <modal-container :active="dialog" :cancellable="1" @close="hideModal">
-            <new-topic @close="hideModal"></new-topic>
-        </modal-container>
+      <modal-container :active="dialog" :cancellable="1" @close="hideModal">
+        <new-topic
+          @close="hideModal"
+          @newProject="newProject"
+          :data="teacher_list"
+        ></new-topic>
+      </modal-container>
     </template>
   </div>
 </template>
 
 <script>
-import ModalContainer from "@/components/ModalContainer"
-import NewTopic from "@/components/TopicProposalNewTopic"
 import Axios from "axios";
+import DB from "@/mixins/Database";
+
+import ModalContainer from "@/components/ModalContainer";
+import NewTopic from "@/components/TopicProposalNewTopic";
 export default {
-    components:{
-        ModalContainer,
-        NewTopic
-    },
+  components: {
+    ModalContainer,
+    NewTopic,
+  },
   data() {
+    const srcs = {
+      1: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
+      2: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
+      3: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
+      4: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
+      5: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+    };
     return {
-      data: [],
+      data: [{Group_Name:"aaaaaaa",Group_Detail:"zasdasd",Group_Type:"Software",Group_Status:"zczxcxzc"}],
       dialog: false,
       headers: [
         {
@@ -60,47 +73,40 @@ export default {
         { text: "Status", value: "Group_Status" },
         { text: "Action", value: "actions" },
       ],
-      desserts: [],
-      editedIndex: -1,
-      editedItem: {
-        name: "",
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      },
-      defaultItem: {
-        name: "",
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      },
+      teacher_list: [
+        { header: "Group 1" },
+        { name: "Sandra Adams", group: "Group 1", avatar: srcs[1] },
+        { name: "Ali Connors", group: "Group 1", avatar: srcs[2] },
+        { name: "Trevor Hansen", group: "Group 1", avatar: srcs[3] },
+        { name: "Tucker Smith", group: "Group 1", avatar: srcs[2] },
+        { divider: true },
+        { header: "Group 2" },
+        { name: "Britta Holt", group: "Group 2", avatar: srcs[4] },
+        { name: "Jane Smith ", group: "Group 2", avatar: srcs[5] },
+        { name: "John Smith", group: "Group 2", avatar: srcs[1] },
+        { name: "Sandra Williams", group: "Group 2", avatar: srcs[3] },
+      ],
     };
   },
   methods: {
-    async fetch_group() {
-      this.data = await Axios.get(
-        "http://192.168.86.247:3000/student/topic"
-      ).then((res) => {
-        return res.data;
-      });
+    newProject(val) {
+      DB.propose_new_project(val);
     },
-    join(id) {
-      Axios.post("http://192.168.86.247:3000/student/topic/join", {
-        STD_GroupID: id,
-        STD_ID: 1,
-      });
+    getGroupData() {
+      this.data = DB.fetch_group();
     },
-    hideModal(){
-        this.dialog = false;
+    joinGroup(val) {
+      DB.join(val);
     },
-    showModal(){
-        this.dialog =true;
-    }
+    hideModal() {
+      this.dialog = false;
+    },
+    showModal() {
+      this.dialog = true;
+    },
   },
   mounted() {
-    this.fetch_group();
+    this.getGroupData();
   },
 };
 </script>
