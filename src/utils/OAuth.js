@@ -9,8 +9,7 @@ const expiration = 'never';
 
 // Be sure to include your key and secret in 🗝.env ↖️ over there.
 // You can get your key and secret from Trello at: https://trello.com/app-key
-const key = 'b96742cbd311d72d20ae7a96a10476f2';
-const secret = 'e3dd1fdd405d39f4f031e887f5978e446e8fc29c225f7e0fb72b8233fcb344fb';
+
 
 // Trello redirects the user here after authentication
 const loginCallback = `http://localhost:3000/callback`;

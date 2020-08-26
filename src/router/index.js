@@ -15,14 +15,16 @@ import Trello from "../views/Dashboard/Trello/TrelloBoard.vue";
 import GoogleDrive from "../views/Dashboard/GoogleDrive/GoogleDrive.vue";
 import ProjectManual from "../views/Dashboard/ProjectManual/ProjectManual.vue";
 import TopicProposal from "../views/Dashboard/TopicProposal/TopicProposal.vue";
-import CE01 from "../views/Dashboard/CE01/CE01.vue"
+import CE01 from "../views/Dashboard/CE01/CE01.vue";
+
+import SearchProject from "../components/SearchProject.vue";
+import About from "../components/About.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
     component: Home,
     meta: {
       title: "Home | PMS",
@@ -37,13 +39,34 @@ const routes = [
         },
       ],
     },
+    children: [
+      {
+        path: "",
+        name: "Home",
+        component: SearchProject,
+        meta: { title: "Home | PMS" },
+      },
+      {
+        path: "search",
+        name: "Search",
+        component: SearchProject,
+        meta: { title: "Search Project | PMS" },
+      },
+      {
+        path: "about",
+        name: "About",
+        component: About,
+        meta: { title: "About | PMS" },
+      },
+      {
+        path: "/login",
+        name: "Login",
+        component: Login,
+        meta: { title: "Login | PMS" },
+      },
+    ],
   },
-  {
-    path: "/login",
-    name: "Login",
-    component: Login,
-    meta: { title: "Login | PMS" },
-  },
+
   {
     path: "/:role",
     name: "Student",
@@ -105,17 +128,17 @@ const routes = [
         meta: { title: "Associated Documents | PMS" },
       },
       {
-        path:"topic-proposal",
-        name:"TopicProposal",
-        component:TopicProposal,
-        meta:{title:"Topic Proposal | PMS"},
+        path: "topic-proposal",
+        name: "TopicProposal",
+        component: TopicProposal,
+        meta: { title: "Topic Proposal | PMS" },
       },
       {
-        path:"ce01",
-        name:"CE01",
-        component:CE01,
-        meta:{title:"CE01 | PMS"}
-      }
+        path: "ce01",
+        name: "CE01",
+        component: CE01,
+        meta: { title: "CE01 | PMS" },
+      },
     ],
   },
   { path: "*", redirect: "/" },

@@ -20,7 +20,6 @@
                 v-model="project_name"
                 :error-messages="errors"
                 label="Project Name"
-                required
               ></v-text-field>
             </ValidationProvider>
             <ValidationProvider
@@ -96,7 +95,7 @@ import {
 } from "vee-validate";
 
 setInteractionMode("eager");
-var selected = [];
+
 extend("required", {
   ...required,
   message: "{_field_} can not be empty",

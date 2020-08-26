@@ -17,7 +17,7 @@ export default {
   font-family: 'K2D', sans-serif;
 }
 #nprogress .bar {
-  background: #fff !important;
+  background: #1976d2 !important;
 }
 
 ::-webkit-scrollbar {
