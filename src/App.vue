@@ -12,12 +12,12 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap');
-#app{
-  font-family: 'K2D', sans-serif;
+@import url("https://fonts.googleapis.com/css2?family=K2D:wght@100;200;300;400;500;600;700;800&display=swap");
+#app {
+  font-family: "K2D", sans-serif !important;
 }
 #nprogress .bar {
-  background: #1976d2 !important;
+  background: #fafafa !important;
 }
 
 ::-webkit-scrollbar {
@@ -40,15 +40,7 @@ export default {
 ::-webkit-scrollbar-track-piece {
   width: 8px;
 }
-/* .scrollable::-webkit-scrollbar-thumb {
-  color: #00000000;
-  transition: color 0.5s;
-} */
 ::-webkit-scrollbar-thumb {
   color: #666666ff;
 }
-/* html, body {
-  height: 100%;
-  margin: 0;
-} */
 </style>

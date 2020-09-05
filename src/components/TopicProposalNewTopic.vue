@@ -9,7 +9,7 @@
         </v-btn>
       </v-card-title>
       <v-container>
-        <ValidationObserver ref="observer" v-slot="{ validate, reset }">
+        <ValidationObserver ref="observer">
           <form>
             <ValidationProvider
               v-slot="{ errors }"
@@ -21,6 +21,20 @@
                 :error-messages="errors"
                 label="Project Name"
               ></v-text-field>
+            </ValidationProvider>
+            <ValidationProvider
+              v-slot="{ errors }"
+              name="Number"
+              rules="required"
+            >
+              <v-text-field
+                v-model.number="number"
+                :error-messages="errors"
+                label="Number"
+                type="number"
+                min="0"
+              >
+              </v-text-field>
             </ValidationProvider>
             <ValidationProvider
               v-slot="{ errors }"
@@ -45,7 +59,6 @@
                   <v-chip
                     v-bind="data.attrs"
                     :input-value="data.selected"
-                    
                     @click="data.select"
                     @click:close="remove(data.item)"
                   >
@@ -106,7 +119,7 @@ extend("max", {
   message: "{_field_} may not be greater than {length} characters",
 });
 extend("advisors", {
-  message:"{_field_} limit exceeded (2)",
+  message: "{_field_} limit exceeded (2)",
   validate(advisors, maxCount) {
     if (advisors.length <= maxCount[0]) {
       return true;
@@ -130,7 +143,7 @@ export default {
       selected: selected,
       isUpdating: false,
       name: "Midnight Crew",
-
+      number: NULL,
       title: "The summer breeze",
     };
   },
@@ -161,7 +174,7 @@ export default {
   watch: {
     selected: function() {
       selected = this.selected;
-      console.log(selected)
+      console.log(selected);
     },
     search(val) {
       // Items have already been loaded

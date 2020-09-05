@@ -18,9 +18,9 @@
         <v-icon small class="mr-2" @click="joinGroup(item.Group_ID)">
           mdi-pencil
         </v-icon>
-        <v-icon small>
-          mdi-delete
-        </v-icon>
+      </template>
+      <template v-slot:[`item.Group_Member`]="{ item }">
+        {{ item.Member.length }} / {{ item.Group_Member }}
       </template>
     </v-data-table>
     <template>
@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import Axios from "axios";
 import DB from "@/mixins/Database";
 
 import ModalContainer from "@/components/ModalContainer";
@@ -55,7 +54,7 @@ export default {
       5: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
     };
     return {
-      data: [{Group_Name:"aaaaaaa",Group_Detail:"zasdasd",Group_Type:"Software",Group_Status:"zczxcxzc"}],
+      data: [],
       dialog: false,
       headers: [
         {
@@ -92,11 +91,19 @@ export default {
     newProject(val) {
       DB.propose_new_project(val);
     },
-    getGroupData() {
-      this.data = DB.fetch_group();
+    async getGroupData() {
+      this.data = await DB.fetch_group();
+      console.log(this.data);
     },
     joinGroup(val) {
-      DB.join(val);
+      const objIndex = this.data.findIndex((data) => data.Group_ID === val);
+      if (this.data[objIndex].Member.length < this.data[objIndex].Group_Member) {
+        this.data[objIndex].Member.push({ name: "aaaaa" });
+        DB.join(val);
+      }
+      else{
+        alert("Group limit exceeded")
+      }
     },
     hideModal() {
       this.dialog = false;

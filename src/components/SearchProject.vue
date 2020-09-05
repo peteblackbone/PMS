@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <div class="search-box">
-        <span class="text-lg-h6">ระบบบริหารและจัดการโครงงาน มหาวิทยาลัยเทคโนโลยีราชมงคลล้านนา</span>
+      <span class="text-lg-h6" v-t="{ path: 'APP.FULL_NAME' }"></span>
       <v-text-field
-      class="pt-5"
+        class="pt-5"
         label="กรอกคำค้นหา..."
         append-icon="mdi-send"
         @click:append="submit"
@@ -27,11 +27,13 @@ export default {
 
 <style>
 .container {
-  height: 70vh;
+  height: 100%;
   position: relative;
 }
 .search-box {
-  width: 500px;
+  /* width: 500px; */
+  max-width: 500px;
+  min-width: 300px;
   position: absolute;
   top: 50%;
   left: 50%;

@@ -1,49 +1,64 @@
 <template>
   <div class="home-container">
     <v-app-bar height="60" color="transparent" elevate-on-scroll>
-      <v-avatar>
-        <v-icon>mdi-account-circle</v-icon>
-      </v-avatar>
-      <v-toolbar-title style="width:420px"
-        >Project Management Systems</v-toolbar-title
-      >
+      <v-app-bar-nav-icon
+        @click.stop="drawer = !drawer"
+        v-if="$vuetify.breakpoint.mdAndDown"
+      ></v-app-bar-nav-icon>
+      <v-toolbar-title class="logo" v-if="$vuetify.breakpoint.smAndUp">
+        <v-avatar>
+          <v-icon>mdi-account-circle</v-icon>
+        </v-avatar>
+        <span v-t="{ path: 'APP.APP_NAME' }"></span>
+      </v-toolbar-title>
       <v-tabs
         v-model="tab"
         background-color="transparent"
         color="primary"
         right
         class="mr-4"
+        v-if="!$vuetify.breakpoint.mdAndDown"
       >
-        <v-tab v-for="item in tabs" :key="item.title" :to="item.route"
+        <v-tab
+          class="tabs"
+          v-for="item in tabs"
+          :key="item.title"
+          :to="item.route"
           >{{ item.title }}
           <v-icon class="ml-2" v-if="item.icon">{{ item.icon }}</v-icon>
         </v-tab>
       </v-tabs>
-      <!-- <div v-if="isLogin">
-        <dashboard-profile :data="account_data"></dashboard-profile>
-      </div>
-      <div v-else>
-        <v-btn outlined x-large color="blue">Login</v-btn>
-      </div> -->
     </v-app-bar>
-    <v-main>
+    <v-navigation-drawer v-model="drawer" absolute temporary>
+      <div style="height:80px">
+        PMS
+      </div>
+      <v-divider></v-divider>
+      <v-list v-for="item in tabs" :key="item.title">
+        <v-list-item :to="item.route">
+          {{ item.title }}
+          <v-icon class="ml-2" v-if="item.icon">{{ item.icon }}</v-icon>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <v-main style="height:80%;">
       <transition name="fade" mode="out-in">
         <router-view></router-view>
       </transition>
     </v-main>
-    <v-footer absolute class="font-weight-medium footer-color">
+    <v-footer absolute class="font-weight-medium footer d-none d-sm-flex">
       <v-col class="text-center" cols="12">
-        <div class="mx-12" style="display:inline-grid">
+        <div class="mx-6 d-inline-grid">
           <v-icon>mdi-bookshelf</v-icon>
           <span class="yellow--text text--darken-2">247,154</span>
           <span>โครงงานทั้งหมด</span>
         </div>
-        <div class="mx-12" style="display:inline-grid">
+        <div class="mx-6 d-inline-grid">
           <v-icon>mdi-monitor-cellphone</v-icon>
           <span class="yellow--text text--darken-2">152,245</span>
           <span>ประเภทซอฟต์แวร์</span>
         </div>
-        <div class="mx-12" style="display:inline-grid">
+        <div class="mx-6 d-inline-grid">
           <v-icon>mdi-chip</v-icon>
           <span class="yellow--text text--darken-2">154,214</span>
           <span>ประเภทฮาร์ดแวร์</span>
@@ -65,6 +80,7 @@ export default {
   },
   data() {
     return {
+      drawer: false,
       tab: null,
       tabs: [
         { title: "หน้าหลัก", route: "/" },
@@ -102,23 +118,15 @@ export default {
 </script>
 
 <style>
-.recent-list-container {
-  width: 50vw;
-  height: 70vh;
-  padding: 100px;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
 }
-.middle {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 .home-container {
-  min-height: inherit;
-  /* background-image: url("../../assets/aff4cc28ca93b3507d41ba0f88ec53db.jpg"); */
+  min-height: 100vh;
   background-image: linear-gradient(
       to bottom,
       rgba(245, 246, 252, 0.52),
@@ -127,13 +135,19 @@ export default {
     url("../../assets/aff4cc28ca93b3507d41ba0f88ec53db.jpg");
   background-size: cover;
 }
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
-.footer-color{
+.footer {
   background-color: #ffffff55;
+}
+.d-inline-grid {
+  display: inline-grid;
+}
+.logo {
+  min-width: fit-content;
+}
+@media screen and (max-width: 1264px) {
+  .logo {
+    min-width: 0;
+    padding-left: 0 !important;
+  }
 }
 </style>

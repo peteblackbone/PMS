@@ -14,5 +14,13 @@ const DB = {
   propose_new_project({ name, advisors }) {
     console.log(name, advisors);
   },
+  async fetch_ce(type) {
+    return await HTTP.get(type).then((res) => {
+      return res.data;
+    });
+  },
+  update(val) {
+    HTTP.post("/student/update_" + val.type, val);
+  },
 };
 export default DB;

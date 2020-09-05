@@ -9,4 +9,3 @@ export function makeList (title, items = []) {
   const id = uuidv1()
   return { id, title, items }
 }
-

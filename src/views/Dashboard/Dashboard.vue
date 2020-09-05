@@ -1,16 +1,12 @@
 <template>
   <div>
-    <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
+    <v-navigation-drawer
+      v-model="drawer"
+      :clipped="$vuetify.breakpoint.lgAndUp"
+      app
+    >
       <v-list dense>
         <template v-for="item in menu" class="scrollable">
-          <!-- <v-row v-if="item.heading" :key="item.heading" align="center">
-            <v-col cols="4">
-              <v-subheader v-if="item.heading">{{ item.heading }}</v-subheader>
-            </v-col>
-            <v-col cols="8" class="text-center">
-              <a href="#!" class="body-2 black--text">EDIT</a>
-            </v-col>
-          </v-row> -->
           <v-list-group
             v-if="item.children"
             :key="item.text"
@@ -20,15 +16,24 @@
           >
             <template v-slot:activator>
               <v-list-item-content>
-                <v-list-item-title v-t="{path:item.name}"></v-list-item-title>
+                <v-list-item-title
+                  v-t="{ path: item.name }"
+                ></v-list-item-title>
               </v-list-item-content>
             </template>
-            <v-list-item style="padding-left:40px" v-for="(child, i) in item.children" :key="i" :to="child.route">
+            <v-list-item
+              style="padding-left:40px"
+              v-for="(child, i) in item.children"
+              :key="i"
+              :to="child.route"
+            >
               <v-list-item-action v-if="child.icon">
                 <v-icon>{{ child.icon }}</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title v-t="{path:child.name}"></v-list-item-title>
+                <v-list-item-title
+                  v-t="{ path: child.name }"
+                ></v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list-group>
@@ -37,16 +42,21 @@
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title v-t="{ path:item.name }"></v-list-item-title>
+              <v-list-item-title v-t="{ path: item.name }"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </template>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app color="blue darken-1" dark>
+    <v-app-bar
+      :clipped-left="$vuetify.breakpoint.lgAndUp"
+      app
+      color="blue darken-1"
+      dark
+    >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
-        <span class="hidden-sm-and-down" v-t="{path: 'APP.APP_NAME'}"></span>
+        <span class="hidden-sm-and-down" v-t="{ path: 'APP.APP_NAME' }"></span>
       </v-toolbar-title>
       <v-spacer />
       <div class="select-lang">
@@ -97,15 +107,33 @@ export default {
         route: "/student/description",
       },
       {
-        icon: "",
-        name: "DASHBOARD.NAVIGATION_DRAWER.TOPIC_PROPOSAL",
-        route: "/student/topic-proposal"
+        icon: "mdi-group",
+        name: "DASHBOARD.NAVIGATION_DRAWER.MANAGE_GROUP",
+        route: "/student/topic_proposal",
+      },
+      {
+        icon:"mdi-bookshelf",
+        // model: false,
+        name: "DASHBOARD.NAVIGATION_DRAWER.MANAGE_PROJECT",
+        route: "/student/ce01",
+        // children: [
+        //   { icon: "mdi-github", name: "CE01", route: "/student/ce01" },
+        //   { icon: "mdi-trello", name: "CE02" },
+        //   { icon: "mdi-folder-google-drive", name: "CE03" },
+        //   { icon: "mdi-calendar-month", name: "CE04" },
+        // ],
       },
       {
         icon: "mdi-bell",
         name: "DASHBOARD.NAVIGATION_DRAWER.APPOINTMENT",
         route: "/student/appointment",
       },
+      {
+        icon: "mdi-cogs",
+        name: "DASHBOARD.NAVIGATION_DRAWER.PROGRESSION_RECORD",
+        route: "/student/progression_record",
+      },
+
       {
         icon: "mdi-file-document-multiple-outline",
         name: "DASHBOARD.NAVIGATION_DRAWER.PROJECT_MANUAL",
@@ -129,17 +157,6 @@ export default {
             name: "Google Calendar",
             route: "/student/calendar",
           },
-        ],
-      },
-      {
-        icon: "mdi-chevron-up",
-        "icon-alt": "mdi-chevron-down",
-        name: "DASHBOARD.NAVIGATION_DRAWER.ASSIGNMENTS",
-        children: [
-          { icon: "mdi-github", name: "CE01", route:"/student/ce01"},
-          { icon: "mdi-trello", name: "CE02" },
-          { icon: "mdi-folder-google-drive", name: "CE03" },
-          { icon: "mdi-calendar-month", name: "CE04" },
         ],
       },
     ],

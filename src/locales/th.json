@@ -1,6 +1,8 @@
 {
   "APP": {
     "APP_NAME": "ระบบบริหารและจัดการโครงงาน",
+    "FULL_NAME" : "ระบบบริหารและจัดการโครงงาน มหาวิทยาลัยเทคโนโลยีราชมงคลล้านนา",
+    "ACRONYM" : "PMS",
     "LANGUAGE": "ไทย"
   },
   "DASHBOARD": {
@@ -8,10 +10,13 @@
       "OVERVIEW": "ภาพรวม",
       "PROJECT_DESCRIPTION": "รายละเอียดโครงงาน",
       "APPOINTMENT": "นัดหมาย",
-      "DEVELOPMENT_TOOLS": "เครื่องมือพัฒนา",
+      "DEVELOPMENT_TOOLS": "เครื่องมือนักพัฒนา",
       "ASSIGNMENTS": "งานมอบหมาย",
-      "PROJECT_MANUAL":"คู่มือปริญญานิพนธ์",
-      "TOPIC_PROPOSAL":"เสนอหัวข้อ"
+      "PROJECT_MANUAL": "คู่มือปริญญานิพนธ์",
+      "TOPIC_PROPOSAL": "เสนอหัวข้อ",
+      "PROGRESSION_RECORD": "บันทึกความคืบหน้า",
+      "MANAGE_GROUP": "จัดการกลุ่ม",
+      "MANAGE_PROJECT": "จัดการโครงงาน"
     }
   }
 }

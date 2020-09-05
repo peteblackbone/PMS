@@ -15,7 +15,8 @@ import Trello from "../views/Dashboard/Trello/TrelloBoard.vue";
 import GoogleDrive from "../views/Dashboard/GoogleDrive/GoogleDrive.vue";
 import ProjectManual from "../views/Dashboard/ProjectManual/ProjectManual.vue";
 import TopicProposal from "../views/Dashboard/TopicProposal/TopicProposal.vue";
-import CE01 from "../views/Dashboard/CE01/CE01.vue";
+import CE01 from "../views/Dashboard/ManageProject/ManageProject.vue";
+import ProgressionRecord from "../views/Dashboard/ProgressionRecord/ProgressionRecord.vue";
 
 import SearchProject from "../components/SearchProject.vue";
 import About from "../components/About.vue";
@@ -128,7 +129,7 @@ const routes = [
         meta: { title: "Associated Documents | PMS" },
       },
       {
-        path: "topic-proposal",
+        path: "topic_proposal",
         name: "TopicProposal",
         component: TopicProposal,
         meta: { title: "Topic Proposal | PMS" },
@@ -138,6 +139,12 @@ const routes = [
         name: "CE01",
         component: CE01,
         meta: { title: "CE01 | PMS" },
+      },
+      {
+        path: "progression_record",
+        name: "Progression Record",
+        component: ProgressionRecord,
+        meta: { title: "Progression Record | PMS" },
       },
     ],
   },
