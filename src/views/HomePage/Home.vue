@@ -16,7 +16,7 @@
         background-color="transparent"
         color="primary"
         right
-        class="mr-4"
+        class=""
         v-if="!$vuetify.breakpoint.mdAndDown"
       >
         <v-tab

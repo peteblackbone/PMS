@@ -21,9 +21,9 @@
               @submit="submit"
             >
               <template v-slot:header>
-                <h3 class="mr-2" style="height:28px">
+                <h4 class="mr-2" style="height:28px">
                   {{ i + 1 + ". " }}{{ header.header }}
-                </h3>
+                </h4>
               </template>
             </item-list>
           </div>

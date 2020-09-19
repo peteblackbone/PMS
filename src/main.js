@@ -7,12 +7,8 @@ import i18n from './i18n'
 import VueAxios from "vue-axios";
 import axios from "axios";
 import './plugins/codemirror';
-import CKEditor from 'ckeditor4-vue';
-
+import CKEditor from "@ckeditor/ckeditor5-vue"
 Vue.use( CKEditor );
-// import VeeValidate from 'vee-validate'
-// import 'bulma'
-// import './views/student/devtools/trello/core/ui'
 
 import Nprogress from "../node_modules/nprogress/nprogress.css"
 

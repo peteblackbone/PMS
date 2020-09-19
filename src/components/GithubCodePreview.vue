@@ -215,7 +215,7 @@ export default {
       if (sel.type === "file" || sel.type === "blob") {
         await Axios.get(sel.git_url).then((res) => {
           // console.log(sel.file)
-          if (sel.file === "ico" || sel.file === "png") {
+          if (sel.file === "ico" || sel.file === "png" || sel.file === "jpg") {
             this.isCode = false;
             this.code =
               "data:image/" +

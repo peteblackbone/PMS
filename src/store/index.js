@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { github } from "./modules/github";
 import board from "./modules/board";
+import {auth} from "./modules/UserAuthen/auth"
 
 import persistedState from "vuex-persistedstate";
 Vue.use(Vuex);
@@ -20,6 +21,7 @@ export default new Vuex.Store({
   modules: {
     github,
     board,
+    auth
   },
   // plugins:[
   //   persistedState()

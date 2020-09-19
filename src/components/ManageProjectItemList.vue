@@ -16,11 +16,10 @@
     <div ref="field" class="mt-4" v-if="edit && header.type == `textfield`">
       <v-text-field
         class="mx-6"
-        v-model="editedData[header.title]"
+        v-model="editedData"
         outlined
         :label="header.header"
         dense
-        :disabled="!edit"
         :autofocus="edit"
         @keydown.enter="submit"
         @keydown.esc="cancel"
@@ -42,6 +41,7 @@
     <div v-else-if="edit && header.type == `editor`" class="mt-4 mb-2">
       <ckeditor
         class="mx-6"
+        :editor="editor"
         v-model="editedData"
         :config="editorConfig"
         :read-only="!edit"
@@ -63,16 +63,21 @@
 </template>
 
 <script>
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+// import Base64UploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/base64uploadadapter';
 export default {
   data() {
     return {
+      editor: ClassicEditor,
       editedData: this.data[this.header.title],
       edit: false,
       editorConfig: {
+        // plugins:[Base64UploadAdapter],
         height: "40vh",
         readOnly: true,
         startupFocus: true,
         tabSpaces: 4,
+        filebrowserUploadUrl: "/uploader/upload.php",
       },
     };
   },
@@ -101,12 +106,11 @@ export default {
     },
   },
   mounted() {
-    if (this.header.type == "editor") {
+    if (this.header.type != "preview_only") {
       this.$refs.content.innerHTML = this.editedData;
     }
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>

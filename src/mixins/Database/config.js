@@ -1,4 +1,5 @@
 import Axios from "axios";
-export const HTTP = Axios.create({
-  baseURL: "http://localhost:3000/",
+const HTTP = Axios.create({
+  baseURL: "http://localhost:3300/",
 });
+export default HTTP

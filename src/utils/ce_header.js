@@ -6,14 +6,14 @@ export const CE_HEADER = () => {
         {
           title: "Thai_Name",
           header: "ชื่อโครงงานภาษาไทย",
-          type: "preview_only",
-          editable: false,
+          type: "textfield",
+          editable: true,
         },
         {
           title: "Eng_Name",
           header: "ชื่อโครงงานภาษาอังกฤษ",
-          type: "preview_only",
-          editable: false,
+          type: "textfield",
+          editable: true,
         },
         {
           title: "Members",

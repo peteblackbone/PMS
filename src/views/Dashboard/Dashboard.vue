@@ -72,7 +72,7 @@
         <dashboard-notification :noti="noti"></dashboard-notification>
       </div>
       <div>
-        <dashboard-profile :data="account_data"></dashboard-profile>
+        <dashboard-profile :data="account_data.user" @logout="logout"></dashboard-profile>
       </div>
     </v-app-bar>
     <v-main style="height:100vh">
@@ -95,6 +95,7 @@ export default {
   },
   data: () => ({
     drawer: null,
+    account_data:JSON.parse(localStorage.getItem('user')),
     menu: [
       {
         icon: "mdi-chart-bar",
@@ -199,12 +200,16 @@ export default {
     ],
     twoLine: true,
     avatar: true,
-    account_data: { name: "asdasd", email: "asdasd@rmutl.ac.th" },
+    // account_data: { name: "asdasd", email: "asdasd@rmutl.ac.th" },
   }),
   methods: {
     changeLang(val) {
       this.$store.commit("lang", val);
     },
+    logout(){
+      console.log("asd");
+      this.$store.dispatch('auth/logout');
+    }
   },
 };
 </script>

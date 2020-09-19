@@ -8,9 +8,13 @@
       <div class="mx-8">
         <ValidationObserver ref="observer">
           <form>
-            <ValidationProvider v-slot="{ errors }" name="ID" rules="required">
+            <ValidationProvider
+              v-slot="{ errors }"
+              name="Username"
+              rules="required"
+            >
               <v-text-field
-              v-model="id"
+                v-model="username"
                 label="ID"
                 :error-messages="errors"
                 prepend-inner-icon="mdi-account"
@@ -22,7 +26,7 @@
               rules="required"
             >
               <v-text-field
-              v-model="password"
+                v-model="password"
                 label="Password"
                 :error-messages="errors"
                 prepend-inner-icon="mdi-lock"
@@ -30,10 +34,9 @@
             </ValidationProvider>
             <v-btn class="mt-2" @click="submit">Login</v-btn>
             <div>
-              <v-checkbox label="remember me"></v-checkbox><span style="padding:50%">Forgot Password?</span>
+              <v-checkbox label="remember me"></v-checkbox
+              ><span style="padding:50%">Forgot Password?</span>
             </div>
-            
-            
           </form>
         </ValidationObserver>
       </div>
@@ -42,6 +45,7 @@
 </template>
 
 <script>
+import Axios from "axios";
 import { required, email, max, length } from "vee-validate/dist/rules";
 import {
   extend,
@@ -61,13 +65,29 @@ export default {
   },
   data() {
     return {
-      id:null,
-      password:null
-    }
+      username: null,
+      password: null,
+    };
   },
   methods: {
-    submit() {
-      this.$refs.observer.validate();
+    async submit() {
+      if (await this.$refs.observer.validate()) {
+        // Axios.defaults.headers['Content-Type'] = "application/x-www-form-urlencoded"
+        // Axios.post(
+        //   "http://localhost:3000/auth/login",
+        //   JSON.stringify(
+        //     {
+        //       username: this.username,
+        //       password: this.password,
+        //     }),
+        //     { headers: { "Content-Type": "application/json" } }
+          
+        // ).then((res) => {
+        //   console.log(res.data);
+        // });
+        const {username,password} = this
+        this.$store.dispatch("auth/login",{username:this.username,password:this.password})
+      }
     },
   },
 };
