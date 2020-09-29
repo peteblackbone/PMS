@@ -8,28 +8,60 @@
     >
       <template v-slot:top>
         <v-toolbar flat color="white">
-          <v-toolbar-title>Project List</v-toolbar-title>
+          <v-toolbar-title>จัดการกลุ่ม</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
-          <v-btn @click="showModal">Propose new topic</v-btn>
+          <v-btn @click="showProposalModal">เสนอหัวข้อใหม่</v-btn>
         </v-toolbar>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
-        <v-icon small class="mr-2" @click="joinGroup(item.Group_ID)">
-          mdi-pencil
+        <v-icon small class="mr-2" @click="showJoinGroupModal(item)">
+          mdi-magnify
         </v-icon>
       </template>
-      <template v-slot:[`item.Group_Member`]="{ item }">
-        {{ item.Member.length }} / {{ item.Group_Member }}
+      <template v-slot:[`item.GROUP_MEMBER`]="{ item }">
+        {{ item.MEMBERS.length }} / {{ item.GROUP_MEMBER }}
       </template>
+      <!-- <template v-slot:[`body.prepend`]>
+        <tr class="warning">
+          <td>{{ ownGroup.GROUP_EN_NAME }}</td>
+          <td>asd</td>
+          <td>Software</td>
+          <td>0 / 2</td>
+          <td>Pending</td>
+          <td>
+            <v-icon size="16" @click="showJoinGroupModal(ownGroup)"
+              >mdi-magnify</v-icon
+            >
+          </td>
+        </tr>
+      </template> -->
     </v-data-table>
     <template>
-      <modal-container :active="dialog" :cancellable="1" @close="hideModal">
+      <modal-container
+        :active="proposal_modal"
+        :cancellable="1"
+        @close="hideModal"
+      >
         <new-topic
           @close="hideModal"
           @newProject="newProject"
           :data="teacher_list"
         ></new-topic>
+      </modal-container>
+    </template>
+    <template>
+      <modal-container
+        :active="joinGroup_modal"
+        :cancellable="1"
+        @close="hideModal"
+      >
+        <join-group
+          @submit="joinGroup"
+          @close="hideModal"
+          :data="selectedGroup"
+        >
+        </join-group>
       </modal-container>
     </template>
   </div>
@@ -40,10 +72,12 @@ import DB from "@/mixins/Database";
 
 import ModalContainer from "@/components/ModalContainer";
 import NewTopic from "@/components/TopicProposalNewTopic";
+import JoinGroup from "@/components/TopicProposalJoinGroup";
 export default {
   components: {
     ModalContainer,
     NewTopic,
+    JoinGroup,
   },
   data() {
     const srcs = {
@@ -55,21 +89,42 @@ export default {
     };
     return {
       data: [],
-      dialog: false,
+      GroupData: [],
+      proposal_modal: false,
+      joinGroup_modal: false,
+      selectedGroup: null,
+      ownGroup: {
+        GROUP_ID: 1,
+        GROUP_TH_NAME: "ระบบบริหารและจัดการโครงงาน",
+        GROUP_EN_NAME: "Project Management Systemaaaaa",
+        GROUP_DETAIL: "zasdasd",
+        GROUP_TYPE: "Software",
+        GROUP_STATUS: "Approved",
+        GROUP_MEMBER: "4",
+        GROUP_ADVISOR: "A",
+        MEMBERS: [
+          {
+            NAME: "a",
+          },
+          {
+            NAME: "b",
+          },
+        ],
+      },
       headers: [
         {
-          text: "Group Name",
+          text: "ชื่อโครงงาน",
           align: "start",
           sortable: true,
           value: "Group_Name",
         },
-        { text: "Detail", value: "Group_Detail" },
-        { text: "Type", value: "Group_Type" },
+        { text: "อาจารย์ที่ปรึกษา", value: "GROUP_ADVISOR" },
+        { text: "ประเภท", value: "Group_Type" },
         {
-          text: "Member",
+          text: "สมาชิก",
           value: "Group_Member",
         },
-        { text: "Status", value: "Group_Status" },
+        { text: "สถานะ", value: "Group_RequestStatus" },
         { text: "Action", value: "actions" },
       ],
       teacher_list: [
@@ -88,28 +143,42 @@ export default {
     };
   },
   methods: {
-    newProject(val) {
-      DB.propose_new_project(val);
-    },
     async getGroupData() {
       this.data = await DB.fetch_group();
-      console.log(this.data);
+      console.log("Asdasd");
     },
-    joinGroup(val) {
-      const objIndex = this.data.findIndex((data) => data.Group_ID === val);
-      if (this.data[objIndex].Member.length < this.data[objIndex].Group_Member) {
-        this.data[objIndex].Member.push({ name: "aaaaa" });
-        DB.join(val);
-      }
-      else{
-        alert("Group limit exceeded")
-      }
+    async newProject(val) {
+      await DB.propose_new_project(val)
+        this.getGroupData();
+      
+    },
+
+    async joinGroup(val) {
+      await DB.join(val,JSON.parse(localStorage.getItem("user")).user.STD_ID)
+      this.hideModal();
+      // const objIndex = this.data.findIndex((data) => data.GROUP_ID === val);
+      // if (
+      //   this.data[objIndex].MEMBERS.length < this.data[objIndex].GROUP_MEMBER
+      // ) {
+      //   this.data[objIndex].MEMBERS.push({
+      //     name: JSON.parse(localStorage.getItem("user")).user,
+      //   });
+      //   DB.join(val, JSON.parse(localStorage.getItem("user")).user);
+      //   this.hideModal();
+      // } else {
+      //   alert("Group limit exceeded");
+      // }
     },
     hideModal() {
-      this.dialog = false;
+      this.proposal_modal = false;
+      this.joinGroup_modal = false;
     },
-    showModal() {
-      this.dialog = true;
+    showProposalModal() {
+      this.proposal_modal = true;
+    },
+    showJoinGroupModal(Group) {
+      this.selectedGroup = Group;
+      this.joinGroup_modal = true;
     },
   },
   mounted() {

@@ -18,5 +18,14 @@
       "MANAGE_GROUP": "จัดการกลุ่ม",
       "MANAGE_PROJECT": "จัดการโครงงาน"
     }
+  },
+  "MANAGE_GROUP":{
+    "MANAGE_GROUP":"จัดการกลุ่ม",
+    "PROPOSE_NEW_TOPIC":"เสนอหัวข้อใหม่",
+    "PROJECT_NAME":"ชื่อโครงงาน",
+    "ADVISOR":"อาจารย์ที่ปรึกษา",
+    "TYPE":"ประเภท",
+    "MEMBER":"สมาชิก",
+    "STATUS":"สถานะ"
   }
 }

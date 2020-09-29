@@ -1,12 +1,14 @@
+import { start } from "nprogress";
 import router from "../../../router";
 import { userService } from "./Service";
 export const auth = {
   namespaced: true,
   state: {
-    // username: "",
+    username: "aaa",
     // name: "",
     // email: "",
     // token: "",
+    status : {loggedIn : null}
   },
   mutations: {
     loginRequest(state, user) {
@@ -18,11 +20,11 @@ export const auth = {
       state.user = user;
     },
     loginFailure(state) {
-      state.status = {};
+      state.status = {loggedIn: false};
       state.user = null;
     },
     logout(state) {
-      state.status = {};
+      state.status = {loggedIn: null};
       state.user = null;
     },
   },
@@ -33,13 +35,12 @@ export const auth = {
       userService.login(username, password).then(
         (user) => {
           commit("loginSuccess", user);
-          // router.push("/");
-          router.push("/student")
+          router.push("/"+user.data.user.role);
         },
         (error) => {
-          console.log('error')
+          console.log(error);
           commit("loginFailure", error);
-        //   dispatch("alert/error", error, { root: true });
+          //   dispatch("alert/error", error, { root: true });
         }
       );
     },
@@ -47,5 +48,8 @@ export const auth = {
       userService.logout();
       commit("logout");
     },
+  },
+  getters: {
+    loggedIn: (state) => state.status,
   },
 };

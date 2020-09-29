@@ -1,44 +1,53 @@
 <template>
-  <div class="container">
+  <div class="form-container">
     <v-card class="login">
       <v-avatar size="96" class="avatar">
         <v-icon size="80" color="white">mdi-account-outline</v-icon>
       </v-avatar>
-      <v-card-title>Login</v-card-title>
-      <div class="mx-8">
-        <ValidationObserver ref="observer">
-          <form>
-            <ValidationProvider
-              v-slot="{ errors }"
-              name="Username"
-              rules="required"
-            >
-              <v-text-field
-                v-model="username"
-                label="ID"
-                :error-messages="errors"
-                prepend-inner-icon="mdi-account"
-              ></v-text-field>
-            </ValidationProvider>
-            <ValidationProvider
-              v-slot="{ errors }"
-              name="Password"
-              rules="required"
-            >
-              <v-text-field
-                v-model="password"
-                label="Password"
-                :error-messages="errors"
-                prepend-inner-icon="mdi-lock"
-              ></v-text-field>
-            </ValidationProvider>
-            <v-btn class="mt-2" @click="submit">Login</v-btn>
-            <div>
-              <v-checkbox label="remember me"></v-checkbox
-              ><span style="padding:50%">Forgot Password?</span>
-            </div>
-          </form>
-        </ValidationObserver>
+      <div class="form-login">
+        <v-card-title class="d-block">Login</v-card-title>
+        <div class="mx-8">
+          <ValidationObserver ref="observer">
+            <form>
+              <ValidationProvider
+                v-slot="{ errors }"
+                name="Username"
+                rules="required"
+              >
+                <v-text-field
+                  v-model="username"
+                  label="ID"
+                  :error-messages="errors"
+                  prepend-inner-icon="mdi-account"
+                ></v-text-field>
+              </ValidationProvider>
+              <ValidationProvider
+                v-slot="{ errors }"
+                name="Password"
+                rules="required"
+              >
+                <v-text-field
+                  v-model="password"
+                  label="Password"
+                  :error-messages="errors"
+                  prepend-inner-icon="mdi-lock"
+                  @keydown.enter="submit"
+                ></v-text-field>
+              </ValidationProvider>
+              <v-btn class="my-5" width="100%" color="primary" @click="submit"
+                >Login</v-btn
+              >
+              <div class="d-flex">
+                <v-checkbox label="Remember me"></v-checkbox>
+                <v-spacer></v-spacer>
+                <span class="forget-password">Forgot Password?</span>
+              </div>
+            </form>
+          </ValidationObserver>
+        </div>
+        <v-alert v-if="isLoggedIn.loggedIn == false" dense type="error"
+          >Incorrect <strong>Username</strong> or <strong>Password</strong>
+        </v-alert>
       </div>
     </v-card>
   </div>
@@ -53,6 +62,7 @@ import {
   ValidationProvider,
   setInteractionMode,
 } from "vee-validate";
+import { mapGetters } from "vuex";
 setInteractionMode("eager");
 extend("required", {
   ...required,
@@ -81,20 +91,28 @@ export default {
         //       password: this.password,
         //     }),
         //     { headers: { "Content-Type": "application/json" } }
-          
+
         // ).then((res) => {
         //   console.log(res.data);
         // });
-        const {username,password} = this
-        this.$store.dispatch("auth/login",{username:this.username,password:this.password})
+        const { username, password } = this;
+        this.$store.dispatch("auth/login", {
+          username: this.username,
+          password: this.password,
+        });
       }
     },
+  },
+  computed: {
+    ...mapGetters({
+      isLoggedIn: "auth/loggedIn",
+    }),
   },
 };
 </script>
 
 <style>
-.container {
+.form-container {
   height: 70vh;
   position: relative;
 }
@@ -113,5 +131,15 @@ export default {
   border-top-right-radius: 50% !important;
   background-color: #1976d2bb;
   top: -48px;
+}
+.forget-password {
+  margin-top: 16px;
+  padding-top: 4px;
+  color: #00000099;
+}
+.form-login {
+  position: absolute;
+  top: 60px;
+  width: inherit;
 }
 </style>

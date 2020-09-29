@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <v-dialog v-model="active" persistent width="600">
+    <v-dialog v-model="active" persistent class="modal-container" width="600">
       <div >
         <slot></slot>
       </div>
     </v-dialog>
-  </div>
 </template>
 
 <script>
@@ -43,6 +41,8 @@ export default {
 };
 </script>
 
-<style lang="scss">
-
+<style scoped>
+  .modal-container{
+    width: 500px;
+  }
 </style>

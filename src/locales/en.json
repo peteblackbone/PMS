@@ -18,5 +18,14 @@
       "MANAGE_GROUP": "Manage Group",
       "MANAGE_PROJECT": "Manage Project"
     }
+  },
+  "MANAGE_GROUP":{
+    "MANAGE_GROUP":"Manage Group",
+    "PROPOSE_NEW_TOPIC":"Propose New Topic",
+    "PROJECT_NAME":"Project Name",
+    "ADVISOR":"Advisor",
+    "TYPE":"Type",
+    "MEMBER":"Member",
+    "STATUS":"Status"
   }
 }

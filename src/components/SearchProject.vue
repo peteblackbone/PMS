@@ -25,10 +25,10 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .container {
-  height: 100%;
-  position: relative;
+  height: 500px;
+  position:relative;
 }
 .search-box {
   /* width: 500px; */

@@ -1,7 +1,7 @@
 <template>
   <div class="gray ligthen-5">
     <v-app-bar dense>
-      <v-toolbar-title>Overview</v-toolbar-title>
+      <v-toolbar-title v-t="{path:'DASHBOARD.NAVIGATION_DRAWER.OVERVIEW'}">Overview</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon small>
         <v-icon @click="showModal">{{ "mdi-cog-outline" }}</v-icon>
