@@ -81,7 +81,7 @@
 //library
 import { makeDropHandler } from "@/utils/plugins";
 import Axios from "axios";
-import Trello from "@/utils/trello";
+import Trello from "@/utils/Trello";
 import { Container, Draggable } from "vue-smooth-dnd";
 //components
 import FrameEmbedded from "@/components/FrameEmbedded";
@@ -115,7 +115,8 @@ export default {
       input: "",
       token: true,
       hint: "https://trello.com/b/igpjC3Q2",
-      board: {},
+      // board: JSON.parse(sessionStorage.getItem("TrelloBoardDetail")),
+      board:null,
       members: [],
     };
   },
@@ -129,11 +130,20 @@ export default {
   methods: {
     async selectBoard() {},
     async fetchBoardData() {
-      this.board = await Trello.getBoardDetail();
-      this.board.prefs.backgroundImage
-        ? (this.$refs.bg.style.backgroundImage =
-            "url(" + this.board.prefs.backgroundImage + ")")
-        : (this.$refs.bg.style.backgroundColor = this.board.prefs.backgroundColor);
+      if (this.board == null) {
+        this.board = JSON.parse(sessionStorage.getItem("TrelloBoardDetail"))
+        console.log(this.board);
+      } else {
+        console.log(this.board);
+      }
+      // else {
+      //   this.board = sessionStorage.getItem("TrelloBoardDetail");
+      //   console.log(JSON.parse(sessionStorage.getItem("TrelloBoardDetail")));
+      // }
+      // this.board.prefs.backgroundImage
+      //   ? (this.$refs.bg.style.backgroundImage =
+      //       "url(" + this.board.prefs.backgroundImage + ")")
+      //   : (this.$refs.bg.style.backgroundColor = this.board.prefs.backgroundColor);
     },
     Oauth() {
       window.open(
@@ -225,9 +235,13 @@ export default {
   },
   mounted() {
     // this.selectBoard();
+
     this.reset();
     this.fetchBoardData();
   },
+  beforeMount(){
+    Trello.getBoardDetail();
+  }
 };
 </script>
 

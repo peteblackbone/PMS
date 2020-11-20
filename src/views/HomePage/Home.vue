@@ -11,11 +11,12 @@
         </v-avatar>
         <span v-t="{ path: 'APP.APP_NAME' }"></span>
       </v-toolbar-title>
-      <v-tabs
+      
+        <v-tabs
         v-model="tab"
         background-color="transparent"
         color="primary"
-        right
+      right
         class=""
         v-if="!$vuetify.breakpoint.mdAndDown"
       >
@@ -28,6 +29,8 @@
           <v-icon class="ml-2" v-if="item.icon">{{ item.icon }}</v-icon>
         </v-tab>
       </v-tabs>
+    
+      
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" absolute temporary>
       <div style="height:80px">

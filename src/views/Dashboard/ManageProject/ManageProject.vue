@@ -14,7 +14,7 @@
         </v-tab>
       </v-tabs>
       <v-tabs-items v-model="tab">
-        <v-tab-item v-for="(tab, i) in tabs" :key="tab.name">
+        <v-tab-item v-for="tab in tabs" :key="tab.name">
           <div class="pa-2 mr-1 pr-3 ml-4 pb-4">
             <!-- <div class="arrow-pointer">comments</div> -->
             <!-- <v-simple-table>
@@ -57,8 +57,13 @@
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-expansion-panels> -->
-            <v-badge color="pink" content="2" class="bbt" overlap>
-              <v-btn icon depressed @click="expand2 = !expand2" 
+            <v-badge
+              :color="!isSeenComment ? 'pink' : ''"
+              :content="CECommentCount"
+              class="bbt"
+              overlap
+            >
+              <v-btn icon depressed @click="expandCommentTab"
                 ><v-avatar>
                   <v-icon color="white">mdi-comment-processing-outline</v-icon>
                 </v-avatar>
@@ -85,9 +90,9 @@
                 <v-expand-x-transition>
                   <v-card
                     v-show="expand2"
-                    height="100"
+                    height="79vh"
                     width="300"
-                    class="mx-auto"
+                    class="mx-auto red fill-height"
                     flat
                     >asdasd asd asd</v-card
                   >
@@ -115,6 +120,8 @@ export default {
       expand2: false,
       loaded: false,
       tab: null,
+      CECommentCount: 2,
+      isSeenComment: false,
       tabs: CE_HEADER(),
       data: [],
       advisors: [
@@ -125,9 +132,14 @@ export default {
     };
   },
   methods: {
+    expandCommentTab() {
+      this.expand2 = !this.expand2;
+      this.CECommentCount = 0;
+      this.isSeenComment = true;
+    },
     async fetchCE(val) {
       this.data = {};
-      this.data = await DB.fetch_ce(val);
+      this.data = await DB.fetchCE(val);
       this.loaded = true;
       console.log(this.tabs);
     },

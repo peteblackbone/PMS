@@ -1,18 +1,24 @@
 import HTTP from "./config";
 
-async function fetch_group() {
-  return await HTTP.get("group").then((res) => {
-    return res.data;
-  });
+async function fetchGroup() {
+  return await HTTP.get("group")
+    .then((res) => {
+      return res.data;
+    })
+    .catch(() => {
+      console.error("Can't fetch group.");
+    });
 }
-async function join(gid, uid) {
-  console.log(gid, uid);
+async function joinGroup(gid, uid) {
+  // console.log(gid, uid);
   await HTTP.post("/group/join", {
     STD_GroupID: gid,
     STD_ID: uid,
+  }).catch(() => {
+    console.error("Can't join group");
   });
 }
-async function propose_new_project(val) {
+async function proposeNewProject(val) {
   await HTTP.post("/group/add", {
     Group_ID: val.Group_ID,
     Group_Name: val.Group_Name,
@@ -23,21 +29,29 @@ async function propose_new_project(val) {
     Group_Member: val.Group_Member,
     Group_Status: val.Group_Status,
     Group_RequestStatus: val.Group_RequestStatus,
-  })
-}
-async function fetch_ce(type) {
-  return await HTTP.get(type).then((res) => {
-    return res.data;
+  }).catch(() => {
+    console.error("Can't add new group");
   });
 }
-function update(val) {
-  HTTP.post("/student/update_" + val.type, val);
+async function fetchCE(type) {
+  return await HTTP.get(type)
+    .then((res) => {
+      return res.data;
+    })
+    .catch(() => {
+      console.error("Can't fetch CE");
+    });
+}
+function updateGroup(val) {
+  HTTP.post("/student/update_" + val.type, val).catch(() => {
+    console.error("Can't update group");
+  });
 }
 
 export default {
-  fetch_group,
-  join,
-  propose_new_project,
-  fetch_ce,
-  update,
+  fetchGroup,
+  joinGroup,
+  proposeNewProject,
+  fetchCE,
+  updateGroup,
 };
