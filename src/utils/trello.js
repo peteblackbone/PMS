@@ -2,11 +2,11 @@ import Axios from "axios";
 // const url = "http://localhost:3000/";
 const boardID = "5d39577bfa71106cf2442c63";
 const url = "https://api.trello.com/";
-const key = "b96742cbd311d72d20ae7a96a10476f2";
+const key = "";
 const secret =
-  "e3dd1fdd405d39f4f031e887f5978e446e8fc29c225f7e0fb72b8233fcb344fb";
+  "";
 const token =
-  "8b1b308ad297aa0fca3b77affa81ceb455df1d57c311c889ddc3a6e20ebcec67";
+  "";
 
 var Trello = {
   async getAllBoard() {
