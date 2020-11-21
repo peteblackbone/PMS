@@ -44,7 +44,7 @@ const routes = [
       {
         path: "",
         name: "Home",
-        component: SearchProject,
+        // component: SearchProject,
         meta: { title: "Home | PMS" },
       },
       {

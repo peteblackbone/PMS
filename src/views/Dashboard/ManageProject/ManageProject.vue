@@ -94,7 +94,9 @@
                     width="300"
                     class="mx-auto red fill-height"
                     flat
-                    >asdasd asd asd</v-card
+                    >
+                      sdfsffhjllkjrltulryjeh
+                    </v-card
                   >
                 </v-expand-x-transition>
               </div>
@@ -109,7 +111,7 @@
 <script>
 import ItemList from "@/components/ManageProjectItemList";
 import DB from "@/mixins/Database";
-import { CE_HEADER } from "@/utils/ce_header.js";
+import { CE_HEADER } from "@/utils/CEHeader.js";
 export default {
   components: {
     ItemList,
@@ -139,13 +141,15 @@ export default {
     },
     async fetchCE(val) {
       this.data = {};
-      this.data = await DB.fetchCE(val);
+      // this.data = await DB.fetchCE(val); 
+      this.data = await DB.ManageProject.fetchCE(val);
       this.loaded = true;
       console.log(this.tabs);
     },
     submit({ val, field }) {
       this.data[field] = val;
-      DB.update(this.data);
+      DB.ManageProject.update(this.data)
+      // DB.update(this.data);
     },
   },
   mounted() {

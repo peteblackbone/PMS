@@ -1,12 +1,19 @@
 <template>
   <div class="gray ligthen-5">
-    <v-app-bar dense>
-      <v-toolbar-title v-t="{path:'DASHBOARD.NAVIGATION_DRAWER.OVERVIEW'}">Overview</v-toolbar-title>
+    <!-- <v-app-bar dense>
+      <v-toolbar-title v-t="{path:'DASHBOARD.NAVIGATION_DRAWER.OVERVIEW'}"></v-toolbar-title>
+      
+    </v-app-bar> -->
+    <v-toolbar height="56px" flat>
+      <v-toolbar-title
+        v-t="{ path: 'DASHBOARD.NAVIGATION_DRAWER.OVERVIEW' }"
+      ></v-toolbar-title>
+      <v-divider class="mx-4" vertical inset></v-divider>
       <v-spacer></v-spacer>
       <v-btn icon small>
         <v-icon @click="showModal">{{ "mdi-cog-outline" }}</v-icon>
       </v-btn>
-    </v-app-bar>
+    </v-toolbar>
     <div class="grid-layout-container scrollable overflow-y-auto">
       <grid-layout
         :layout.sync="layout[layout_index]"
@@ -62,10 +69,9 @@ import OverviewCard from "@/components/OverviewCard";
 import ModalContainer from "@/components/ModalContainer";
 import OverviewSetting from "@/components/OverviewSetting";
 
-
 var data1 = { type: "burndown" };
 var data2 = { type: "piechart" };
-var data3 = { type: "activities"}
+var data3 = { type: "activities" };
 export default {
   components: {
     GridLayout: VueGridLayout.GridLayout,
@@ -79,7 +85,7 @@ export default {
   data() {
     return {
       OverviewSetting: false,
-      layout_index:1,
+      layout_index: 1,
       layout: [
         [{ x: 0, y: 0, w: 16, h: 6, i: "0" }],
         [
@@ -87,9 +93,9 @@ export default {
           { x: 8, y: 0, w: 8, h: 6, i: "1", data: data2 },
         ],
         [
-          { x: 0, y: 0, w: 8, h: 6, i: "0" ,data: data1},
-          { x: 8, y: 0, w: 8, h: 3, i: "1",data: data2 },
-          { x: 8, y: 3, w: 8, h: 3, i: "2" ,data:data3},
+          { x: 0, y: 0, w: 8, h: 6, i: "0", data: data1 },
+          { x: 8, y: 0, w: 8, h: 3, i: "1", data: data2 },
+          { x: 8, y: 3, w: 8, h: 3, i: "2", data: data3 },
         ],
         [
           { x: 0, y: 0, w: 8, h: 3, i: "0" },

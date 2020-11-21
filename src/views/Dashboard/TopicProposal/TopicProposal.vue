@@ -8,7 +8,9 @@
     >
       <template v-slot:top>
         <v-toolbar flat color="white">
-          <v-toolbar-title>จัดการกลุ่ม</v-toolbar-title>
+          <v-toolbar-title v-t="{path:'DASHBOARD.MANAGE_GROUP.MANAGE_GROUP'}">
+            <!-- จัดการกลุ่ม -->
+            </v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <v-btn @click="showProposalModal">เสนอหัวข้อใหม่</v-btn>

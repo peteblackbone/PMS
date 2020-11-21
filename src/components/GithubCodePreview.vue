@@ -192,6 +192,7 @@ export default {
         })
       );
       this.tree[0].sort((a, b) => a.type_n - b.type_n);
+      sessionStorage.setItem('githubRepoDetail',JSON.stringify(this.tree))
     },
   },
   computed: {
@@ -233,7 +234,13 @@ export default {
   },
   mounted() {
     id = 0;
-    this.fetch_content();
+    if(JSON.parse(sessionStorage.getItem('githubRepoDetail')) == null){
+      this.fetch_content();
+    }
+    else{
+      this.tree = JSON.parse(sessionStorage.getItem('githubRepoDetail'));
+    }
+    
   },
 };
 </script>

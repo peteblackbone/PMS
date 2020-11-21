@@ -56,7 +56,8 @@ export default {
     async getRepoDetails(url) {
       const repoDetailUrl = url.replace(
         "https://github.com/",
-        "https://api.github.com/repos/"
+        // "https://api.github.com/repos/"
+        "http://localhost:3000/repos/"
       );
       const repoDetail = await Axios.get(repoDetailUrl).then(res => {
         return res.data;

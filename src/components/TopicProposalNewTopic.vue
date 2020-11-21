@@ -14,11 +14,11 @@
       </v-card-title>
       <v-container class="">
         <ValidationObserver ref="observer">
-          <form>
+          <form class="new-topic">
             <ValidationProvider
               v-slot="{ errors }"
               name="ชื่อภาษาไทย"
-              rules="required|max:10"
+              rules="required|thaiLang"
             >
               <v-text-field
                 v-model="th_name"
@@ -29,7 +29,7 @@
             <ValidationProvider
               v-slot="{ errors }"
               name="ชื่อภาษาอังกฤษ"
-              rules="required"
+              rules="required|engLang"
             >
               <v-text-field
                 v-model="en_name"
@@ -118,12 +118,12 @@
               </v-autocomplete>
             </ValidationProvider>
           </form>
-        </ValidationObserver>
-      </v-container>
-      <div class="d-flex">
+        </ValidationObserver><div class="d-flex">
         <v-spacer></v-spacer>
         <v-btn class="ma-2" color="success" @click="submit">submit</v-btn>
       </div>
+      </v-container>
+      
     </v-card>
   </div>
 </template>
@@ -150,12 +150,15 @@ extend("max", {
 });
 extend("advisors", {
   message: "{_field_} limit exceeded (2)",
-  validate(advisors, maxCount) {
-    if (advisors.length <= maxCount[0]) {
-      return true;
-    }
-    return false;
-  },
+  validate: (value, maxCount) => !!(value.length <= maxCount[0]),
+});
+extend("thaiLang", {
+  message: "{_field_} must be Thai language ",
+  validate: (value) => /^[ก-๏\s\d\\.]+$/.test(value),
+});
+extend("engLang", {
+  message: "{_field_} must be English language ",
+  validate: (value) => /^[a-zA-Z\s\d\\.]+$/.test(value),
 });
 
 export default {
@@ -249,5 +252,8 @@ export default {
   top: 10px;
   right: 15px;
   cursor: pointer;
+}
+.new-topic {
+  margin: 10px;
 }
 </style>

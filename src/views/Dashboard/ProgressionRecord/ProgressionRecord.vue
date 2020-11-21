@@ -1,5 +1,11 @@
 <template>
   <div class="overflow-y-auto" style="max-height: 91vh">
+    <v-toolbar height="56px" flat>
+      <v-toolbar-title
+        v-t="{ path: 'DASHBOARD.NAVIGATION_DRAWER.OVERVIEW' }"
+      ></v-toolbar-title>
+      <v-divider class="mx-4" vertical inset></v-divider>
+    </v-toolbar>
     <v-container>
       <v-timeline>
         <v-timeline-item v-if="newItem" fill-dot small :color="cardColor">
