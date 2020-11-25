@@ -12,7 +12,17 @@
               <v-col cols="3" class="d-flex justify-end">{{
                 item.title
               }}</v-col>
-              <v-col cols="9">{{ item.data }}</v-col>
+              <v-col cols="9">
+                {{item.data}}
+                <!-- <div v-if="item.data.hasOwnProperty(`name`)">
+                  <div v-for="item in item.data" :key="item">
+                    {{ item.data.name }}
+                  </div>
+                </div>
+                <div v-else>
+                  {{ item.data }}
+                </div> -->
+              </v-col>
             </v-row>
             <v-divider v-show="item.end"></v-divider>
           </v-col>
@@ -29,12 +39,12 @@ export default {
       projectDesc: [
         { title: "ชื่อภาษาไทย", data: "132165496" },
         { title: "ชื่อภาษาอังกฤษ", data: "asdasd", end: true },
-        { title: "สมาชิก" },
+        { title: "สมาชิก", data: [{ name: "A" }, { name: "b" }] },
         { title: "อาจารย์ที่ปรึกษา", end: true },
-        { title: "บทคัดย่อ" },
-      ],
+        { title: "บทคัดย่อ" }
+      ]
     };
-  },
+  }
 };
 </script>
 

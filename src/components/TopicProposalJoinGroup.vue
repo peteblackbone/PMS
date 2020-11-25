@@ -36,8 +36,8 @@ export default {
   props: {
     data: {
       type: Object,
-      default: {},
-    },
+      default: {}
+    }
   },
   data() {
     return {
@@ -45,8 +45,8 @@ export default {
         { name: "GROUP_TH_NAME", text: "ชื่อภาษาไทย" },
         { name: "Group_Name", text: "ชื่อภาษาอังกฤษ" },
         { name: "Group_advisor", text: "อาจารย์ที่ปรึกษา" },
-        { name: "MEMBERS",text:"สมาชิก" },
-      ],
+        { name: "MEMBERS", text: "สมาชิก" }
+      ]
     };
   },
   methods: {
@@ -55,8 +55,8 @@ export default {
     },
     close() {
       this.$emit("close");
-    },
-  },
+    }
+  }
 };
 </script>
 

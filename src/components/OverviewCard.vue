@@ -16,7 +16,7 @@
 <script>
 import BurndownChart from "@/components/BurndownChart";
 import PieChart from "@/components/PieChart";
-import ProjectActivities from "@/components/ProjectActivities"
+import ProjectActivities from "@/components/ProjectActivities";
 export default {
   components: {
     BurndownChart,
@@ -24,13 +24,11 @@ export default {
     ProjectActivities
   },
   data() {
-    return {
-      
-    };
+    return {};
   },
   props: {
-    data:Object
-  },
+    data: Object
+  }
 };
 </script>
 

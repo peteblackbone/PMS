@@ -1,6 +1,10 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
+    <v-navigation-drawer
+      v-model="drawer"
+      :clipped="$vuetify.breakpoint.lgAndUp"
+      app
+    >
       <v-list dense>
         <template v-for="item in items">
           <v-row v-if="item.heading" :key="item.heading" align="center">
@@ -23,7 +27,11 @@
                 <v-list-item-title>{{ item.text }}</v-list-item-title>
               </v-list-item-content>
             </template>
-            <v-list-item v-for="(child, i) in item.children" :key="i" :to="child.route">
+            <v-list-item
+              v-for="(child, i) in item.children"
+              :key="i"
+              :to="child.route"
+            >
               <v-list-item-action v-if="child.icon">
                 <v-icon>{{ child.icon }}</v-icon>
               </v-list-item-action>
@@ -44,7 +52,12 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app color="blue darken-1" dark>
+    <v-app-bar
+      :clipped-left="$vuetify.breakpoint.lgAndUp"
+      app
+      color="blue darken-1"
+      dark
+    >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
         <span class="hidden-sm-and-down">Project Management System</span>
@@ -62,10 +75,20 @@
         ></v-select>
       </v-container>
       <div class="text-center">
-        <v-menu v-model="notif" :close-on-content-click="false" :nudge-width="200" offset-y>
+        <v-menu
+          v-model="notif"
+          :close-on-content-click="false"
+          :nudge-width="200"
+          offset-y
+        >
           <template v-slot:activator="{ on }">
             <v-btn icon v-on="on">
-              <v-badge :content="messages" :value="messages" color="red" overlap>
+              <v-badge
+                :content="messages"
+                :value="messages"
+                color="red"
+                overlap
+              >
                 <v-icon>mdi-bell</v-icon>
               </v-badge>
             </v-btn>
@@ -74,13 +97,20 @@
             <v-list three-line>
               <v-subheader>Notifications</v-subheader>
               <v-list-item-group v-model="itemaa" color="primary">
-                <v-list-item v-for="(item, i) in itemaas" :key="i" :inactive="inactive">
+                <v-list-item
+                  v-for="(item, i) in itemaas"
+                  :key="i"
+                  :inactive="inactive"
+                >
                   <v-list-item-avatar>
                     <v-img :src="item.avatar"></v-img>
                   </v-list-item-avatar>
                   <v-list-item-content>
                     <v-list-item-title v-html="item.title"></v-list-item-title>
-                    <v-list-item-subtitle v-if="twoLine || threeLine" v-html="item.subtitle"></v-list-item-subtitle>
+                    <v-list-item-subtitle
+                      v-if="twoLine || threeLine"
+                      v-html="item.subtitle"
+                    ></v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
               </v-list-item-group>
@@ -90,7 +120,12 @@
       </div>
 
       <div class="text-center">
-        <v-menu v-model="menu" close-on-content-click :nudge-width="200" offset-y>
+        <v-menu
+          v-model="menu"
+          close-on-content-click
+          :nudge-width="200"
+          offset-y
+        >
           <template v-slot:activator="{ on }">
             <v-btn icon v-on="on">
               <v-avatar>
@@ -100,7 +135,7 @@
           </template>
 
           <v-card width="300">
-            <v-list v-for="(item,i) in account_data" :key="i">
+            <v-list v-for="(item, i) in account_data" :key="i">
               <v-list-item>
                 <v-list-item-avatar class="mx-auto my-3" size="96">
                   <v-icon size="96">mdi-account-circle</v-icon>
@@ -108,9 +143,23 @@
               </v-list-item>
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title align="center" v-text="item.name"></v-list-item-title>
-                  <v-list-item-subtitle align="center" v-text="item.email"></v-list-item-subtitle>
-                  <v-btn class="my-5 mx-auto" rounded small outlined color="grey" max-width="200" :to="`/teacher/profile`">
+                  <v-list-item-title
+                    align="center"
+                    v-text="item.name"
+                  ></v-list-item-title>
+                  <v-list-item-subtitle
+                    align="center"
+                    v-text="item.email"
+                  ></v-list-item-subtitle>
+                  <v-btn
+                    class="my-5 mx-auto"
+                    rounded
+                    small
+                    outlined
+                    color="grey"
+                    max-width="200"
+                    :to="`/teacher/profile`"
+                  >
                     Manage Account
                   </v-btn>
                 </v-list-item-content>
@@ -151,7 +200,7 @@ export default {
         route: "/teacher/description"
       },
       { icon: "mdi-bell", text: "Appointment", route: "/teacher/appointment" },
-      { icon: "", text: "Advised Group", route: "/teacher/group"},
+      { icon: "", text: "Advised Group", route: "/teacher/group" },
       {
         icon: "mdi-chevron-up",
         "icon-alt": "mdi-chevron-down",
@@ -179,7 +228,7 @@ export default {
           { icon: "mdi-folder-google-drive", text: "CE03" },
           { icon: "mdi-calendar-month", text: "CE04" }
         ]
-      },
+      }
     ],
     e1: "ไทย",
     langs: ["ไทย", "English"],

@@ -118,12 +118,12 @@
               </v-autocomplete>
             </ValidationProvider>
           </form>
-        </ValidationObserver><div class="d-flex">
-        <v-spacer></v-spacer>
-        <v-btn class="ma-2" color="success" @click="submit">submit</v-btn>
-      </div>
+        </ValidationObserver>
+        <div class="d-flex">
+          <v-spacer></v-spacer>
+          <v-btn class="ma-2" color="success" @click="submit">submit</v-btn>
+        </div>
       </v-container>
-      
     </v-card>
   </div>
 </template>
@@ -134,40 +134,40 @@ import {
   extend,
   ValidationObserver,
   ValidationProvider,
-  setInteractionMode,
+  setInteractionMode
 } from "vee-validate";
 
 setInteractionMode("eager");
 
 extend("required", {
   ...required,
-  message: "โปรดกรอก{_field_}",
+  message: "โปรดกรอก{_field_}"
 });
 
 extend("max", {
   ...max,
-  message: "{_field_} may not be greater than {length} characters",
+  message: "{_field_} may not be greater than {length} characters"
 });
 extend("advisors", {
   message: "{_field_} limit exceeded (2)",
-  validate: (value, maxCount) => !!(value.length <= maxCount[0]),
+  validate: (value, maxCount) => !!(value.length <= maxCount[0])
 });
 extend("thaiLang", {
   message: "{_field_} must be Thai language ",
-  validate: (value) => /^[ก-๏\s\d\\.]+$/.test(value),
+  validate: value => /^[ก-๏\s\d\\.]+$/.test(value)
 });
 extend("engLang", {
   message: "{_field_} must be English language ",
-  validate: (value) => /^[a-zA-Z\s\d\\.]+$/.test(value),
+  validate: value => /^[a-zA-Z\s\d\\.]+$/.test(value)
 });
 
 export default {
   components: {
     ValidationProvider,
-    ValidationObserver,
+    ValidationObserver
   },
   props: {
-    data: Array,
+    data: Array
   },
   data() {
     return {
@@ -179,7 +179,7 @@ export default {
       autoUpdate: true,
       isUpdating: false,
       name: "Midnight Crew",
-      title: "The summer breeze",
+      title: "The summer breeze"
     };
   },
   methods: {
@@ -200,7 +200,7 @@ export default {
         // GROUP_ADVISOR: this.selected,
         Group_Member: this.number,
         Group_Status: "In Progress",
-        Group_RequestStatus: "Pending",
+        Group_RequestStatus: "Pending"
 
         // MEMBERS: [],
       });
@@ -214,7 +214,7 @@ export default {
       this.selected = [];
       this.$refs.observer.reset();
       this.$emit("close");
-    },
+    }
   },
   watch: {
     search(val) {
@@ -228,21 +228,21 @@ export default {
 
       // Lazily load input items
       fetch("https://api.publicapis.org/entries")
-        .then((res) => res.json())
-        .then((res) => {
+        .then(res => res.json())
+        .then(res => {
           const { count, entries } = res;
           this.count = count;
           this.teacher_list = entries;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         })
         .finally(() => (this.isLoading = false));
-    },
+    }
   },
   mounted() {
     // this.fetch_teacher();
-  },
+  }
 };
 </script>
 

@@ -72,7 +72,10 @@
         <dashboard-notification :noti="noti"></dashboard-notification>
       </div>
       <div>
-        <dashboard-profile :data="account_data.user" @logout="logout"></dashboard-profile>
+        <dashboard-profile
+          :data="account_data.user"
+          @logout="logout"
+        ></dashboard-profile>
       </div>
     </v-app-bar>
     <v-main style="height:100vh">
@@ -91,32 +94,32 @@ export default {
   store,
   components: {
     DashboardProfile,
-    DashboardNotification,
+    DashboardNotification
   },
   data: () => ({
     drawer: null,
-    account_data:JSON.parse(localStorage.getItem('user')),
+    account_data: JSON.parse(localStorage.getItem("user")),
     menu: [
       {
         icon: "mdi-chart-bar",
         name: "DASHBOARD.NAVIGATION_DRAWER.OVERVIEW",
-        route: "/student/overview",
+        route: "/student/overview"
       },
       {
         icon: "mdi-newspaper-variant-multiple",
         name: "DASHBOARD.NAVIGATION_DRAWER.PROJECT_DESCRIPTION",
-        route: "/student/description",
+        route: "/student/description"
       },
       {
         icon: "mdi-group",
         name: "DASHBOARD.NAVIGATION_DRAWER.MANAGE_GROUP",
-        route: "/student/topic_proposal",
+        route: "/student/topic_proposal"
       },
       {
-        icon:"mdi-bookshelf",
+        icon: "mdi-bookshelf",
         // model: false,
         name: "DASHBOARD.NAVIGATION_DRAWER.MANAGE_PROJECT",
-        route: "/student/ce01",
+        route: "/student/manage_project"
         // children: [
         //   { icon: "mdi-github", name: "CE01", route: "/student/ce01" },
         //   { icon: "mdi-trello", name: "CE02" },
@@ -127,18 +130,17 @@ export default {
       {
         icon: "mdi-bell",
         name: "DASHBOARD.NAVIGATION_DRAWER.APPOINTMENT",
-        route: "/student/appointment",
+        route: "/student/appointment"
       },
       {
         icon: "mdi-cogs",
         name: "DASHBOARD.NAVIGATION_DRAWER.PROGRESSION_RECORD",
-        route: "/student/progression_record",
+        route: "/student/progression_record"
       },
-
       {
         icon: "mdi-file-document-multiple-outline",
         name: "DASHBOARD.NAVIGATION_DRAWER.PROJECT_MANUAL",
-        route: "/student/assocdoc",
+        route: "/student/assocdoc"
       },
       {
         icon: "mdi-chevron-up",
@@ -151,66 +153,66 @@ export default {
           {
             icon: "mdi-folder-google-drive",
             name: "Google Drive",
-            route: "/student/drive",
+            route: "/student/drive"
           },
           {
             icon: "mdi-calendar-month",
             name: "Google Calendar",
-            route: "/student/calendar",
-          },
-        ],
-      },
+            route: "/student/calendar"
+          }
+        ]
+      }
     ],
     lang: "ไทย",
     langs: [
       { title: "ไทย", value: "th" },
-      { title: "English", value: "en" },
+      { title: "English", value: "en" }
     ],
     noti: [
       {
         avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
         title: "Brunch this weekend?",
         subtitle:
-          "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
+          "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?"
       },
       {
         avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
         title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
         subtitle:
-          "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.",
+          "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend."
       },
       {
         avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
         title: "Oui oui",
         subtitle:
-          "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?",
+          "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?"
       },
       {
         avatar: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
         title: "Birthday gift",
         subtitle:
-          "<span class='text--primary'>Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?",
+          "<span class='text--primary'>Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?"
       },
       {
         avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
         title: "Recipe to try",
         subtitle:
-          "<span class='text--primary'>Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos.",
-      },
+          "<span class='text--primary'>Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos."
+      }
     ],
     twoLine: true,
-    avatar: true,
+    avatar: true
     // account_data: { name: "asdasd", email: "asdasd@rmutl.ac.th" },
   }),
   methods: {
     changeLang(val) {
       this.$store.commit("lang", val);
     },
-    logout(){
+    logout() {
       console.log("asd");
-      this.$store.dispatch('auth/logout');
+      this.$store.dispatch("auth/logout");
     }
-  },
+  }
 };
 </script>
 <style>

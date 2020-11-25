@@ -15,7 +15,7 @@ import Trello from "../views/Dashboard/Trello/TrelloBoard.vue";
 import GoogleDrive from "../views/Dashboard/GoogleDrive/GoogleDrive.vue";
 import ProjectManual from "../views/Dashboard/ProjectManual/ProjectManual.vue";
 import TopicProposal from "../views/Dashboard/TopicProposal/TopicProposal.vue";
-import CE01 from "../views/Dashboard/ManageProject/ManageProject.vue";
+import ManageProject from "../views/Dashboard/ManageProject/ManageProject.vue";
 import ProgressionRecord from "../views/Dashboard/ProgressionRecord/ProgressionRecord.vue";
 
 import SearchProject from "../components/SearchProject.vue";
@@ -32,40 +32,40 @@ const routes = [
       metaTags: [
         {
           name: "description",
-          content: "The home page of our example app.",
+          content: "The home page of our example app."
         },
         {
           property: "og:description",
-          content: "The home page of our example app.",
-        },
-      ],
+          content: "The home page of our example app."
+        }
+      ]
     },
     children: [
       {
         path: "",
         name: "Home",
         // component: SearchProject,
-        meta: { title: "Home | PMS" },
+        meta: { title: "Home | PMS" }
       },
       {
         path: "search",
         name: "Search",
         component: SearchProject,
-        meta: { title: "Search Project | PMS" },
+        meta: { title: "Search Project | PMS" }
       },
       {
         path: "about",
         name: "About",
         component: About,
-        meta: { title: "About | PMS" },
+        meta: { title: "About | PMS" }
       },
       {
         path: "/login",
         name: "Login",
         component: Login,
-        meta: { title: "Login | PMS" },
-      },
-    ],
+        meta: { title: "Login | PMS" }
+      }
+    ]
   },
 
   {
@@ -79,83 +79,83 @@ const routes = [
         path: "overview",
         name: "Overview",
         component: Overview,
-        meta: { title: "Overview | PMS" },
+        meta: { title: "Overview | PMS" }
       },
       {
         path: "description",
         name: "Description",
         component: Description,
-        meta: { title: "Project Descriptions | PMS" },
+        meta: { title: "Project Descriptions | PMS" }
       },
       {
         path: "profile",
         name: "Profile",
         component: Profile,
-        meta: { title: "Profile | PMS" },
+        meta: { title: "Profile | PMS" }
       },
       {
         path: "calendar",
         name: "Calendar",
         component: GoogleCalendar,
-        meta: { title: "Google Calendar | PMS" },
+        meta: { title: "Google Calendar | PMS" }
       },
       {
         path: "appointment",
         name: "Appointment",
         component: Appointment,
-        meta: { title: "Appointment | PMS" },
+        meta: { title: "Appointment | PMS" }
       },
       {
         path: "github",
         name: "Github",
         component: Github,
-        meta: { title: "Github | PMS" },
+        meta: { title: "Github | PMS" }
       },
       {
         path: "trello",
         name: "Trello",
         component: Trello,
-        meta: { title: "Trello | PMS" },
+        meta: { title: "Trello | PMS" }
       },
       {
         path: "drive",
         name: "Drive",
         component: GoogleDrive,
-        meta: { title: "Google Drive | PMS" },
+        meta: { title: "Google Drive | PMS" }
       },
       {
         path: "assocdoc",
         name: "ProjectManual",
         component: ProjectManual,
-        meta: { title: "Associated Documents | PMS" },
+        meta: { title: "Associated Documents | PMS" }
       },
       {
         path: "topic_proposal",
         name: "TopicProposal",
         component: TopicProposal,
-        meta: { title: "Topic Proposal | PMS" },
+        meta: { title: "Topic Proposal | PMS" }
       },
       {
-        path: "ce01",
-        name: "CE01",
-        component: CE01,
-        meta: { title: "CE01 | PMS" },
+        path: "manage_project",
+        name: "Manage Project",
+        component: ManageProject,
+        meta: { title: "Manage Project | PMS" }
       },
       {
         path: "progression_record",
         name: "Progression Record",
         component: ProgressionRecord,
-        meta: { title: "Progression Record | PMS" },
-      },
-    ],
+        meta: { title: "Progression Record | PMS" }
+      }
+    ]
   },
-  { path: "*", redirect: "/" },
+  { path: "*", redirect: "/" }
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes,
+  routes
 });
 
 router.beforeResolve((to, from, next) => {
@@ -165,34 +165,35 @@ router.beforeResolve((to, from, next) => {
   next();
 });
 
-router.afterEach((to, from) => {
+router.afterEach(() => {
   NProgress.done();
 });
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ["/", "/search", "/login", "/about"];
-  const authRequired = !publicPages.includes(to.path);
-  const loggedIn = localStorage.getItem("user");
+  // const publicPages = ["/", "/search", "/login", "/about"];
+  // const authRequired = !publicPages.includes(to.path);
+  // const loggedIn = localStorage.getItem("user");
 
   // if (authRequired && !loggedIn) {
   //   return next("/login");
   // }
+
   // This goes through the matched routes from last to first, finding the closest route with a title.
   // eg. if we have /some/deep/nested/route and /some, /deep, and /nested have titles, nested's will be chosen.
   const nearestWithTitle = to.matched
     .slice()
     .reverse()
-    .find((r) => r.meta && r.meta.title);
+    .find(r => r.meta && r.meta.title);
 
   // Find the nearest route element with meta tags.
   const nearestWithMeta = to.matched
     .slice()
     .reverse()
-    .find((r) => r.meta && r.meta.metaTags);
-  const previousNearestWithMeta = from.matched
-    .slice()
-    .reverse()
-    .find((r) => r.meta && r.meta.metaTags);
+    .find(r => r.meta && r.meta.metaTags);
+  // const previousNearestWithMeta = from.matched
+  //   .slice()
+  //   .reverse()
+  //   .find(r => r.meta && r.meta.metaTags);
 
   // If a route with a title was found, set the document (page) title to that value.
   if (nearestWithTitle) document.title = nearestWithTitle.meta.title;
@@ -200,17 +201,17 @@ router.beforeEach((to, from, next) => {
   // Remove any stale meta tags from the document using the key attribute we set below.
   Array.from(
     document.querySelectorAll("[data-vue-router-controlled]")
-  ).map((el) => el.parentNode.removeChild(el));
+  ).map(el => el.parentNode.removeChild(el));
 
   // Skip rendering meta tags if there are none.
   if (!nearestWithMeta) return next();
 
   // Turn the meta tag definitions into actual elements in the head.
   nearestWithMeta.meta.metaTags
-    .map((tagDef) => {
+    .map(tagDef => {
       const tag = document.createElement("meta");
 
-      Object.keys(tagDef).forEach((key) => {
+      Object.keys(tagDef).forEach(key => {
         tag.setAttribute(key, tagDef[key]);
       });
 
@@ -220,7 +221,7 @@ router.beforeEach((to, from, next) => {
       return tag;
     })
     // Add the meta tags to the document head.
-    .forEach((tag) => document.head.appendChild(tag));
+    .forEach(tag => document.head.appendChild(tag));
 
   next();
 });

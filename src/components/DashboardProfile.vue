@@ -37,19 +37,19 @@
 <script>
 export default {
   props: {
-    data: Object,
+    data: Object
   },
   data() {
     return {
-      menu: false,
+      menu: false
     };
   },
   methods: {
     logout() {
       this.$emit("logout");
       this.menu = false;
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -71,7 +71,7 @@ export default {
   watch: {
     t: function() {
       console.log(this.t);
-    },
+    }
   },
   data() {
     return {
@@ -86,7 +86,7 @@ export default {
         html: "text/html",
         md: "text/x-markdown",
         json: "text/javascript",
-        vue: "text/x-vue",
+        vue: "text/x-vue"
       },
 
       cmOptions: {
@@ -95,7 +95,7 @@ export default {
         theme: "vscode-dark",
         lineNumbers: true,
         line: true,
-        readOnly: "nocursor",
+        readOnly: "nocursor"
         // more CodeMirror options...
       },
 
@@ -115,12 +115,12 @@ export default {
         css: "mdi-language-css3",
         php: "mdi-language-php",
         asd: "mdi-account-circle",
-        ico: "mdi-file-image",
-      },
+        ico: "mdi-file-image"
+      }
     };
   },
   props: {
-    repo: String,
+    repo: String
   },
   methods: {
     findById(o, id) {
@@ -145,7 +145,7 @@ export default {
     },
     async fetch_children(url) {
       let temp = [];
-      temp = await Axios.get(url).then(async (res) => {
+      temp = await Axios.get(url).then(async res => {
         // console.log(res.data.tree[0])
         for (const i in res.data.tree) {
           if (res.data.tree[i].type === "tree") {
@@ -173,7 +173,7 @@ export default {
       this.tree.push(
         await Axios.get(
           "http://api.github.com/" + "repos/" + this.repo + "/contents"
-        ).then(async (res) => {
+        ).then(async res => {
           for (const i in res.data) {
             if (res.data[i].type === "dir") {
               res.data[i].file = "dir";
@@ -192,8 +192,8 @@ export default {
         })
       );
       this.tree[0].sort((a, b) => a.type_n - b.type_n);
-      sessionStorage.setItem('githubRepoDetail',JSON.stringify(this.tree))
-    },
+      sessionStorage.setItem("githubRepoDetail", JSON.stringify(this.tree));
+    }
   },
   computed: {
     async selected() {
@@ -214,7 +214,7 @@ export default {
         }
       }
       if (sel.type === "file" || sel.type === "blob") {
-        await Axios.get(sel.git_url).then((res) => {
+        await Axios.get(sel.git_url).then(res => {
           // console.log(sel.file)
           if (sel.file === "ico" || sel.file === "png" || sel.file === "jpg") {
             this.isCode = false;
@@ -230,18 +230,16 @@ export default {
           }
         });
       }
-    },
+    }
   },
   mounted() {
     id = 0;
-    if(JSON.parse(sessionStorage.getItem('githubRepoDetail')) == null){
+    if (JSON.parse(sessionStorage.getItem("githubRepoDetail")) == null) {
       this.fetch_content();
+    } else {
+      this.tree = JSON.parse(sessionStorage.getItem("githubRepoDetail"));
     }
-    else{
-      this.tree = JSON.parse(sessionStorage.getItem('githubRepoDetail'));
-    }
-    
-  },
+  }
 };
 </script>
 

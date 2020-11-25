@@ -11,13 +11,11 @@
         </v-avatar>
         <span v-t="{ path: 'APP.APP_NAME' }"></span>
       </v-toolbar-title>
-      
-        <v-tabs
+      <div style="width:168%"></div>
+      <v-tabs
         v-model="tab"
         background-color="transparent"
         color="primary"
-      right
-        class=""
         v-if="!$vuetify.breakpoint.mdAndDown"
       >
         <v-tab
@@ -29,8 +27,6 @@
           <v-icon class="ml-2" v-if="item.icon">{{ item.icon }}</v-icon>
         </v-tab>
       </v-tabs>
-    
-      
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" absolute temporary>
       <div style="height:80px">
@@ -72,14 +68,14 @@
 </template>
 
 <script>
-import DashboardProfile from "@/components/DashboardProfile";
-import RecentList from "@/components/RecentList";
-import Entry from "@/components/Entry";
+// import DashboardProfile from "@/components/DashboardProfile";
+// import RecentList from "@/components/RecentList";
+// import Entry from "@/components/Entry";
 export default {
   components: {
-    DashboardProfile,
-    RecentList,
-    Entry,
+    // DashboardProfile,
+    // RecentList,
+    // Entry
   },
   data() {
     return {
@@ -89,7 +85,7 @@ export default {
         { title: "หน้าหลัก", route: "/" },
         { title: "ค้นหาโครงงาน", route: "/search" },
         { title: "เกี่ยวกับ", route: "/about" },
-        { title: "เข้าสู่ระบบ", route: "/login", icon: "mdi-lock" },
+        { title: "เข้าสู่ระบบ", route: "/login", icon: "mdi-lock" }
       ],
       isLogin: false,
       account_data: { name: "asdasd", email: "cvcvxcv@dasd.com" },
@@ -97,26 +93,26 @@ export default {
         {
           title: "เครื่องขายขนมอัตโนมัติ",
           advisor: "อาจารย์ aaaaaaaa",
-          tags: ["Hardware", "Iot", "Arduino"],
+          tags: ["Hardware", "Iot", "Arduino"]
         },
         {
           title: "เว็บแปลภาษา",
           advisor: "อาจารย์ bbbbbbb",
-          tags: ["Software", "Vuejs"],
+          tags: ["Software", "Vuejs"]
         },
         {
           title: "เครื่องขายขนมอัตโนมัติ",
           advisor: "อาจารย์ aaaaaaaa",
-          tags: ["Hardware", "Iot", "Arduino"],
+          tags: ["Hardware", "Iot", "Arduino"]
         },
         {
           title: "เว็บแปลภาษา",
           advisor: "อาจารย์ bbbbbbb",
-          tags: ["Software", "Vuejs"],
-        },
-      ],
+          tags: ["Software", "Vuejs"]
+        }
+      ]
     };
-  },
+  }
 };
 </script>
 

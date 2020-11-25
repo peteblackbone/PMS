@@ -6,10 +6,9 @@
 export default {
   props: {
     data: Array,
-    drawer: Boolean,
-  },
+    drawer: Boolean
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

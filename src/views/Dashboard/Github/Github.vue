@@ -5,7 +5,7 @@
         <v-toolbar-title v-text="github_projectName"></v-toolbar-title>
         <v-spacer></v-spacer>
         <clone-menu :url="github_url"></clone-menu>
-        <v-icon>{{"mdi-cog-outline"}}</v-icon>
+        <v-icon>{{ "mdi-cog-outline" }}</v-icon>
       </v-toolbar>
       <div>
         <div v-if="github_repoStatus">
@@ -68,5 +68,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

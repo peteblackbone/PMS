@@ -1,9 +1,9 @@
 <template>
-    <v-dialog v-model="active" persistent class="modal-container" width="600">
-      <div >
-        <slot></slot>
-      </div>
-    </v-dialog>
+  <v-dialog v-model="active" persistent class="modal-container" width="600">
+    <div>
+      <slot></slot>
+    </div>
+  </v-dialog>
 </template>
 
 <script>
@@ -42,7 +42,7 @@ export default {
 </script>
 
 <style scoped>
-  .modal-container{
-    width: 500px;
-  }
+.modal-container {
+  width: 500px;
+}
 </style>

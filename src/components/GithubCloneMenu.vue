@@ -39,15 +39,15 @@
 <script>
 export default {
   props: {
-    url: String,
+    url: String
   },
   methods: {
     copyText() {
       let textToCopy = this.$refs.textToCopy.$el.querySelector("input");
       textToCopy.select();
       document.execCommand("copy");
-    },
-  },
+    }
+  }
 };
 </script>
 

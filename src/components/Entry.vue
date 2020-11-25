@@ -20,14 +20,12 @@
 import Axios from "axios";
 export default {
   data() {
-    return {
-     
-    };
+    return {};
   },
-  props:{
-      url:String,
-      hint:String,
-      label:String
+  props: {
+    url: String,
+    hint: String,
+    label: String
   },
   methods: {
     onEnter() {
@@ -35,8 +33,7 @@ export default {
     },
     onClick() {
       this.$emit("url", this.url);
-    },
-    
+    }
   }
 };
 </script>

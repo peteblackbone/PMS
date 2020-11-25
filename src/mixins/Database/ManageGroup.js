@@ -1,7 +1,7 @@
 import HTTP from "./config";
 export async function fetchGroup() {
   return await HTTP.get("group")
-    .then((res) => {
+    .then(res => {
       return res.data;
     })
     .catch(() => {
@@ -12,7 +12,7 @@ export async function joinGroup(gid, uid) {
   // console.log(gid, uid);
   await HTTP.post("/group/join", {
     STD_GroupID: gid,
-    STD_ID: uid,
+    STD_ID: uid
   }).catch(() => {
     console.error("Can't join group");
   });

@@ -2,7 +2,12 @@
   <div class="query-form card">
     <div class="card-content">
       <h2 class="title">New task</h2>
-      <v-text-field label="Title" v-model="name" :rules="[rules.required]" @enter="validate"></v-text-field>
+      <v-text-field
+        label="Title"
+        v-model="name"
+        :rules="[rules.required]"
+        @enter="validate"
+      ></v-text-field>
       <v-textarea label="Description" v-model="desc"></v-textarea>
       <v-menu
         v-model="menu2"
@@ -22,10 +27,16 @@
             v-on="on"
           ></v-text-field>
         </template>
-        <v-date-picker v-model="date" no-title @input="menu2 = false"></v-date-picker>
+        <v-date-picker
+          v-model="date"
+          no-title
+          @input="menu2 = false"
+        ></v-date-picker>
       </v-menu>
       <div class="button-wrap">
-        <item-button type="primary" @click="validate">{{ id ? 'Update' : 'Add' }}</item-button>
+        <item-button type="primary" @click="validate">{{
+          id ? "Update" : "Add"
+        }}</item-button>
         <item-button type="text" @click="cancel">Cancel</item-button>
       </div>
     </div>
@@ -34,25 +45,25 @@
 
 <script>
 import ItemButton from "./TrelloItemFormButton";
-function data () {
+function data() {
   return {
     id: null,
-    title: '',
-    description: '',
+    title: "",
+    description: "",
     date: null,
-    message: '',
+    message: "",
     menu2: false,
     rules: {
       required: value => !!value || "Required."
     }
-  }
+  };
 }
 export default {
   components: {
     ItemButton
   },
   data() {
-    return data()
+    return data();
   },
   computed: {
     computedDateFormatted() {
@@ -91,8 +102,8 @@ export default {
       this.$emit("submit", this.values);
       this.reset();
     },
-    reset(){
-      Object.assign(this, data())
+    reset() {
+      Object.assign(this, data());
     },
     cancel() {
       this.$emit("cancel", this.values);

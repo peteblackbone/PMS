@@ -1,25 +1,33 @@
 <template>
   <v-card class="card" :class="classes" :data-id="item.id">
-    <v-chip class="ma-2 card-chip" v-if="item.labels.length !== 0" :color="item.labels[0].color"></v-chip>
+    <v-chip
+      class="ma-2 card-chip"
+      v-if="item.labels.length !== 0"
+      :color="item.labels[0].color"
+    ></v-chip>
     <div class="icons">
       <span
         v-if="isDue"
         class="icon icon-due has-text-warning"
         :title="`Item is due on ${item.date}`"
       >
-        <v-icon>{{'mdi-star'}}</v-icon>
+        <v-icon>{{ "mdi-star" }}</v-icon>
         <i class="fas fa-star"></i>
       </span>
-      <span v-else-if="timestamp" class="icon icon-date" :title="`Item is due on ${item.date}`">
-        <v-icon>{{'mdi-bell-alert-outline'}}</v-icon>
+      <span
+        v-else-if="timestamp"
+        class="icon icon-date"
+        :title="`Item is due on ${item.date}`"
+      >
+        <v-icon>{{ "mdi-bell-alert-outline" }}</v-icon>
       </span>
       <span class="icon icon-edit" @click="edit">
-        <v-icon>{{'mdi-square-edit-outline'}}</v-icon>
+        <v-icon>{{ "mdi-square-edit-outline" }}</v-icon>
       </span>
     </div>
     <div>
       <v-card-text style="padding:8px">{{ item.name }}</v-card-text>
-      <v-card-subtitle v-if="item.desc">{{item.desc}}</v-card-subtitle>
+      <v-card-subtitle v-if="item.desc">{{ item.desc }}</v-card-subtitle>
     </div>
   </v-card>
 </template>
@@ -27,14 +35,14 @@
 <script>
 export default {
   props: {
-    item: Object,
+    item: Object
   },
 
   computed: {
     classes() {
       return {
         "is-due": this.isDue,
-        "is-overdue": this.isOverdue,
+        "is-overdue": this.isOverdue
       };
     },
 
@@ -51,14 +59,14 @@ export default {
       const due = date - 1000 * 60 * 60 * 24 * 3;
       const now = Date.now();
       return date > now && now > due;
-    },
+    }
   },
 
   methods: {
     edit() {
       this.$emit("edit", this.item);
-    },
-  },
+    }
+  }
 };
 </script>
 

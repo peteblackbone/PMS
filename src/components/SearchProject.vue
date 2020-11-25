@@ -20,15 +20,15 @@ export default {
   methods: {
     submit() {
       alert("submit");
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style scoped>
 .container {
   height: 500px;
-  position:relative;
+  position: relative;
 }
 .search-box {
   /* width: 500px; */

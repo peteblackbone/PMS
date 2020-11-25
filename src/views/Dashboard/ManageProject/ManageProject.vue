@@ -15,7 +15,7 @@
       </v-tabs>
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="tab in tabs" :key="tab.name">
-          <div class="pa-2 mr-1 pr-3 ml-4 pb-4">
+          <div class="pa-2 pr-3 ml-2 pb-2">
             <!-- <div class="arrow-pointer">comments</div> -->
             <!-- <v-simple-table>
               <thead>
@@ -63,15 +63,15 @@
               class="bbt"
               overlap
             >
-              <v-btn icon depressed @click="expandCommentTab"
-                ><v-avatar>
+              <v-btn depressed @click="expandCommentTab" icon 
+                ><v-avatar color="purple lighten-2" size="36">
                   <v-icon color="white">mdi-comment-processing-outline</v-icon>
                 </v-avatar>
               </v-btn>
             </v-badge>
 
             <div class="d-flex">
-              <div style="width:100%">
+              <div style="width:100%; height:100%">
                 <item-list
                   v-for="(header, i) in tab.headers"
                   :key="header.title"
@@ -90,14 +90,17 @@
                 <v-expand-x-transition>
                   <v-card
                     v-show="expand2"
-                    height="79vh"
+                    height="100%"
                     width="300"
-                    class="mx-auto red fill-height"
+                    class="mx-auto primary lighten-3 fill-height"
                     flat
-                    >
-                      sdfsffhjllkjrltulryjeh
-                    </v-card
                   >
+                    <comment-block
+                      v-for="item in comments"
+                      :key="item"
+                      :comment="item"
+                    ></comment-block>
+                  </v-card>
                 </v-expand-x-transition>
               </div>
             </div>
@@ -110,14 +113,17 @@
 
 <script>
 import ItemList from "@/components/ManageProjectItemList";
+import CommentBlock from "@/components/TeacherCommentBlock";
 import DB from "@/mixins/Database";
 import { CE_HEADER } from "@/utils/CEHeader.js";
 export default {
   components: {
     ItemList,
+    CommentBlock
   },
   data() {
     return {
+      comments: ["asda", "12346", "qweqwe"],
       update: [true, false, true, false, true, false],
       expand2: false,
       loaded: false,
@@ -129,8 +135,8 @@ export default {
       advisors: [
         { name: "a", role: "ที่ปรึกษา" },
         { name: "b", role: "ที่ปรึกษา" },
-        { name: "c", role: "ประจำวิชา" },
-      ],
+        { name: "c", role: "ประจำวิชา" }
+      ]
     };
   },
   methods: {
@@ -141,20 +147,20 @@ export default {
     },
     async fetchCE(val) {
       this.data = {};
-      // this.data = await DB.fetchCE(val); 
+      // this.data = await DB.fetchCE(val);
       this.data = await DB.ManageProject.fetchCE(val);
       this.loaded = true;
       console.log(this.tabs);
     },
     submit({ val, field }) {
       this.data[field] = val;
-      DB.ManageProject.update(this.data)
+      DB.ManageProject.update(this.data);
       // DB.update(this.data);
-    },
+    }
   },
   mounted() {
     this.fetchCE("CE01");
-  },
+  }
 };
 </script>
 
@@ -182,7 +188,7 @@ export default {
 }
 .bbt {
   position: absolute;
-  top: -40px;
+  top: -42px;
   right: 15px;
 }
 </style>

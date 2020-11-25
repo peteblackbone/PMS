@@ -63,7 +63,12 @@
       ></v-calendar>
     </v-sheet>-->
     <div v-if="!entry">
-      <entry @url="getUrl" :url="url" :hint="url" :label="`Google Calendar`"></entry>
+      <entry
+        @url="getUrl"
+        :url="url"
+        :hint="url"
+        :label="`Google Calendar`"
+      ></entry>
     </div>
     <div v-else>
       <frame-embedded :src="src"></frame-embedded>
@@ -163,5 +168,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

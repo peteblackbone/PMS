@@ -1,7 +1,12 @@
 <template>
   <div>
     <div v-if="!entry">
-      <entry @url="getUrl" :hint="url" :url="url" :label="`Google Drive Folder`"></entry>
+      <entry
+        @url="getUrl"
+        :hint="url"
+        :url="url"
+        :label="`Google Drive Folder`"
+      ></entry>
     </div>
     <div v-else>
       <frame-embedded :src="src"></frame-embedded>
@@ -40,5 +45,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

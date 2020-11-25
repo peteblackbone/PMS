@@ -8,9 +8,11 @@
     >
       <template v-slot:top>
         <v-toolbar flat color="white">
-          <v-toolbar-title v-t="{path:'DASHBOARD.MANAGE_GROUP.MANAGE_GROUP'}">
+          <v-toolbar-title
+            v-t="{ path: 'DASHBOARD.MANAGE_GROUP.MANAGE_GROUP' }"
+          >
             <!-- จัดการกลุ่ม -->
-            </v-toolbar-title>
+          </v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <v-btn @click="showProposalModal">เสนอหัวข้อใหม่</v-btn>
@@ -79,7 +81,7 @@ export default {
   components: {
     ModalContainer,
     NewTopic,
-    JoinGroup,
+    JoinGroup
   },
   data() {
     const srcs = {
@@ -87,7 +89,7 @@ export default {
       2: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
       3: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
       4: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
-      5: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+      5: "https://cdn.vuetifyjs.com/images/lists/5.jpg"
     };
     return {
       data: [],
@@ -106,28 +108,28 @@ export default {
         GROUP_ADVISOR: "A",
         MEMBERS: [
           {
-            NAME: "a",
+            NAME: "a"
           },
           {
-            NAME: "b",
-          },
-        ],
+            NAME: "b"
+          }
+        ]
       },
       headers: [
         {
           text: "ชื่อโครงงาน",
           align: "start",
           sortable: true,
-          value: "Group_Name",
+          value: "Group_Name"
         },
         { text: "อาจารย์ที่ปรึกษา", value: "GROUP_ADVISOR" },
         { text: "ประเภท", value: "Group_Type" },
         {
           text: "สมาชิก",
-          value: "Group_Member",
+          value: "Group_Member"
         },
         { text: "สถานะ", value: "Group_RequestStatus" },
-        { text: "Action", value: "actions" },
+        { text: "Action", value: "actions" }
       ],
       teacher_list: [
         { header: "Group 1" },
@@ -140,8 +142,8 @@ export default {
         { name: "Britta Holt", group: "Group 2", avatar: srcs[4] },
         { name: "Jane Smith ", group: "Group 2", avatar: srcs[5] },
         { name: "John Smith", group: "Group 2", avatar: srcs[1] },
-        { name: "Sandra Williams", group: "Group 2", avatar: srcs[3] },
-      ],
+        { name: "Sandra Williams", group: "Group 2", avatar: srcs[3] }
+      ]
     };
   },
   methods: {
@@ -150,13 +152,12 @@ export default {
       console.log("Asdasd");
     },
     async newProject(val) {
-      await DB.propose_new_project(val)
-        this.getGroupData();
-      
+      await DB.propose_new_project(val);
+      this.getGroupData();
     },
 
     async joinGroup(val) {
-      await DB.join(val,JSON.parse(localStorage.getItem("user")).user.STD_ID)
+      await DB.join(val, JSON.parse(localStorage.getItem("user")).user.STD_ID);
       this.hideModal();
       // const objIndex = this.data.findIndex((data) => data.GROUP_ID === val);
       // if (
@@ -181,11 +182,11 @@ export default {
     showJoinGroupModal(Group) {
       this.selectedGroup = Group;
       this.joinGroup_modal = true;
-    },
+    }
   },
   mounted() {
     this.getGroupData();
-  },
+  }
 };
 </script>
 <style></style>

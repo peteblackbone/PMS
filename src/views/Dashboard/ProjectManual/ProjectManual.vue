@@ -123,12 +123,12 @@ export default {
         text: "Name",
         align: "start",
         sortable: false,
-        value: "name",
+        value: "name"
       },
       { text: "Date modified", value: "date" },
       { text: "Type", value: "type", sortable: false },
       { text: "Size (KB)", value: "size" },
-      { text: "Actions", value: "actions", sortable: false },
+      { text: "Actions", value: "actions", sortable: false }
     ],
     desserts: [],
     editedIndex: -1,
@@ -137,27 +137,27 @@ export default {
       calories: 0,
       fat: 0,
       carbs: 0,
-      protein: 0,
+      protein: 0
     },
     defaultItem: {
       name: "",
       calories: 0,
       fat: 0,
       carbs: 0,
-      protein: 0,
-    },
+      protein: 0
+    }
   }),
 
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
-    },
+    }
   },
 
   watch: {
     dialog(val) {
       val || this.close();
-    },
+    }
   },
 
   created() {
@@ -174,19 +174,19 @@ export default {
           name: "Project Manuel",
           date: "11/5/2563 05:45",
           type: "pdf",
-          size: "4802541",
+          size: "4802541"
         },
         {
           name: "CE01 Example",
           date: "2/4/2563 12:21",
           type: "pdf",
-          size: "457",
+          size: "457"
         },
         {
           name: "CE02 Example",
           date: "2/7/2563 02:34",
           type: "docx",
-          size: "154218",
+          size: "154218"
         }
       ];
     },
@@ -218,7 +218,7 @@ export default {
         this.desserts.push(this.editedItem);
       }
       this.close();
-    },
-  },
+    }
+  }
 };
 </script>

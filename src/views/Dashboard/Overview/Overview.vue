@@ -1,9 +1,5 @@
 <template>
   <div class="gray ligthen-5">
-    <!-- <v-app-bar dense>
-      <v-toolbar-title v-t="{path:'DASHBOARD.NAVIGATION_DRAWER.OVERVIEW'}"></v-toolbar-title>
-      
-    </v-app-bar> -->
     <v-toolbar height="56px" flat>
       <v-toolbar-title
         v-t="{ path: 'DASHBOARD.NAVIGATION_DRAWER.OVERVIEW' }"
@@ -62,8 +58,8 @@
 
 <script>
 import VueGridLayout from "vue-grid-layout";
-import { Container, Draggable } from "vue-smooth-dnd";
-import { applyDrag } from "@/utils/helper";
+// import { Container, Draggable } from "vue-smooth-dnd";
+// import { applyDrag } from "@/utils/helper";
 
 import OverviewCard from "@/components/OverviewCard";
 import ModalContainer from "@/components/ModalContainer";
@@ -76,39 +72,39 @@ export default {
   components: {
     GridLayout: VueGridLayout.GridLayout,
     GridItem: VueGridLayout.GridItem,
-    Container,
-    Draggable,
+    // Container,
+    // Draggable,
     OverviewCard,
     ModalContainer,
-    OverviewSetting,
+    OverviewSetting
   },
   data() {
     return {
       OverviewSetting: false,
-      layout_index: 1,
+      layout_index: 2,
       layout: [
         [{ x: 0, y: 0, w: 16, h: 6, i: "0" }],
         [
           { x: 0, y: 0, w: 8, h: 6, i: "0", data: data1 },
-          { x: 8, y: 0, w: 8, h: 6, i: "1", data: data2 },
+          { x: 8, y: 0, w: 8, h: 6, i: "1", data: data2 }
         ],
         [
           { x: 0, y: 0, w: 8, h: 6, i: "0", data: data1 },
           { x: 8, y: 0, w: 8, h: 3, i: "1", data: data2 },
-          { x: 8, y: 3, w: 8, h: 3, i: "2", data: data3 },
+          { x: 8, y: 3, w: 8, h: 3, i: "2", data: data3 }
         ],
         [
           { x: 0, y: 0, w: 8, h: 3, i: "0" },
           { x: 8, y: 0, w: 8, h: 3, i: "1" },
           { x: 0, y: 3, w: 8, h: 3, i: "2" },
-          { x: 8, y: 3, w: 8, h: 3, i: "3" },
+          { x: 8, y: 3, w: 8, h: 3, i: "3" }
         ],
         [
           { x: 0, y: 0, w: 6, h: 3, i: "0" },
           { x: 6, y: 0, w: 5, h: 3, i: "1" },
           { x: 0, y: 3, w: 6, h: 3, i: "2" },
           { x: 6, y: 3, w: 5, h: 3, i: "3" },
-          { x: 11, y: 0, w: 5, h: 6, i: "4" },
+          { x: 11, y: 0, w: 5, h: 6, i: "4" }
         ],
         [
           { x: 0, y: 0, w: 5, h: 3, i: "0" },
@@ -116,9 +112,9 @@ export default {
           { x: 10, y: 0, w: 5, h: 3, i: "2" },
           { x: 0, y: 3, w: 5, h: 3, i: "3" },
           { x: 5, y: 3, w: 5, h: 3, i: "4" },
-          { x: 10, y: 3, w: 5, h: 3, i: "5" },
-        ],
-      ],
+          { x: 10, y: 3, w: 5, h: 3, i: "5" }
+        ]
+      ]
     };
   },
   methods: {
@@ -131,8 +127,8 @@ export default {
     applySetting(val) {
       this.layout_index = val;
       this.hideModal();
-    },
-  },
+    }
+  }
 };
 </script>
 

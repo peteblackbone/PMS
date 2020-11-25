@@ -77,14 +77,14 @@ export default {
         readOnly: true,
         startupFocus: true,
         tabSpaces: 4,
-        filebrowserUploadUrl: "/uploader/upload.php",
-      },
+        filebrowserUploadUrl: "/uploader/upload.php"
+      }
     };
   },
   props: {
     data: Object,
     header: Object,
-    iterator: Number,
+    iterator: Number
   },
   methods: {
     edit_field() {
@@ -96,20 +96,20 @@ export default {
       this.$refs.content.innerHTML = this.editedData;
       this.$emit("submit", {
         val: this.editedData,
-        field: this.header.title,
+        field: this.header.title
       });
     },
     cancel() {
       this.edit = !this.edit;
       this.editedData = this.data[this.header.title];
       this.$refs.content.innerHTML = this.data[this.header.title];
-    },
+    }
   },
   mounted() {
     if (this.header.type != "preview_only") {
       this.$refs.content.innerHTML = this.editedData;
     }
-  },
+  }
 };
 </script>
 

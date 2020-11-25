@@ -4,7 +4,15 @@
       <v-btn icon class="ma-2" @click="$refs.calendar.prev()">
         <v-icon>mdi-chevron-left</v-icon>
       </v-btn>
-      <v-select v-model="type" :items="types" dense outlined hide-details class="ma-2" label="type"></v-select>
+      <v-select
+        v-model="type"
+        :items="types"
+        dense
+        outlined
+        hide-details
+        class="ma-2"
+        label="type"
+      ></v-select>
       <v-select
         v-model="mode"
         :items="modes"
@@ -118,9 +126,8 @@ export default {
             1}-${a.getDate()} ${a.getHours()}:${a.getMinutes()}`
         : `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()}`;
     }
-  },
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -31,7 +31,7 @@
               drop-class="card-ghost-drop"
               non-drag-area-selector=".icon"
               :animation-duration="100"
-              @drop="(e) => onCardDrop(e, list, listIndex)"
+              @drop="e => onCardDrop(e, list, listIndex)"
               class="item-container scrollable"
             >
               <Draggable v-for="item in list.items" :key="item.id">
@@ -102,7 +102,7 @@ export default {
     TrelloCard,
     FrameEmbedded,
     Entry,
-    Member,
+    Member
   },
   data() {
     return {
@@ -116,22 +116,22 @@ export default {
       token: true,
       hint: "https://trello.com/b/igpjC3Q2",
       // board: JSON.parse(sessionStorage.getItem("TrelloBoardDetail")),
-      board:null,
-      members: [],
+      board: null,
+      members: []
     };
   },
 
   computed: {
     lists() {
       return this.$store.state.board.lists;
-    },
+    }
   },
 
   methods: {
     async selectBoard() {},
     async fetchBoardData() {
       if (this.board == null) {
-        this.board = JSON.parse(sessionStorage.getItem("TrelloBoardDetail"))
+        this.board = JSON.parse(sessionStorage.getItem("TrelloBoardDetail"));
         console.log(this.board);
       } else {
         console.log(this.board);
@@ -203,7 +203,7 @@ export default {
         src.params[1],
         src.index,
         trg.params[1],
-        trg.index,
+        trg.index
       ]);
     },
 
@@ -220,7 +220,7 @@ export default {
     },
 
     focusInput(listId) {
-      const index = this.lists.findIndex((list) => list.id === listId);
+      const index = this.lists.findIndex(list => list.id === listId);
       if (index > -1) {
         this.$refs.list[index].querySelector("input").focus();
       }
@@ -231,7 +231,7 @@ export default {
       // if (confirm("Are you sure you want to reset the board?")) {
 
       // }
-    },
+    }
   },
   mounted() {
     // this.selectBoard();
@@ -239,7 +239,7 @@ export default {
     this.reset();
     this.fetchBoardData();
   },
-  beforeMount(){
+  beforeMount() {
     Trello.getBoardDetail();
   }
 };

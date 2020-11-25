@@ -35,20 +35,20 @@ export default {
       icon: {
         Vuejs: "mdi-vuejs",
         Software: "mdi-application",
-        Hardware: "mdi-chip",
+        Hardware: "mdi-chip"
       },
       chip_color: {
         Vuejs: "cyan",
         Software: "green",
         Hardware: "yellow",
         Iot: "blue",
-        Arduino: "red",
-      },
+        Arduino: "red"
+      }
     };
   },
   props: {
-    data: Array,
-  },
+    data: Array
+  }
 };
 </script>
 

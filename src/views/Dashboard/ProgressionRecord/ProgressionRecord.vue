@@ -7,7 +7,7 @@
       <v-divider class="mx-4" vertical inset></v-divider>
     </v-toolbar>
     <v-container>
-      <v-timeline>
+      <v-timeline dense>
         <v-timeline-item v-if="newItem" fill-dot small :color="cardColor">
           <v-card>
             <v-container>
@@ -44,7 +44,6 @@
             <span class="blue--text">
               {{ item.date }}
             </span>
-              
           </template>
           <timeline-card :data="item"></timeline-card>
         </v-timeline-item>
@@ -112,7 +111,7 @@
 import TimelineCard from "@/components/TimelineCard";
 export default {
   components: {
-    TimelineCard,
+    TimelineCard
   },
   data() {
     return {
@@ -124,27 +123,27 @@ export default {
           id: 1,
           date: "12-5-2563",
           job_desc: "ต่อ api",
-          job_solution: "ติด CORS",
+          job_solution: "ติด CORS"
         },
         {
           id: 2,
           date: "5-8-2563",
           job_desc: "aaaa",
-          job_solution: "bbb",
+          job_solution: "bbb"
         },
         {
           id: 3,
           date: "5-8-2563",
           job_desc: "aaaa",
-          job_solution: "bbb",
+          job_solution: "bbb"
         },
         {
           id: 4,
           date: "5-8-2563",
           job_desc: "aaaa",
-          job_solution: "bbb",
-        },
-      ],
+          job_solution: "bbb"
+        }
+      ]
     };
   },
   methods: {
@@ -158,8 +157,8 @@ export default {
     randomColor() {
       var colorList = ["red", "blue"];
       this.cardColor = colorList[Math.floor(Math.random() * colorList.length)];
-    },
-  },
+    }
+  }
 };
 </script>
 

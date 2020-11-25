@@ -1,15 +1,11 @@
 <template>
   <div>
-      Pie chart
+    Pie chart
   </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style></style>

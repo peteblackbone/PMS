@@ -10,14 +10,14 @@ export async function proposeNewProject(val) {
     Group_Term: val.Group_Term,
     Group_Member: val.Group_Member,
     Group_Status: val.Group_Status,
-    Group_RequestStatus: val.Group_RequestStatus,
+    Group_RequestStatus: val.Group_RequestStatus
   }).catch(() => {
     console.error("Can't add new group");
   });
 }
 export async function fetchCE(type) {
   return await HTTP.get(type)
-    .then((res) => {
+    .then(res => {
       return res.data;
     })
     .catch(() => {

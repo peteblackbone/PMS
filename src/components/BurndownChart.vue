@@ -38,7 +38,7 @@ export default {
           "Day 7",
           "Day 8",
           "Day 9",
-          "Day 10",
+          "Day 10"
         ],
         datasets: [
           {
@@ -47,7 +47,7 @@ export default {
             fill: false,
             borderColor: "#EE6868",
             backgroundColor: "#EE6868",
-            lineTension: 0,
+            lineTension: 0
           },
           {
             label: "Ideal",
@@ -106,10 +106,10 @@ export default {
                 totalHoursInSprint -
                   idealHoursPerDay * i++ +
                   this.sumArrayUpTo(scopeChange, 9)
-              ), // 10
-            ],
-          },
-        ],
+              ) // 10
+            ]
+          }
+        ]
       };
 
       var chartOptions = {
@@ -119,27 +119,27 @@ export default {
           position: "top",
           labels: {
             boxWidth: 80,
-            fontColor: "black",
-          },
+            fontColor: "black"
+          }
         },
         scales: {
           yAxes: [
             {
               ticks: {
                 min: 0,
-                max: Math.round(burndownData[0] * 1.1),
-              },
-            },
-          ],
-        },
+                max: Math.round(burndownData[0] * 1.1)
+              }
+            }
+          ]
+        }
       };
 
       var lineChart = new Chart(this.$refs.burndown, {
         type: "line",
         data: speedData,
-        options: chartOptions,
+        options: chartOptions
       });
-    },
+    }
   },
   mounted() {
     this.createChart(
@@ -147,7 +147,7 @@ export default {
       [200, 160, 160, 140, 90, 90, 80, 50, 30, 8], // burndown data
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] // scope change
     );
-  },
+  }
 };
 </script>
 

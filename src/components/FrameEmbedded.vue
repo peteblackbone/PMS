@@ -3,7 +3,7 @@
     <div v-if="!loaded">
       <loader></loader>
     </div>
-    <div :class="{'frame-container' : loaded}" fill-height>
+    <div :class="{ 'frame-container': loaded }" fill-height>
       <iframe
         :src="src"
         ref="frame"

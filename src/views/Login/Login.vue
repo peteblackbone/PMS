@@ -54,60 +54,46 @@
 </template>
 
 <script>
-import Axios from "axios";
-import { required, email, max, length } from "vee-validate/dist/rules";
+import { required } from "vee-validate/dist/rules";
+// import { required, email, max, length } from "vee-validate/dist/rules";
 import {
   extend,
   ValidationObserver,
   ValidationProvider,
-  setInteractionMode,
+  setInteractionMode
 } from "vee-validate";
 import { mapGetters } from "vuex";
 setInteractionMode("eager");
 extend("required", {
   ...required,
-  message: "{_field_} is require",
+  message: "{_field_} is require"
 });
 export default {
   components: {
     ValidationObserver,
-    ValidationProvider,
+    ValidationProvider
   },
   data() {
     return {
       username: null,
-      password: null,
+      password: null
     };
   },
   methods: {
     async submit() {
       if (await this.$refs.observer.validate()) {
-        // Axios.defaults.headers['Content-Type'] = "application/x-www-form-urlencoded"
-        // Axios.post(
-        //   "http://localhost:3000/auth/login",
-        //   JSON.stringify(
-        //     {
-        //       username: this.username,
-        //       password: this.password,
-        //     }),
-        //     { headers: { "Content-Type": "application/json" } }
-
-        // ).then((res) => {
-        //   console.log(res.data);
-        // });
-        const { username, password } = this;
         this.$store.dispatch("auth/login", {
           username: this.username,
-          password: this.password,
+          password: this.password
         });
       }
-    },
+    }
   },
   computed: {
     ...mapGetters({
-      isLoggedIn: "auth/loggedIn",
-    }),
-  },
+      isLoggedIn: "auth/loggedIn"
+    })
+  }
 };
 </script>
 

@@ -8,7 +8,7 @@ export const auth = {
     // name: "",
     // email: "",
     // token: "",
-    status : {loggedIn : null}
+    status: { loggedIn: null }
   },
   mutations: {
     loginRequest(state, user) {
@@ -20,24 +20,24 @@ export const auth = {
       state.user = user;
     },
     loginFailure(state) {
-      state.status = {loggedIn: false};
+      state.status = { loggedIn: false };
       state.user = null;
     },
     logout(state) {
-      state.status = {loggedIn: null};
+      state.status = { loggedIn: null };
       state.user = null;
-    },
+    }
   },
   actions: {
     login({ dispatch, commit }, { username, password }) {
       commit("loginRequest", { username });
       // console.log(username,password)
       userService.login(username, password).then(
-        (user) => {
+        user => {
           commit("loginSuccess", user);
-          router.push("/"+user.data.user.role);
+          router.push("/" + user.data.user.role);
         },
-        (error) => {
+        error => {
           console.log(error);
           commit("loginFailure", error);
           //   dispatch("alert/error", error, { root: true });
@@ -47,9 +47,9 @@ export const auth = {
     logout({ commit }) {
       userService.logout();
       commit("logout");
-    },
+    }
   },
   getters: {
-    loggedIn: (state) => state.status,
-  },
+    loggedIn: state => state.status
+  }
 };
