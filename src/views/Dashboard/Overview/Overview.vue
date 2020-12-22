@@ -39,19 +39,17 @@
       </grid-layout>
     </div>
     <template>
-      <div>
-        <modal-container
-          :active="OverviewSetting"
-          :cancellable="1"
+      <modal-container
+        :active="OverviewSetting"
+        :cancellable="1"
+        @close="hideModal"
+      >
+        <overview-setting
           @close="hideModal"
-        >
-          <overview-setting
-            @close="hideModal"
-            @apply="applySetting"
-            :layout="layout_index"
-          ></overview-setting>
-        </modal-container>
-      </div>
+          @apply="applySetting"
+          :layout="layout_index"
+        ></overview-setting>
+      </modal-container>
     </template>
   </div>
 </template>

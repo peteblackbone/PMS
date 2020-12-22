@@ -1,0 +1,211 @@
+<template>
+  <div style="max-height:91vh" class="overflow-y-auto">
+    <!-- <v-btn class="mb-2" color="primary" tile outlined large><v-icon>mdi-arrow-left</v-icon> Back</v-btn> -->
+    <v-toolbar flat>
+      <v-toolbar-title>Form_CE01 - {{ form_id }}</v-toolbar-title>
+      <v-divider class="mx-4" inset vertical></v-divider>
+      <v-spacer></v-spacer>
+    </v-toolbar>
+    <v-divider class="mx-5"></v-divider>
+
+    <div>
+      <v-row no-gutters>
+        <v-col cols="8">
+          <div class="pa-2">
+            <v-toolbar dense class="mb-2 elevation-1">
+              <v-spacer></v-spacer>
+              <v-icon @click="pageBack">mdi-chevron-left</v-icon>
+              <div class="d-flex mx-5">
+                <v-text-field
+                  v-model.number="page"
+                  dense
+                  flat
+                  hide-details
+                  
+                  class="centered-input"
+                  >sd</v-text-field
+                >
+                <span>{{ "/ " + pageCount }}</span>
+              </div>
+
+              <v-icon @click="pageForward">mdi-chevron-right</v-icon>
+              <v-spacer></v-spacer
+              ><v-btn icon tile @click="$refs.pdfComponent.print()"
+                ><v-icon>mdi-printer</v-icon></v-btn
+              ></v-toolbar
+            >
+            <div>
+              <pdf
+                ref="pdfComponent"
+                src="https://ncu.rcnpv.com.tw/Uploads/20131231103232738561744.pdf"
+                @num-pages="pageCount = $event"
+                @page-loaded="currentPage = $event"
+                :page="page"
+                class="overflow-y-auto"
+                style="border-style: solid;"
+              ></pdf>
+            </div>
+            <!-- <div>
+              <pdf
+                ref="pdfComponent"
+                :src="'data:application/pdf;base64,' + a"
+                @num-pages="pageCount = $event"
+                @page-loaded="currentPage = $event"
+                :page="page"
+                class="overflow-y-auto"
+                style="border-style: solid;"
+              ></pdf>
+            </div> -->
+            <!-- <div class="d-flex">
+              <v-icon class="page-chevron" x-large @click="pageBack"
+                >mdi-chevron-left</v-icon
+              >
+              <v-spacer></v-spacer>
+              {{page + "/" + pageCount}}
+              <v-spacer></v-spacer>
+              <v-icon class="page-chevron" x-large @click="pageForward"
+                >mdi-chevron-right</v-icon
+              >
+            </div> -->
+          </div>
+        </v-col>
+        <v-col cols="4">
+          <div class="">
+            <div class="d-flex">
+              <div class="font-weight-bold" style="font-size:28px">Comment</div>
+              <v-spacer></v-spacer>
+              <v-btn icon @click="cancelComment" color="blue" class="mr-2"
+                ><v-icon>mdi-file-document-multiple-outline</v-icon></v-btn
+              >
+            </div>
+            <template v-if="newComment">
+              <v-textarea
+                v-model="newCommentData"
+                counter
+                class="ma-2"
+                outlined
+              ></v-textarea>
+              <div class="d-flex mb-5">
+                <v-spacer></v-spacer>
+                <v-btn
+                  class="mr-2"
+                  small
+                  color="success"
+                  @click="saveNewComment"
+                  >Save</v-btn
+                >
+                <v-btn small text color="" @click="cancelComment">Cancel</v-btn>
+              </div>
+            </template>
+            <template>
+              <v-card
+                class="mb-2 mr-2"
+                v-for="item in commentData"
+                :key="item.id"
+                ><v-card-text
+                  ><v-icon style="top:-5px">mdi-format-quote-open</v-icon
+                  >{{ item.text
+                  }}<v-icon style="top:-5px"
+                    >mdi-format-quote-close</v-icon
+                  ></v-card-text
+                ><v-divider class="mx-4"></v-divider>
+                <v-card-text class="d-flex"
+                  ><span>{{ "- " + item.author }}</span
+                  ><v-spacer></v-spacer
+                  ><span>{{ item.date }}</span></v-card-text
+                >
+
+                <!-- <v-spacer></v-spacer>
+                  <v-card-text>{{ "วันที่" }}</v-card-text> -->
+              </v-card>
+            </template>
+          </div>
+        </v-col>
+      </v-row>
+    </div>
+  </div>
+</template>
+
+<script>
+// import PdfViewer from "@/components/PDFViewer";
+import pdf from "vue-pdf";
+export default {
+  components: {
+    // PdfViewer,
+    pdf
+  },
+  data() {
+    return {
+      page: 1,
+      pageCount: 0,
+      newComment: false,
+      newCommentData: "",
+      commentData: [
+        {
+          id: 1,
+          text:
+            "I'm not sure you do the right thing. I mean, I want more thesis in literature review section. Whatever, I think it quite okey for me. just edit a little bit :)",
+          author: "อนุชล หอมเสียง",
+          date: new Date().toLocaleDateString()
+        },
+        {
+          id: 2,
+          text:
+            "ผมว่าไมค่อยดีนะ เอาไปทำมาใหม่ดีกว่านะ ดูยากจังวู้ยยยยยยย วันที่ผิด ขอตรงนั้นเพิ่ม เอาตรงนี้อออก",
+          author: "ทองคำ สมเพาะ",
+          date: "1/2/2541"
+        }
+      ]
+    };
+  },
+  computed: {
+    form_id() {
+      return this.$route.query.d;
+    }
+  },
+  mounted() {},
+  methods: {
+    saveNewComment() {
+      this.commentData.push({
+        id: 3,
+        text: this.newCommentData,
+        author: JSON.parse(localStorage.getItem("user")).user.name,
+        date: new Date().toLocaleDateString()
+      });
+      this.newComment = !this.newComment;
+    },
+    cancelComment() {
+      this.newCommentData = "";
+      this.newComment = !this.newComment;
+    },
+    pageBack() {
+      if (this.page > 1) this.page -= 1;
+    },
+    pageForward() {
+      if (this.page < this.pageCount) this.page += 1;
+    }
+  }
+};
+</script>
+
+<style scoped>
+.page-chevron {
+  z-index: 1;
+  bottom: 600px;
+}
+.page-chevron::after {
+  background-color: transparent !important;
+}
+.page-chevron:hover {
+  color: #616161;
+  transform: scale(1.5);
+}
+.centered-input{
+  position: relative;
+  top:-2px;
+  width:30px
+}
+.centered-input >>> input {
+  text-align: center;
+}
+</style>

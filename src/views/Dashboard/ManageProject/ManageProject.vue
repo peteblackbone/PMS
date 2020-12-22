@@ -1,194 +1,160 @@
 <template>
-  <div v-if="loaded" class="overflow-y-auto" style="max-height: 91vh">
-    <v-card class="ma-2" tile min-height="88.5vh">
-      <v-tabs v-model="tab" color="white" show-arrows background-color="blue">
-        <v-tab
-          v-for="(item, i) in tabs"
-          :key="item.name"
-          @click="fetchCE(item.name)"
+  <v-card class="ma-2" flat>
+    <v-data-table
+      :headers="headers"
+      :items="data"
+      :item-class="rowStyle"
+      class="elevation-1"
+      height="72vh"
+    >
+      <template v-slot:top>
+        <v-toolbar flat>
+          <v-toolbar-title>Manage Project</v-toolbar-title>
+          <v-divider class="mx-4" inset vertical></v-divider>
+          <v-spacer></v-spacer>
+        </v-toolbar>
+      </template>
+      <template v-slot:[`item.FormStatus_ID`]="{ item }">
+        <span
+          class="circle-dot mr-2"
+          :class="`status-${item.FormStatus_ID}`"
+        ></span>
+        {{ statusText[item.FormStatus_ID] }}
+      </template>
+      <template v-slot:[`item.FormType_Name`]="{ item }">
+        <router-link
+          :to="{
+            path: 'form_ce',
+            query: { gID: item.Form_GroupID, type: item.FormType_ID }
+          }"
+          >{{ item.FormType_Name }}</router-link
         >
-          <span v-if="update[i]"
-            ><v-badge color="pink" dot>{{ item.name }} </v-badge></span
-          >
-          <span v-else>{{ item.name }}</span>
-        </v-tab>
-      </v-tabs>
-      <v-tabs-items v-model="tab">
-        <v-tab-item v-for="tab in tabs" :key="tab.name">
-          <div class="pa-2 pr-3 ml-2 pb-2">
-            <!-- <div class="arrow-pointer">comments</div> -->
-            <!-- <v-simple-table>
-              <thead>
-                <tr>
-                  <th>ตำแหน่ง</th>
-                  <th>ชื่อ</th>
-                  <th>สถานะ</th>
-                  <th>คอมเมนต์</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in data.comments" :key="item">
-                  <td>{{ item.role }}</td>
-                  <td>{{ item.name }}</td>
-                  <td><span :class="{'success white--text' : item.status,'error--text' : !item.status}">Rejected</span></td>
-                  <td>{{ item.comment}}</td>
-                </tr>
-              </tbody>
-            </v-simple-table> -->
-
-            <!-- <v-expansion-panels>
-              <v-expansion-panel v-for="item in advisors" :key="item" @click="alert('aaa')">
-                <v-expansion-panel-header>
-                  <div class="d-flex">
-                    <span style="width:100px" class="mr-4">{{
-                      item.role
-                    }}</span>
-                    <span style="width:300px" class="mr-4">{{
-                      item.name
-                    }}</span>
-                    <span style="width:100px" class="success--text mr-4"
-                      >approved</span
-                    >
-                    <span style="width:100px" class="mr-4">comment</span>
-                  </div>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <h4>Comment</h4>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels> -->
-            <v-badge
-              :color="!isSeenComment ? 'pink' : ''"
-              :content="CECommentCount"
-              class="bbt"
-              overlap
+      </template>
+      <template v-slot:[`item.Form_UpdatedTime`]="{ item }">
+        {{ new Date(item.Form_UpdatedTime).toLocaleDateString() }}
+      </template>
+      <template v-slot:[`item.actions`]="{ item }">
+        <v-menu bottom left min-width="20vw">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on">
+              <v-icon color="gray">mdi-dots-vertical</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item @click="previewDoc(item)"
+              ><v-list-item-title>Preview</v-list-item-title></v-list-item
             >
-              <v-btn depressed @click="expandCommentTab" icon 
-                ><v-avatar color="purple lighten-2" size="36">
-                  <v-icon color="white">mdi-comment-processing-outline</v-icon>
-                </v-avatar>
-              </v-btn>
-            </v-badge>
-
-            <div class="d-flex">
-              <div style="width:100%; height:100%">
-                <item-list
-                  v-for="(header, i) in tab.headers"
-                  :key="header.title"
-                  :header="header"
-                  :data="data"
-                  @submit="submit"
-                >
-                  <template v-slot:header>
-                    <h4 class="mr-2" style="height:28px">
-                      {{ i + 1 + ". " }}{{ header.header }}
-                    </h4>
-                  </template>
-                </item-list>
-              </div>
-              <div>
-                <v-expand-x-transition>
-                  <v-card
-                    v-show="expand2"
-                    height="100%"
-                    width="300"
-                    class="mx-auto primary lighten-3 fill-height"
-                    flat
-                  >
-                    <comment-block
-                      v-for="item in comments"
-                      :key="item"
-                      :comment="item"
-                    ></comment-block>
-                  </v-card>
-                </v-expand-x-transition>
-              </div>
-            </div>
-          </div>
-        </v-tab-item>
-      </v-tabs-items>
-    </v-card>
-  </div>
+            <v-list-item @click="editDoc(item)"
+              ><v-list-item-title>Edit</v-list-item-title></v-list-item
+            >
+            <v-list-item @click="deleteDoc(item)"
+              ><v-list-item-title>Delete</v-list-item-title></v-list-item
+            >
+          </v-list>
+        </v-menu>
+      </template>
+    </v-data-table>
+  </v-card>
 </template>
-
 <script>
-import ItemList from "@/components/ManageProjectItemList";
-import CommentBlock from "@/components/TeacherCommentBlock";
 import DB from "@/mixins/Database";
-import { CE_HEADER } from "@/utils/CEHeader.js";
 export default {
-  components: {
-    ItemList,
-    CommentBlock
-  },
-  data() {
-    return {
-      comments: ["asda", "12346", "qweqwe"],
-      update: [true, false, true, false, true, false],
-      expand2: false,
-      loaded: false,
-      tab: null,
-      CECommentCount: 2,
-      isSeenComment: false,
-      tabs: CE_HEADER(),
-      data: [],
-      advisors: [
-        { name: "a", role: "ที่ปรึกษา" },
-        { name: "b", role: "ที่ปรึกษา" },
-        { name: "c", role: "ประจำวิชา" }
-      ]
-    };
-  },
-  methods: {
-    expandCommentTab() {
-      this.expand2 = !this.expand2;
-      this.CECommentCount = 0;
-      this.isSeenComment = true;
-    },
-    async fetchCE(val) {
-      this.data = {};
-      // this.data = await DB.fetchCE(val);
-      this.data = await DB.ManageProject.fetchCE(val);
-      this.loaded = true;
-      console.log(this.tabs);
-    },
-    submit({ val, field }) {
-      this.data[field] = val;
-      DB.ManageProject.update(this.data);
-      // DB.update(this.data);
+  data: () => ({
+    actionMenu: [
+      { title: "Preview", method: "previewDoc" },
+      { title: "Edit", method: "editDoc" },
+      { title: "Delete", method: "deleteDoc" }
+    ],
+
+    statusText: [
+      "",
+      "Pending",
+      "Wait Adviser",
+      "Wait Instructor",
+      "Rejected",
+      "Completed"
+    ],
+    dialog: false,
+    dialogDelete: false,
+    headers: [
+      { text: "ชื่อเอกสาร", value: "FormType_Name" },
+      { text: "อัปเดตครั้งที่", value: "rev" },
+      { text: "อัปเดตล่าสุด", value: "Form_UpdatedTime" },
+      { text: "สถานะ", value: "FormStatus_ID" },
+      { text: "", value: "actions", sortable: false }
+    ],
+    data: []
+  }),
+
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1 ? "New Item" : "Edit Item";
     }
   },
-  mounted() {
-    this.fetchCE("CE01");
+
+  watch: {
+    dialog(val) {
+      val || this.close();
+    },
+    dialogDelete(val) {
+      val || this.closeDelete();
+    }
+  },
+  created() {
+    this.initialize();
+  },
+
+  methods: {
+    onClick(methodName) {
+      this[methodName]();
+    },
+    async initialize() {
+      this.data = await DB.ManageProject.form(29);
+
+    },
+    rowStyle() {
+      return "tb-row";
+    },
+    previewDoc(item) {
+      console.log("preview", item);
+    },
+    editDoc() {
+      console.log("edit");
+    },
+    deleteDoc() {
+      console.log("delete");
+    }
   }
 };
 </script>
-
 <style>
-.arrow-pointer {
-  vertical-align: middle;
-  width: 80px;
-  height: 38px;
-  top: 20px;
-  right: 0px;
-  background: hotpink;
-  position: absolute;
-  z-index: 5;
+.tb-row {
+  height: 10vh;
 }
-.arrow-pointer:after {
-  content: "";
-  position: absolute;
-  left: -25px;
-  bottom: 0;
-  width: 0;
-  height: 0;
-  border-right: 25px solid hotpink;
-  border-top: 19px solid transparent;
-  border-bottom: 19px solid transparent;
+.circle-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-flex;
 }
-.bbt {
-  position: absolute;
-  top: -42px;
-  right: 15px;
+/* pending */
+.status-1 {
+  background-color: #fb6340 !important;
+}
+/* Wait Adviser */
+.status-2 {
+  background-color: aquamarine !important;
+}
+/* Wait Instructor */
+.status-3 {
+  background-color: aqua !important;
+}
+/* Rejected */
+.status-4 {
+  background-color: #f5365c !important;
+}
+/* Approved */
+.status-5 {
+  background-color: #2dce89 !important;
 }
 </style>

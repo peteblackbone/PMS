@@ -78,7 +78,7 @@
         ></dashboard-profile>
       </div>
     </v-app-bar>
-    <v-main style="height:100vh">
+    <v-main>
       <router-view></router-view>
     </v-main>
   </div>

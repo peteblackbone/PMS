@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { integer } from "vee-validate/dist/rules";
+// import { integer } from "vee-validate/dist/rules";
 export default {
   props: {
     layout: Number

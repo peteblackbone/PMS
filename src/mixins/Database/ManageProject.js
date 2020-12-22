@@ -24,3 +24,22 @@ export async function fetchCE(type) {
       console.error("Can't fetch CE");
     });
 }
+export async function form(gID) {
+  return await HTTP.post("/form", { Form_GroupID: gID }).then(res => {
+    console.log(res.data.data);
+    return res.data.data;
+  });
+}
+export async function formCE(gID, fID) {
+  return await HTTP.post("/form", { Form_GroupID: gID, Form_TypeID: fID }).then(
+    res => {
+      return res.data.data;
+    }
+  );
+}
+export async function form_ce(gID, fID) {
+  return await HTTP.get("/form/group/" + gID + "/type/" + fID).then(res => {
+    console.log(res);
+    return res.data;
+  });
+}

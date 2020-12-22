@@ -79,13 +79,13 @@
 
 <script>
 //library
-import { makeDropHandler } from "@/utils/plugins";
-import Axios from "axios";
-import Trello from "@/utils/Trello";
+// import { makeDropHandler } from "@/utils/plugins";
+// import Axios from "axios";
+// import Trello from "@/utils/Trello";
 import { Container, Draggable } from "vue-smooth-dnd";
 //components
-import FrameEmbedded from "@/components/FrameEmbedded";
-import Entry from "@/components/Entry";
+// import FrameEmbedded from "@/components/FrameEmbedded";
+// import Entry from "@/components/Entry";
 import TrelloCard from "@/components/TrelloCard";
 import ItemForm from "@/components/TrelloItemForm";
 import ItemEntry from "@/components/TrelloItemEntry";
@@ -100,8 +100,8 @@ export default {
     ItemForm,
     ItemModal,
     TrelloCard,
-    FrameEmbedded,
-    Entry,
+    // FrameEmbedded,
+    // Entry,
     Member
   },
   data() {
@@ -128,119 +128,105 @@ export default {
   },
 
   methods: {
-    async selectBoard() {},
-    async fetchBoardData() {
-      if (this.board == null) {
-        this.board = JSON.parse(sessionStorage.getItem("TrelloBoardDetail"));
-        console.log(this.board);
-      } else {
-        console.log(this.board);
-      }
-      // else {
-      //   this.board = sessionStorage.getItem("TrelloBoardDetail");
-      //   console.log(JSON.parse(sessionStorage.getItem("TrelloBoardDetail")));
-      // }
-      // this.board.prefs.backgroundImage
-      //   ? (this.$refs.bg.style.backgroundImage =
-      //       "url(" + this.board.prefs.backgroundImage + ")")
-      //   : (this.$refs.bg.style.backgroundColor = this.board.prefs.backgroundColor);
-    },
-    Oauth() {
-      window.open(
-        "http://localhost:3000/login",
-        "_blank",
-        "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400"
-      );
-    },
-    onAddList({ text }) {
-      this.$store.commit("addList", { title: text });
-      this.$nextTick(() => {
-        const lists = this.$refs.list;
-        lists[lists.length - 1].querySelector("input").focus();
-      });
-    },
-
-    onAddItem({ id, text, more }) {
-      if (more) {
-        this.activeListId = id;
-        this.modal = true;
-        this.showModal({ title: text });
-        return;
-      }
-      this.addItem(id, text);
-    },
-
-    onAddFullItem(item) {
-      item.id
-        ? this.$store.commit("updateItem", { itemId: item.id, ...item })
-        : this.addItem(
-            this.activeListId,
-            item.title,
-            item.description,
-            item.date
-          );
-      this.hideModal();
-    },
-
-    addItem(listId, title, description, date) {
-      this.$store.commit("addItem", { listId, title, description, date });
-    },
-
-    editItem(item) {
-      this.showModal(item);
-    },
-
-    onListDrop: makeDropHandler("onListDropComplete"),
-
-    onListDropComplete: function(src, trg) {
-      this.$store.commit("moveList", [src.index, trg.index]);
-    },
-
-    onCardDrop: makeDropHandler("onCardDropComplete"),
-
-    onCardDropComplete(src, trg, element, payload) {
-      this.$store.commit("moveItem", [
-        src.params[1],
-        src.index,
-        trg.params[1],
-        trg.index
-      ]);
-    },
-
-    showModal(item) {
-      this.modal = true;
-      this.$nextTick(() => {
-        this.$refs.form.show(item);
-      });
-    },
-
-    hideModal() {
-      this.focusInput(this.activeListId);
-      this.modal = false;
-    },
-
-    focusInput(listId) {
-      const index = this.lists.findIndex(list => list.id === listId);
-      if (index > -1) {
-        this.$refs.list[index].querySelector("input").focus();
-      }
-    },
-
-    reset() {
-      this.$store.commit("reset");
-      // if (confirm("Are you sure you want to reset the board?")) {
-
-      // }
-    }
+    // async selectBoard() {},
+    // async fetchBoardData() {
+    //   if (this.board == null) {
+    //     this.board = JSON.parse(sessionStorage.getItem("TrelloBoardDetail"));
+    //     console.log(this.board);
+    //   } else {
+    //     console.log(this.board);
+    //   }
+    //   // else {
+    //   //   this.board = sessionStorage.getItem("TrelloBoardDetail");
+    //   //   console.log(JSON.parse(sessionStorage.getItem("TrelloBoardDetail")));
+    //   // }
+    //   // this.board.prefs.backgroundImage
+    //   //   ? (this.$refs.bg.style.backgroundImage =
+    //   //       "url(" + this.board.prefs.backgroundImage + ")")
+    //   //   : (this.$refs.bg.style.backgroundColor = this.board.prefs.backgroundColor);
+    // },
+    // Oauth() {
+    //   window.open(
+    //     "http://localhost:3000/login",
+    //     "_blank",
+    //     "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400"
+    //   );
+    // },
+    // onAddList({ text }) {
+    //   this.$store.commit("addList", { title: text });
+    //   this.$nextTick(() => {
+    //     const lists = this.$refs.list;
+    //     lists[lists.length - 1].querySelector("input").focus();
+    //   });
+    // },
+    // onAddItem({ id, text, more }) {
+    //   if (more) {
+    //     this.activeListId = id;
+    //     this.modal = true;
+    //     this.showModal({ title: text });
+    //     return;
+    //   }
+    //   this.addItem(id, text);
+    // },
+    // onAddFullItem(item) {
+    //   item.id
+    //     ? this.$store.commit("updateItem", { itemId: item.id, ...item })
+    //     : this.addItem(
+    //         this.activeListId,
+    //         item.title,
+    //         item.description,
+    //         item.date
+    //       );
+    //   this.hideModal();
+    // },
+    // addItem(listId, title, description, date) {
+    //   this.$store.commit("addItem", { listId, title, description, date });
+    // },
+    // editItem(item) {
+    //   this.showModal(item);
+    // },
+    // onListDrop: makeDropHandler("onListDropComplete"),
+    // onListDropComplete: function(src, trg) {
+    //   this.$store.commit("moveList", [src.index, trg.index]);
+    // },
+    // onCardDrop: makeDropHandler("onCardDropComplete"),
+    // onCardDropComplete(src, trg) {
+    //   this.$store.commit("moveItem", [
+    //     src.params[1],
+    //     src.index,
+    //     trg.params[1],
+    //     trg.index
+    //   ]);
+    // },
+    // showModal(item) {
+    //   this.modal = true;
+    //   this.$nextTick(() => {
+    //     this.$refs.form.show(item);
+    //   });
+    // },
+    // hideModal() {
+    //   this.focusInput(this.activeListId);
+    //   this.modal = false;
+    // },
+    // focusInput(listId) {
+    //   const index = this.lists.findIndex(list => list.id === listId);
+    //   if (index > -1) {
+    //     this.$refs.list[index].querySelector("input").focus();
+    //   }
+    // },
+    // reset() {
+    //   this.$store.commit("reset");
+    //   // if (confirm("Are you sure you want to reset the board?")) {
+    //   // }
+    // }
   },
   mounted() {
     // this.selectBoard();
-
-    this.reset();
-    this.fetchBoardData();
+    // this.reset();
+    // this.fetchBoardData();
   },
   beforeMount() {
-    Trello.getBoardDetail();
+    // Trello.getBoardDetail();
   }
 };
 </script>

@@ -1,4 +1,4 @@
-import { start } from "nprogress";
+// import { start } from "nprogress";
 import router from "../../../router";
 import { userService } from "./Service";
 export const auth = {
@@ -29,7 +29,7 @@ export const auth = {
     }
   },
   actions: {
-    login({ dispatch, commit }, { username, password }) {
+    login({ commit }, { username, password }) {
       commit("loginRequest", { username });
       // console.log(username,password)
       userService.login(username, password).then(

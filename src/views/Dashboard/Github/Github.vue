@@ -30,7 +30,7 @@ import CodePreview from "@/components/GithubCodePreview";
 import Entry from "@/components/Entry";
 import CloneMenu from "@/components/GithubCloneMenu";
 
-import { mapGetters, mapState, mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   components: {

@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import Axios from "axios";
 // import "codemirror/theme/base16-dark.css";
 import "codemirror/theme/material-darker.css";
 import "../assets/styles/vscode-dark.css";
@@ -60,12 +59,12 @@ import "codemirror/mode/vue/vue.js";
 import "codemirror/mode/htmlmixed/htmlmixed";
 import "codemirror/mode/markdown/markdown";
 
-let id = 0;
-let temp = [];
-let temp2 = [];
-let temp3 = [];
-let empty_arr = [];
-let content = "";
+// let id = 0;
+// let temp = [];
+// let temp2 = [];
+// let temp3 = [];
+// let empty_arr = [];
+// let content = "";
 
 export default {
   watch: {
@@ -121,125 +120,125 @@ export default {
   },
   props: {
     repo: String
-  },
-  methods: {
-    findById(o, id) {
-      if (o.id === id) {
-        return o;
-      }
-      var result;
-      for (const p in o) {
-        if (o.hasOwnProperty(p) && typeof o[p] === "object") {
-          result = this.findById(o[p], id);
-          if (result) {
-            return result;
-          }
-        }
-      }
-      return result;
-    },
-
-    get_type(name) {
-      let temp = name.split(".");
-      return temp[temp.length - 1];
-    },
-    async fetch_children(url) {
-      let temp = [];
-      temp = await Axios.get(url).then(async res => {
-        // console.log(res.data.tree[0])
-        for (const i in res.data.tree) {
-          if (res.data.tree[i].type === "tree") {
-            res.data.tree[i].id = id++;
-            res.data.tree[i].type_n = "0";
-            res.data.tree[i].children = await this.fetch_children(
-              res.data.tree[i].url
-            );
-            res.data.tree[i].name = res.data.tree[i].path;
-            res.data.tree[i].file = "dir";
-          } else {
-            res.data.tree[i].id = id++;
-            res.data.tree[i].type_n = "1";
-            res.data.tree[i].name = res.data.tree[i].path;
-            res.data.tree[i].file = this.get_type(res.data.tree[i].name);
-            res.data.tree[i].git_url = res.data.tree[i].url;
-          }
-        }
-
-        return res.data.tree;
-      });
-      return temp.sort((a, b) => a.type_n - b.type_n);
-    },
-    async fetch_content() {
-      this.tree.push(
-        await Axios.get(
-          "http://api.github.com/" + "repos/" + this.repo + "/contents"
-        ).then(async res => {
-          for (const i in res.data) {
-            if (res.data[i].type === "dir") {
-              res.data[i].file = "dir";
-              res.data[i].id = id++;
-              res.data[i].type_n = "0";
-              res.data[i].children = await this.fetch_children(
-                res.data[i].git_url
-              );
-            } else {
-              res.data[i].type_n = "1";
-              res.data[i].id = id++;
-              res.data[i].file = this.get_type(res.data[i].name);
-            }
-          }
-          return res.data;
-        })
-      );
-      this.tree[0].sort((a, b) => a.type_n - b.type_n);
-      sessionStorage.setItem("githubRepoDetail", JSON.stringify(this.tree));
-    }
-  },
-  computed: {
-    async selected() {
-      let sel = [];
-      if (!this.active.length) return undefined;
-      const selected_id = this.active[0];
-      for (const i in this.tree[0]) {
-        if (this.tree[0][i].id === selected_id) {
-          sel = this.tree[0][i];
-          break;
-        } else {
-          if (this.tree[0][i].children !== undefined) {
-            sel = this.findById(this.tree[0][i].children, selected_id);
-            if (sel !== undefined) {
-              break;
-            }
-          }
-        }
-      }
-      if (sel.type === "file" || sel.type === "blob") {
-        await Axios.get(sel.git_url).then(res => {
-          // console.log(sel.file)
-          if (sel.file === "ico" || sel.file === "png" || sel.file === "jpg") {
-            this.isCode = false;
-            this.code =
-              "data:image/" +
-              sel.file +
-              ";base64," +
-              res.data.content.split("\n").join("");
-          } else {
-            this.isCode = true;
-            this.cmOptions.mode = this.MIME_types[sel.file];
-            this.code = atob(res.data.content);
-          }
-        });
-      }
-    }
-  },
-  mounted() {
-    id = 0;
-    if (JSON.parse(sessionStorage.getItem("githubRepoDetail")) == null) {
-      this.fetch_content();
-    } else {
-      this.tree = JSON.parse(sessionStorage.getItem("githubRepoDetail"));
-    }
   }
+  //   methods: {
+  //     findById(o, id) {
+  //       if (o.id === id) {
+  //         return o;
+  //       }
+  //       var result;
+  //       for (const p in o) {
+  //         if (o.hasOwnProperty(p) && typeof o[p] === "object") {
+  //           result = this.findById(o[p], id);
+  //           if (result) {
+  //             return result;
+  //           }
+  //         }
+  //       }
+  //       return result;
+  //     },
+
+  //     get_type(name) {
+  //       let temp = name.split(".");
+  //       return temp[temp.length - 1];
+  //     },
+  //     async fetch_children(url) {
+  //       let temp = [];
+  //       temp = await Axios.get(url).then(async res => {
+  //         // console.log(res.data.tree[0])
+  //         for (const i in res.data.tree) {
+  //           if (res.data.tree[i].type === "tree") {
+  //             res.data.tree[i].id = id++;
+  //             res.data.tree[i].type_n = "0";
+  //             res.data.tree[i].children = await this.fetch_children(
+  //               res.data.tree[i].url
+  //             );
+  //             res.data.tree[i].name = res.data.tree[i].path;
+  //             res.data.tree[i].file = "dir";
+  //           } else {
+  //             res.data.tree[i].id = id++;
+  //             res.data.tree[i].type_n = "1";
+  //             res.data.tree[i].name = res.data.tree[i].path;
+  //             res.data.tree[i].file = this.get_type(res.data.tree[i].name);
+  //             res.data.tree[i].git_url = res.data.tree[i].url;
+  //           }
+  //         }
+
+  //         return res.data.tree;
+  //       });
+  //       return temp.sort((a, b) => a.type_n - b.type_n);
+  //     },
+  //     async fetch_content() {
+  //       this.tree.push(
+  //         await Axios.get(
+  //           "http://api.github.com/" + "repos/" + this.repo + "/contents"
+  //         ).then(async res => {
+  //           for (const i in res.data) {
+  //             if (res.data[i].type === "dir") {
+  //               res.data[i].file = "dir";
+  //               res.data[i].id = id++;
+  //               res.data[i].type_n = "0";
+  //               res.data[i].children = await this.fetch_children(
+  //                 res.data[i].git_url
+  //               );
+  //             } else {
+  //               res.data[i].type_n = "1";
+  //               res.data[i].id = id++;
+  //               res.data[i].file = this.get_type(res.data[i].name);
+  //             }
+  //           }
+  //           return res.data;
+  //         })
+  //       );
+  //       this.tree[0].sort((a, b) => a.type_n - b.type_n);
+  //       sessionStorage.setItem("githubRepoDetail", JSON.stringify(this.tree));
+  //     }
+  //   },
+  //   computed: {
+  //     async selected() {
+  //       let sel = [];
+  //       if (!this.active.length) return undefined;
+  //       const selected_id = this.active[0];
+  //       for (const i in this.tree[0]) {
+  //         if (this.tree[0][i].id === selected_id) {
+  //           sel = this.tree[0][i];
+  //           break;
+  //         } else {
+  //           if (this.tree[0][i].children !== undefined) {
+  //             sel = this.findById(this.tree[0][i].children, selected_id);
+  //             if (sel !== undefined) {
+  //               break;
+  //             }
+  //           }
+  //         }
+  //       }
+  //       if (sel.type === "file" || sel.type === "blob") {
+  //         await Axios.get(sel.git_url).then(res => {
+  //           // console.log(sel.file)
+  //           if (sel.file === "ico" || sel.file === "png" || sel.file === "jpg") {
+  //             this.isCode = false;
+  //             this.code =
+  //               "data:image/" +
+  //               sel.file +
+  //               ";base64," +
+  //               res.data.content.split("\n").join("");
+  //           } else {
+  //             this.isCode = true;
+  //             this.cmOptions.mode = this.MIME_types[sel.file];
+  //             this.code = atob(res.data.content);
+  //           }
+  //         });
+  //       }
+  //     }
+  //   },
+  //   mounted() {
+  //     id = 0;
+  //     if (JSON.parse(sessionStorage.getItem("githubRepoDetail")) == null) {
+  //       this.fetch_content();
+  //     } else {
+  //       this.tree = JSON.parse(sessionStorage.getItem("githubRepoDetail"));
+  //     }
+  //   }
 };
 </script>
 

@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <v-card class="ma-2" flat>
     <v-data-table
       :headers="headers"
       :items="data"
-      class="elevation-1 scrollable"
-      height="74vh"
+      class="elevation-1"
+      height="72vh"
     >
       <template v-slot:top>
         <v-toolbar flat color="white">
@@ -68,7 +68,7 @@
         </join-group>
       </modal-container>
     </template>
-  </div>
+  </v-card>
 </template>
 
 <script>

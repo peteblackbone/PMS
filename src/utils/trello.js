@@ -1,9 +1,6 @@
 import Axios from "axios";
-// const url = "http://localhost:3000/";
-const boardID = "5d39577bfa71106cf2442c63";
-const url = "https://api.trello.com/";
 const key = "";
-const secret = "";
+// const secret = "";
 const token = "";
 
 var Trello = {

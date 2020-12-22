@@ -17,6 +17,8 @@ import ProjectManual from "../views/Dashboard/ProjectManual/ProjectManual.vue";
 import TopicProposal from "../views/Dashboard/TopicProposal/TopicProposal.vue";
 import ManageProject from "../views/Dashboard/ManageProject/ManageProject.vue";
 import ProgressionRecord from "../views/Dashboard/ProgressionRecord/ProgressionRecord.vue";
+import FormCE from "../views/Dashboard/ManageProject/FormCE.vue";
+import FormPreview from "../views/Dashboard/ManageProject/FormPreview.vue";
 
 import SearchProject from "../components/SearchProject.vue";
 import About from "../components/About.vue";
@@ -146,6 +148,18 @@ const routes = [
         name: "Progression Record",
         component: ProgressionRecord,
         meta: { title: "Progression Record | PMS" }
+      },
+      {
+        path: "form_ce",
+        name: "Form CE",
+        component: FormCE,
+        meta: { title: "Form CE | PMS" }
+      },
+      {
+        path: "form_preview",
+        name: "Form Preview",
+        component: FormPreview,
+        meta: { title: "Form Preview | PMS" }
       }
     ]
   },

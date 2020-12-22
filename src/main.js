@@ -10,7 +10,7 @@ import "./plugins/codemirror";
 import CKEditor from "@ckeditor/ckeditor5-vue";
 Vue.use(CKEditor);
 
-import Nprogress from "../node_modules/nprogress/nprogress.css";
+// import Nprogress from "../node_modules/nprogress/nprogress.css";
 
 Vue.config.productionTip = false;
 

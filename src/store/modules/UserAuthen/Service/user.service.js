@@ -8,13 +8,13 @@ export const userService = {
 };
 
 function login(username, password) {
-  const data = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password })
-  };
+  // const data = {
+  //   method: "POST",
+  //   headers: { "Content-Type": "application/json" },
+  //   body: JSON.stringify({ username, password })
+  // };
   return Axios.post(
-    "http://192.168.92.132:3000/auth/login",
+    "http://localhost:3000/auth/login",
     JSON.stringify({
       username: username,
       password: password

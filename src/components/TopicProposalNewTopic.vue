@@ -129,7 +129,7 @@
 </template>
 
 <script>
-import { required, email, max, length } from "vee-validate/dist/rules";
+import { required, max } from "vee-validate/dist/rules";
 import {
   extend,
   ValidationObserver,
@@ -217,7 +217,7 @@ export default {
     }
   },
   watch: {
-    search(val) {
+    search() {
       // Items have already been loaded
       if (this.items.length > 0) return;
 
