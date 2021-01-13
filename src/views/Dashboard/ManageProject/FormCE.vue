@@ -3,18 +3,20 @@
     <v-data-table
       :headers="headers"
       :items="data"
+      :loading="loading"
+      loading-text="Loading... Please wait"
       class="elevation-1"
       height="72vh"
       ><template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>{{ data[0].FormType_Name }}</v-toolbar-title>
+          <v-toolbar-title>{{ "CE0" + fID }}</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <v-btn @click="upNewDoc = !upNewDoc">Upload new document</v-btn>
           <template>
             <modal-container :active="upNewDoc" :cancellable="1">
               <template>
-                <v-card width="600" height="230">
+                <v-card width="600" height="200">
                   <v-card-title class="blue white--text">
                     Upload New Document
                     <v-spacer></v-spacer>
@@ -29,9 +31,11 @@
                       outlined
                       dense
                       label="Upload file"
+                      hide-details
                     ></v-file-input>
                   </div>
                   <v-btn
+                    class="success"
                     style="position: absolute; right: 20px;"
                     @click="apply"
                     right
@@ -66,11 +70,7 @@
         <v-badge color="red" inline content="5"></v-badge>
       </template>
       <template v-slot:[`item.FormStatus_ID`]="{ item }">
-        <span
-          class="circle-dot mr-2"
-          :class="`status-${item.FormStatus_ID}`"
-        ></span>
-        {{ statusText[item.FormStatus_ID] }}
+        <form-status :item="item"></form-status>
       </template>
     </v-data-table>
   </v-card>
@@ -79,13 +79,16 @@
 <script>
 import DB from "@/mixins/Database";
 import ModalContainer from "@/components/ModalContainer";
+import FormStatus from "@/components/FormStatus";
 export default {
   components: {
-    ModalContainer
+    ModalContainer,
+    FormStatus
   },
   data() {
     return {
       upNewDoc: false,
+      loading: true,
       data: [],
       headers: [
         { text: "#", value: "index" },
@@ -95,25 +98,21 @@ export default {
           sortable: false,
           value: "Form_UpdatedTime"
         },
+        { text: "อัปเดตโดย", value: "UpdatedBy", sortable: false },
         { text: "สถานะ", value: "FormStatus_ID" }
-      ],
-      statusText: [
-        "",
-        "Pending",
-        "Wait Adviser",
-        "Wait Instructor",
-        "Rejected",
-        "Completed"
       ]
     };
   },
-  created() {
+  mounted() {
     this.fetchData();
   },
   methods: {
     async fetchData() {
-      this.data = await DB.ManageProject.formCE(this.gID, this.fID);
-      console.log(this.data);
+      const temp = await DB.Project.formCE(this.gID, this.fID);
+      if (temp) {
+        this.data = temp;
+      }
+      this.loading = false;
     },
     apply() {
       alert("upload");
@@ -130,31 +129,4 @@ export default {
 };
 </script>
 
-<style>
-.circle-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  display: inline-flex;
-}
-/* pending */
-.status-1 {
-  background-color: #fb6340 !important;
-}
-/* Wait Adviser */
-.status-2 {
-  background-color: aquamarine !important;
-}
-/* Wait Instructor */
-.status-3 {
-  background-color: aqua !important;
-}
-/* Rejected */
-.status-4 {
-  background-color: #f5365c !important;
-}
-/* Approved */
-.status-5 {
-  background-color: #2dce89 !important;
-}
-</style>
+<style></style>

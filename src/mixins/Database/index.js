@@ -1,9 +1,9 @@
-import * as ManageGroup from "./ManageGroup";
-import * as ManageProject from "./ManageProject";
-import * as ManageUser from "./ManageUser";
+import * as Group from "./Group";
+import * as Project from "./Project";
+import * as User from "./User";
 
 export default {
-  ManageGroup,
-  ManageProject,
-  ManageUser
+  Group,
+  Project,
+  User
 };

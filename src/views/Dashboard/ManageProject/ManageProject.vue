@@ -4,6 +4,8 @@
       :headers="headers"
       :items="data"
       :item-class="rowStyle"
+      :loading="loading"
+      loading-text="Loading... Please wait"
       class="elevation-1"
       height="72vh"
     >
@@ -14,24 +16,23 @@
           <v-spacer></v-spacer>
         </v-toolbar>
       </template>
-      <template v-slot:[`item.FormStatus_ID`]="{ item }">
-        <span
-          class="circle-dot mr-2"
-          :class="`status-${item.FormStatus_ID}`"
-        ></span>
-        {{ statusText[item.FormStatus_ID] }}
+      <template v-slot:[`item.Form_StatusID`]="{ item }">
+        <form-status :item="item.data"></form-status>
       </template>
       <template v-slot:[`item.FormType_Name`]="{ item }">
         <router-link
           :to="{
             path: 'form_ce',
-            query: { gID: item.Form_GroupID, type: item.FormType_ID }
+            query: { gID: item.Form_GroupID, type: item.Form_TypeID }
           }"
           >{{ item.FormType_Name }}</router-link
         >
       </template>
       <template v-slot:[`item.Form_UpdatedTime`]="{ item }">
-        {{ new Date(item.Form_UpdatedTime).toLocaleDateString() }}
+        <span v-if="item.data != undefined">
+          {{ new Date(item.data.Form_UpdatedTime).toLocaleDateString() }}
+          <!-- {{ item.data.Form_UpdatedTime.toLocaleDateString() }} -->
+        </span>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
         <v-menu bottom left min-width="20vw">
@@ -58,29 +59,26 @@
 </template>
 <script>
 import DB from "@/mixins/Database";
+import FormStatus from "@/components/FormStatus";
 export default {
+  components: {
+    FormStatus
+  },
   data: () => ({
+    loading: true,
     actionMenu: [
       { title: "Preview", method: "previewDoc" },
       { title: "Edit", method: "editDoc" },
       { title: "Delete", method: "deleteDoc" }
     ],
 
-    statusText: [
-      "",
-      "Pending",
-      "Wait Adviser",
-      "Wait Instructor",
-      "Rejected",
-      "Completed"
-    ],
     dialog: false,
     dialogDelete: false,
     headers: [
       { text: "ชื่อเอกสาร", value: "FormType_Name" },
-      { text: "อัปเดตครั้งที่", value: "rev" },
+      { text: "อัปเดตครั้งที่", value: "rev", sortable: false },
       { text: "อัปเดตล่าสุด", value: "Form_UpdatedTime" },
-      { text: "สถานะ", value: "FormStatus_ID" },
+      { text: "สถานะ", value: "Form_StatusID", sortable: false },
       { text: "", value: "actions", sortable: false }
     ],
     data: []
@@ -100,7 +98,7 @@ export default {
       val || this.closeDelete();
     }
   },
-  created() {
+  mounted() {
     this.initialize();
   },
 
@@ -109,8 +107,25 @@ export default {
       this[methodName]();
     },
     async initialize() {
-      this.data = await DB.ManageProject.form(29);
-
+      const initData = [
+        { FormType_Name: "CE01", Form_TypeID: 1 },
+        { FormType_Name: "CE02", Form_TypeID: 2 },
+        { FormType_Name: "CE03", Form_TypeID: 3 },
+        { FormType_Name: "CE04", Form_TypeID: 4 },
+        { FormType_Name: "CE05", Form_TypeID: 5 },
+        { FormType_Name: "CE06", Form_TypeID: 6 },
+        { FormType_Name: "CE07", Form_TypeID: 7 }
+      ];
+      const temp = await DB.Project.latestEachForm(29);
+      if (temp) {
+        initData.map(element => {
+          element.data = temp.find(
+            item => item.Form_TypeID == element.Form_TypeID
+          );
+        });
+      }
+      this.data = initData;
+      this.loading = false;
     },
     rowStyle() {
       return "tb-row";
@@ -130,31 +145,5 @@ export default {
 <style>
 .tb-row {
   height: 10vh;
-}
-.circle-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  display: inline-flex;
-}
-/* pending */
-.status-1 {
-  background-color: #fb6340 !important;
-}
-/* Wait Adviser */
-.status-2 {
-  background-color: aquamarine !important;
-}
-/* Wait Instructor */
-.status-3 {
-  background-color: aqua !important;
-}
-/* Rejected */
-.status-4 {
-  background-color: #f5365c !important;
-}
-/* Approved */
-.status-5 {
-  background-color: #2dce89 !important;
 }
 </style>

@@ -30,12 +30,23 @@ export async function form(gID) {
     return res.data.data;
   });
 }
-export async function formCE(gID, fID) {
-  return await HTTP.post("/form", { Form_GroupID: gID, Form_TypeID: fID }).then(
-    res => {
+export async function latestEachForm(gID) {
+  return await HTTP.get(`/form/lastformeachtype/${gID}`)
+    .then(res => {
       return res.data.data;
-    }
-  );
+    })
+    .catch(() => {
+      console.error("Can't get latest 'form CE' from each type");
+    });
+}
+export async function formCE(gID, fID) {
+  return await HTTP.post("/form", { Form_GroupID: gID, Form_TypeID: fID })
+    .then(res => {
+      return res.data.data;
+    })
+    .catch(() => {
+      console.error("Can't get 'form CE'");
+    });
 }
 export async function form_ce(gID, fID) {
   return await HTTP.get("/form/group/" + gID + "/type/" + fID).then(res => {

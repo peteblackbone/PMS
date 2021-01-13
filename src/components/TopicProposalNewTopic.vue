@@ -1,131 +1,117 @@
 <template>
-  <div>
-    <v-card width="800" height="520">
-      <v-card-title>
-        <span class="blue--text">
-          <v-icon>mdi-file-document-multiple-outline</v-icon>
-          เสนอหัวข้อใหม่</span
-        >
+  <v-card width="800" height="520">
+    <v-card-title>
+      <span class="blue--text">
+        <v-icon>mdi-file-document-multiple-outline</v-icon>
+        เสนอหัวข้อใหม่</span
+      >
 
+      <v-spacer></v-spacer>
+      <v-btn icon @click="close">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </v-card-title>
+    <v-container class="">
+      <ValidationObserver ref="observer">
+        <form class="new-topic">
+          <ValidationProvider
+            v-slot="{ errors }"
+            name="ชื่อภาษาไทย"
+            rules="required|thaiLang"
+          >
+            <v-text-field
+              v-model="th_name"
+              :error-messages="errors"
+              label="ชื่อภาษาไทย"
+            ></v-text-field>
+          </ValidationProvider>
+          <ValidationProvider
+            v-slot="{ errors }"
+            name="ชื่อภาษาอังกฤษ"
+            rules="required|engLang"
+          >
+            <v-text-field
+              v-model="en_name"
+              :error-messages="errors"
+              label="ชื่อภาษาอังกฤษ"
+            ></v-text-field>
+          </ValidationProvider>
+          <ValidationProvider v-slot="{ errors }" name="จำนวน" rules="required">
+            <v-text-field
+              v-model.number="number"
+              :error-messages="errors"
+              label="จำนวน"
+              type="number"
+              min="1"
+            >
+            </v-text-field>
+          </ValidationProvider>
+          <ValidationProvider
+            v-slot="{ errors }"
+            name="ประเภท"
+            rules="required"
+          >
+            <v-select
+              v-model="type"
+              :items="[`ซอฟท์แวร์`, `ฮาร์ดแวร์`]"
+              label="ประเภท"
+              :error-messages="errors"
+            >
+            </v-select>
+          </ValidationProvider>
+          <ValidationProvider
+            v-slot="{ errors }"
+            name="อาจารย์ที่ปรึกษา"
+            rules="required|advisors:2"
+          >
+            <v-autocomplete
+              :error-messages="errors"
+              v-model="selected"
+              :items="data"
+              chips
+              color="blue-grey lighten-2"
+              label="อาจารย์ที่ปรึกษา"
+              item-text="Teacher_Firstname"
+              item-value="Teacher_ID"
+              multiple
+              hide-no-data
+              clearable
+            >
+              <template v-slot:selection="data">
+                <v-chip
+                  v-bind="data.attrs"
+                  :input-value="data.selected"
+                  @click="data.select"
+                  @click:close="remove(data.item)"
+                >
+                  <v-avatar left class="d-flex justify-center" color="blue">
+                    <!-- <v-img :src="data.item.avatar"></v-img> -->
+                    JT
+                  </v-avatar>
+                  {{ data.item.Teacher_Firstname }}
+                </v-chip>
+              </template>
+              <template v-slot:item="data">
+                <v-list-item-avatar color="blue" class="d-flex justify-center">
+                  JT
+                  <!-- <img :src="data.item.avatar" /> -->
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <v-list-item-title
+                    v-html="data.item.Teacher_Firstname"
+                  ></v-list-item-title>
+                </v-list-item-content>
+              </template>
+            </v-autocomplete>
+          </ValidationProvider>
+        </form>
+      </ValidationObserver>
+      <div class="d-flex">
         <v-spacer></v-spacer>
-        <v-btn icon @click="close">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-card-title>
-      <v-container class="">
-        <ValidationObserver ref="observer">
-          <form class="new-topic">
-            <ValidationProvider
-              v-slot="{ errors }"
-              name="ชื่อภาษาไทย"
-              rules="required|thaiLang"
-            >
-              <v-text-field
-                v-model="th_name"
-                :error-messages="errors"
-                label="ชื่อภาษาไทย"
-              ></v-text-field>
-            </ValidationProvider>
-            <ValidationProvider
-              v-slot="{ errors }"
-              name="ชื่อภาษาอังกฤษ"
-              rules="required|engLang"
-            >
-              <v-text-field
-                v-model="en_name"
-                :error-messages="errors"
-                label="ชื่อภาษาอังกฤษ"
-              ></v-text-field>
-            </ValidationProvider>
-            <ValidationProvider
-              v-slot="{ errors }"
-              name="จำนวน"
-              rules="required"
-            >
-              <v-text-field
-                v-model.number="number"
-                :error-messages="errors"
-                label="จำนวน"
-                type="number"
-                min="1"
-              >
-              </v-text-field>
-            </ValidationProvider>
-            <ValidationProvider
-              v-slot="{ errors }"
-              name="ประเภท"
-              rules="required"
-            >
-              <v-select
-                v-model="type"
-                :items="[`ซอฟท์แวร์`, `ฮาร์ดแวร์`]"
-                label="ประเภท"
-                :error-messages="errors"
-              >
-              </v-select>
-            </ValidationProvider>
-            <ValidationProvider
-              v-slot="{ errors }"
-              name="อาจารย์ที่ปรึกษา"
-              rules="required|advisors:2"
-            >
-              <v-autocomplete
-                :error-messages="errors"
-                v-model="selected"
-                :items="data"
-                chips
-                color="blue-grey lighten-2"
-                label="อาจารย์ที่ปรึกษา"
-                item-text="name"
-                item-value="name"
-                multiple
-                hide-no-data
-                clearable
-              >
-                <template v-slot:selection="data">
-                  <v-chip
-                    v-bind="data.attrs"
-                    :input-value="data.selected"
-                    @click="data.select"
-                    @click:close="remove(data.item)"
-                  >
-                    <v-avatar left>
-                      <v-img :src="data.item.avatar"></v-img>
-                    </v-avatar>
-                    {{ data.item.name }}
-                  </v-chip>
-                </template>
-                <template v-slot:item="data">
-                  <template v-if="typeof data.item !== 'object'">
-                    <v-list-item-content
-                      v-text="data.item"
-                    ></v-list-item-content>
-                  </template>
-                  <template v-else>
-                    <v-list-item-avatar>
-                      <img :src="data.item.avatar" />
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                      <v-list-item-title
-                        v-html="data.item.name"
-                      ></v-list-item-title>
-                      <v-list-item-subtitle
-                        v-html="data.item.group"
-                      ></v-list-item-subtitle>
-                    </v-list-item-content>
-                  </template>
-                </template>
-              </v-autocomplete>
-            </ValidationProvider>
-          </form>
-        </ValidationObserver>
-        <div class="d-flex">
-          <v-spacer></v-spacer>
-          <v-btn class="ma-2" color="success" @click="submit">submit</v-btn>
-        </div>
-      </v-container>
-    </v-card>
-  </div>
+        <v-btn class="ma-2" color="success" @click="submit">submit</v-btn>
+      </div>
+    </v-container>
+  </v-card>
 </template>
 
 <script>
@@ -167,7 +153,10 @@ export default {
     ValidationObserver
   },
   props: {
-    data: Array
+    data: {
+      type: Object,
+      default: () => []
+    }
   },
   data() {
     return {

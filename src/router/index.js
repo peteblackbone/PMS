@@ -14,7 +14,7 @@ import GoogleCalendar from "../views/Dashboard/GoogleCalendar/GoogleCalendar.vue
 import Trello from "../views/Dashboard/Trello/TrelloBoard.vue";
 import GoogleDrive from "../views/Dashboard/GoogleDrive/GoogleDrive.vue";
 import ProjectManual from "../views/Dashboard/ProjectManual/ProjectManual.vue";
-import TopicProposal from "../views/Dashboard/TopicProposal/TopicProposal.vue";
+import ManageGroup from "../views/Dashboard/ManageGroup/ManageGroup.vue";
 import ManageProject from "../views/Dashboard/ManageProject/ManageProject.vue";
 import ProgressionRecord from "../views/Dashboard/ProgressionRecord/ProgressionRecord.vue";
 import FormCE from "../views/Dashboard/ManageProject/FormCE.vue";
@@ -132,9 +132,9 @@ const routes = [
         meta: { title: "Associated Documents | PMS" }
       },
       {
-        path: "topic_proposal",
-        name: "TopicProposal",
-        component: TopicProposal,
+        path: "manage_group",
+        name: "Manage Group",
+        component: ManageGroup,
         meta: { title: "Topic Proposal | PMS" }
       },
       {

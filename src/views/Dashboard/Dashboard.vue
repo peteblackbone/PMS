@@ -113,7 +113,7 @@ export default {
       {
         icon: "mdi-group",
         name: "DASHBOARD.NAVIGATION_DRAWER.MANAGE_GROUP",
-        route: "/student/topic_proposal"
+        route: "/student/manage_group"
       },
       {
         icon: "mdi-bookshelf",

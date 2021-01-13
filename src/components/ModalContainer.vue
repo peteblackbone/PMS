@@ -20,7 +20,6 @@ export default {
   destroyed() {
     window.removeEventListener("keydown", this.onKeyDown);
   },
-
   methods: {
     cancel() {
       if (this.cancellable) {
@@ -36,6 +35,9 @@ export default {
       if (event.key === "Escape") {
         this.cancel();
       }
+    },
+    onClickOutside() {
+      this.$emit("close");
     }
   }
 };

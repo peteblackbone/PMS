@@ -1,6 +1,5 @@
 <template>
   <div style="max-height:91vh" class="overflow-y-auto">
-    <!-- <v-btn class="mb-2" color="primary" tile outlined large><v-icon>mdi-arrow-left</v-icon> Back</v-btn> -->
     <v-toolbar flat>
       <v-toolbar-title>Form_CE01 - {{ form_id }}</v-toolbar-title>
       <v-divider class="mx-4" inset vertical></v-divider>
@@ -17,11 +16,10 @@
               <v-icon @click="pageBack">mdi-chevron-left</v-icon>
               <div class="d-flex mx-5">
                 <v-text-field
-                  v-model.number="page"
+                  v-model.number="pageInput"
                   dense
-                  flat
                   hide-details
-                  
+                  @keypress.enter="gotoPage(pageInput)"
                   class="centered-input"
                   >sd</v-text-field
                 >
@@ -34,6 +32,7 @@
                 ><v-icon>mdi-printer</v-icon></v-btn
               ></v-toolbar
             >
+            <!-- src="http://26.50.177.239:8080/uploads/file.pdf" -->
             <div>
               <pdf
                 ref="pdfComponent"
@@ -45,28 +44,6 @@
                 style="border-style: solid;"
               ></pdf>
             </div>
-            <!-- <div>
-              <pdf
-                ref="pdfComponent"
-                :src="'data:application/pdf;base64,' + a"
-                @num-pages="pageCount = $event"
-                @page-loaded="currentPage = $event"
-                :page="page"
-                class="overflow-y-auto"
-                style="border-style: solid;"
-              ></pdf>
-            </div> -->
-            <!-- <div class="d-flex">
-              <v-icon class="page-chevron" x-large @click="pageBack"
-                >mdi-chevron-left</v-icon
-              >
-              <v-spacer></v-spacer>
-              {{page + "/" + pageCount}}
-              <v-spacer></v-spacer>
-              <v-icon class="page-chevron" x-large @click="pageForward"
-                >mdi-chevron-right</v-icon
-              >
-            </div> -->
           </div>
         </v-col>
         <v-col cols="4">
@@ -127,16 +104,15 @@
 </template>
 
 <script>
-// import PdfViewer from "@/components/PDFViewer";
 import pdf from "vue-pdf";
 export default {
   components: {
-    // PdfViewer,
     pdf
   },
   data() {
     return {
       page: 1,
+      pageInput: 1,
       pageCount: 0,
       newComment: false,
       newCommentData: "",
@@ -179,10 +155,35 @@ export default {
       this.newComment = !this.newComment;
     },
     pageBack() {
-      if (this.page > 1) this.page -= 1;
+      if (this.page > 1) {
+        this.page -= 1;
+        this.pageInput = this.page;
+      } else {
+        this.pageInput = this.page;
+      }
     },
     pageForward() {
-      if (this.page < this.pageCount) this.page += 1;
+      if (this.page < this.pageCount) {
+        this.page += 1;
+        this.pageInput = this.page;
+      } else {
+        this.pageInput = this.page;
+      }
+    },
+    gotoPage(target) {
+      if (/(?<=\s|^)\d+(?=\s|$)/.test(target)) {
+        if (target > this.pageCount) {
+          this.pageInput = this.pageCount;
+          this.page = this.pageCount;
+        } else if (target < 1) {
+          this.pageInput = 1;
+          this.page = 1;
+        } else {
+          this.page = target;
+        }
+      } else {
+        this.pageInput = this.page;
+      }
     }
   }
 };
@@ -200,10 +201,10 @@ export default {
   color: #616161;
   transform: scale(1.5);
 }
-.centered-input{
+.centered-input {
   position: relative;
-  top:-2px;
-  width:30px
+  top: -2px;
+  width: 30px;
 }
 .centered-input >>> input {
   text-align: center;

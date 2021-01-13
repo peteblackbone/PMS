@@ -14,7 +14,7 @@ function login(username, password) {
   //   body: JSON.stringify({ username, password })
   // };
   return Axios.post(
-    "http://localhost:3000/auth/login",
+    "http://26.151.56.193:3000/auth/login",
     JSON.stringify({
       username: username,
       password: password
