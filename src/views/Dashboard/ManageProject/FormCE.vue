@@ -32,12 +32,13 @@
                       dense
                       label="Upload file"
                       hide-details
+                      @change="selectFile"
                     ></v-file-input>
                   </div>
                   <v-btn
                     class="success"
                     style="position: absolute; right: 20px;"
-                    @click="apply"
+                    @click="upload"
                     right
                     >Apply</v-btn
                   >
@@ -62,12 +63,13 @@
       </template>
       <template v-slot:[`item.Form_UpdatedTime`]="{ item }">
         <router-link
+          class="text-none"
           :to="{ path: 'form_preview', query: { d: item.Form_ID } }"
           >{{
             new Date(item.Form_UpdatedTime).toLocaleDateString()
           }}</router-link
         >
-        <v-badge color="red" inline content="5"></v-badge>
+        <!-- <v-badge color="red" inline content="5"></v-badge> -->
       </template>
       <template v-slot:[`item.FormStatus_ID`]="{ item }">
         <form-status :item="item"></form-status>
@@ -87,9 +89,13 @@ export default {
   },
   data() {
     return {
+      currentFile: undefined,
+      progress: 0,
+      message: "",
       upNewDoc: false,
       loading: true,
       data: [],
+      comment: [],
       headers: [
         { text: "#", value: "index" },
         {
@@ -103,16 +109,46 @@ export default {
       ]
     };
   },
-  mounted() {
-    this.fetchData();
+  async beforeMount() {
+    this.data = await this.fetchData();
+    this.loading = false;
   },
   methods: {
     async fetchData() {
-      const temp = await DB.Project.formCE(this.gID, this.fID);
-      if (temp) {
-        this.data = temp;
+      return await DB.Project.formCE(this.gID, this.fID);
+
+      // if (temp) {
+      //   temp.map(async item => {
+      //     // item.Comments = await DB.Project.form_comment(item.Form_ID);
+      //     const comment = await DB.Project.form_comment(item.Form_ID);
+      //     item.Comments = await comment ? comment : [];
+      //   });
+      //   // console.log(temp);
+      //   // this.data = temp;
+      //   this.loading = false;
+      //   return await temp
+      // }
+      // console.log(this.data,this.loading);
+    },
+    selectFile(file) {
+      this.progress = 0;
+      this.currentFile = file;
+    },
+    upload() {
+      if (!this.currentFile) {
+        this.message = "Please select a file!";
+        return;
       }
-      this.loading = false;
+
+      this.message = "";
+
+      DB.Project.upload_form(this.fID, this.currentFile, event => {
+        this.progress = Math.round((100 * event.loaded) / event.total);
+      }).catch(() => {
+        this.progress = 0;
+        this.message = "Could not upload the file!";
+        this.currentFile = undefined;
+      });
     },
     apply() {
       alert("upload");
@@ -129,4 +165,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.text-none {
+  text-decoration: none;
+}
+</style>

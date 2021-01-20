@@ -184,14 +184,14 @@ router.afterEach(() => {
 });
 
 router.beforeEach((to, from, next) => {
-  // const publicPages = ["/", "/search", "/login", "/about"];
-  // const authRequired = !publicPages.includes(to.path);
-  // const loggedIn = localStorage.getItem("user");
-
-  // if (authRequired && !loggedIn) {
-  //   return next("/login");
-  // }
-
+  const publicPages = ["/", "/search", "/login", "/about"];
+  const authRequired = publicPages.includes(to.path);
+  const loggedIn = sessionStorage.getItem("user");
+  if (!authRequired && !loggedIn) {
+    return next("/login");
+  } else if (["/login"].includes(to.path) && loggedIn) {
+    return next("/");
+  }
   // This goes through the matched routes from last to first, finding the closest route with a title.
   // eg. if we have /some/deep/nested/route and /some, /deep, and /nested have titles, nested's will be chosen.
   const nearestWithTitle = to.matched

@@ -8,32 +8,34 @@ export const userService = {
 };
 
 function login(username, password) {
-  // const data = {
-  //   method: "POST",
-  //   headers: { "Content-Type": "application/json" },
-  //   body: JSON.stringify({ username, password })
-  // };
   return Axios.post(
-    "http://26.151.56.193:3000/auth/login",
+    "http://26.50.177.239:3000/login",
     JSON.stringify({
       username: username,
       password: password
     }),
     { headers: { "Content-Type": "application/json" } }
-  ).then(user => {
-    // login successful if there's a jwt token in the response
+  ).then(async user => {
     if (user.data.token) {
-      // store user details and jwt token in local storage to keep user logged in between page refreshes
-      console.log(user, "Asd");
-      localStorage.setItem("user", JSON.stringify(user.data));
-    }
+      await Axios.get(
+        "http://26.50.177.239:3000/api/v1/userstudent/" +
+          JSON.parse(atob(user.data.token.split(".")[1])).Student_ID,
 
+        {
+          headers: { Authorization: `Bearer ${user.data.token}` }
+        }
+      ).then(res => {
+        localStorage.setItem("user", JSON.stringify(res.data.data[0]));
+      });
+      localStorage.setItem("token", user.data.token);
+    }
     return user;
   });
 }
 
 function logout() {
   // remove user from local storage to log user out
+  localStorage.removeItem("token");
   localStorage.removeItem("user");
   location.reload(true);
 }

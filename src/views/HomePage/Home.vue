@@ -11,7 +11,7 @@
         </v-avatar>
         <span v-t="{ path: 'APP.APP_NAME' }"></span>
       </v-toolbar-title>
-      <div style="width:168%"></div>
+      <div :style="isLogin ? 'width:260%' : 'width:168%'"></div>
       <v-tabs
         v-model="tab"
         background-color="transparent"
@@ -27,6 +27,11 @@
           <v-icon class="ml-2" v-if="item.icon">{{ item.icon }}</v-icon>
         </v-tab>
       </v-tabs>
+      <dashboard-profile
+        v-if="isLogin"
+        :data="account_data"
+        @logout="logout"
+      ></dashboard-profile>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" absolute temporary>
       <div style="height:80px">
@@ -68,18 +73,21 @@
 </template>
 
 <script>
-// import DashboardProfile from "@/components/DashboardProfile";
+import DashboardProfile from "@/components/DashboardProfile";
+import Auth from "@/mixins/Auth";
 // import RecentList from "@/components/RecentList";
 // import Entry from "@/components/Entry";
 export default {
   components: {
-    // DashboardProfile,
+    DashboardProfile
     // RecentList,
     // Entry
   },
   data() {
     return {
+      isLogin: null,
       drawer: false,
+      account_data: JSON.parse(sessionStorage.getItem("user")),
       tab: null,
       tabs: [
         { title: "หน้าหลัก", route: "/" },
@@ -87,8 +95,6 @@ export default {
         { title: "เกี่ยวกับ", route: "/about" },
         { title: "เข้าสู่ระบบ", route: "/login", icon: "mdi-lock" }
       ],
-      isLogin: false,
-      account_data: { name: "asdasd", email: "cvcvxcv@dasd.com" },
       recent_project: [
         {
           title: "เครื่องขายขนมอัตโนมัติ",
@@ -112,6 +118,17 @@ export default {
         }
       ]
     };
+  },
+  beforeMount() {
+    this.isLogin = sessionStorage.getItem("user");
+    if (this.isLogin) {
+      this.tabs.pop();
+    }
+  },
+  methods: {
+    logout() {
+      Auth.logout();
+    }
   }
 };
 </script>

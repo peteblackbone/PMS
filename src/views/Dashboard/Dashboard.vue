@@ -73,20 +73,23 @@
       </div>
       <div>
         <dashboard-profile
-          :data="account_data.user"
+          :data="account_data"
           @logout="logout"
         ></dashboard-profile>
       </div>
     </v-app-bar>
     <v-main>
-      <router-view></router-view>
+      <div class="grey lighten-4 pa-2" style="min-height:91vh">
+        <router-view></router-view>
+      </div>
     </v-main>
   </div>
 </template>
 
 <script>
 import store from "@/store/index";
-
+import Auth from "@/mixins/Auth";
+// import DB from "@/mixins/Database";
 // import DashboardDrawer from "@/components/DashboardNavigationDrawer";
 import DashboardProfile from "@/components/DashboardProfile";
 import DashboardNotification from "@/components/DashboardNotification";
@@ -98,18 +101,18 @@ export default {
   },
   data: () => ({
     drawer: null,
-    account_data: JSON.parse(localStorage.getItem("user")),
+    account_data: JSON.parse(sessionStorage.getItem("user")),
     menu: [
       {
         icon: "mdi-chart-bar",
         name: "DASHBOARD.NAVIGATION_DRAWER.OVERVIEW",
         route: "/student/overview"
       },
-      {
-        icon: "mdi-newspaper-variant-multiple",
-        name: "DASHBOARD.NAVIGATION_DRAWER.PROJECT_DESCRIPTION",
-        route: "/student/description"
-      },
+      // {
+      //   icon: "mdi-newspaper-variant-multiple",
+      //   name: "DASHBOARD.NAVIGATION_DRAWER.PROJECT_DESCRIPTION",
+      //   route: "/student/description"
+      // },
       {
         icon: "mdi-group",
         name: "DASHBOARD.NAVIGATION_DRAWER.MANAGE_GROUP",
@@ -202,15 +205,13 @@ export default {
     ],
     twoLine: true,
     avatar: true
-    // account_data: { name: "asdasd", email: "asdasd@rmutl.ac.th" },
   }),
   methods: {
     changeLang(val) {
       this.$store.commit("lang", val);
     },
     logout() {
-      console.log("asd");
-      this.$store.dispatch("auth/logout");
+      Auth.logout();
     }
   }
 };

@@ -2,17 +2,16 @@ import HTTP from "./config";
 export async function GetAllGroup() {
   return await HTTP.get("groupproject")
     .then(res => {
-      return res.data.data;
+      return res.data;
     })
     .catch(() => {
       console.error("Can't fetch group.");
     });
 }
-export async function GetAllStudentByGroupID(gID) {
-  return await HTTP.post("/userstudent" ,{Student_GroupID : gID})
+export async function GetSelfGroup(gID) {
+  return await HTTP.get(`/groupproject/${gID}`)
     .then(res => {
-      console.log(res.data.data)
-      return res.data.data;
+      return res.data[0];
     })
     .catch(() => {
       console.error("Can't fetch group.");

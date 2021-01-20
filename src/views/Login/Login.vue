@@ -55,6 +55,7 @@
 
 <script>
 import { required } from "vee-validate/dist/rules";
+import Auth from "@/mixins/Auth";
 // import { required, email, max, length } from "vee-validate/dist/rules";
 import {
   extend,
@@ -82,10 +83,11 @@ export default {
   methods: {
     async submit() {
       if (await this.$refs.observer.validate()) {
-        this.$store.dispatch("auth/login", {
-          username: this.username,
-          password: this.password
-        });
+        // this.$store.dispatch("auth/login", {
+        //   username: this.username,
+        //   password: this.password
+        // });
+        Auth.login(this.username, this.password);
       }
     }
   },

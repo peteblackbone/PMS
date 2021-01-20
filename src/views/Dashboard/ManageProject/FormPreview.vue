@@ -10,7 +10,7 @@
     <div>
       <v-row no-gutters>
         <v-col cols="8">
-          <div class="pa-2">
+          <div class="mt-2 mr-2">
             <v-toolbar dense class="mb-2 elevation-1">
               <v-spacer></v-spacer>
               <v-icon @click="pageBack">mdi-chevron-left</v-icon>
@@ -21,22 +21,20 @@
                   hide-details
                   @keypress.enter="gotoPage(pageInput)"
                   class="centered-input"
-                  >sd</v-text-field
-                >
+                ></v-text-field>
                 <span>{{ "/ " + pageCount }}</span>
               </div>
 
               <v-icon @click="pageForward">mdi-chevron-right</v-icon>
-              <v-spacer></v-spacer
-              ><v-btn icon tile @click="$refs.pdfComponent.print()"
-                ><v-icon>mdi-printer</v-icon></v-btn
-              ></v-toolbar
-            >
-            <!-- src="http://26.50.177.239:8080/uploads/file.pdf" -->
+              <v-spacer></v-spacer>
+              <v-btn icon tile @click="$refs.pdfComponent.print()">
+                <v-icon>mdi-printer</v-icon>
+              </v-btn>
+            </v-toolbar>
             <div>
               <pdf
                 ref="pdfComponent"
-                src="https://ncu.rcnpv.com.tw/Uploads/20131231103232738561744.pdf"
+                src="http://26.50.177.239:8080/uploads/file.pdf"
                 @num-pages="pageCount = $event"
                 @page-loaded="currentPage = $event"
                 :page="page"
@@ -51,9 +49,9 @@
             <div class="d-flex">
               <div class="font-weight-bold" style="font-size:28px">Comment</div>
               <v-spacer></v-spacer>
-              <v-btn icon @click="cancelComment" color="blue" class="mr-2"
-                ><v-icon>mdi-file-document-multiple-outline</v-icon></v-btn
-              >
+              <v-btn icon @click="cancelComment" color="blue" class="mr-2">
+                <v-icon>mdi-file-document-multiple-outline</v-icon>
+              </v-btn>
             </div>
             <template v-if="newComment">
               <v-textarea
@@ -69,8 +67,9 @@
                   small
                   color="success"
                   @click="saveNewComment"
-                  >Save</v-btn
                 >
+                  Save
+                </v-btn>
                 <v-btn small text color="" @click="cancelComment">Cancel</v-btn>
               </div>
             </template>
@@ -78,22 +77,32 @@
               <v-card
                 class="mb-2 mr-2"
                 v-for="item in commentData"
-                :key="item.id"
-                ><v-card-text
-                  ><v-icon style="top:-5px">mdi-format-quote-open</v-icon
-                  >{{ item.text
-                  }}<v-icon style="top:-5px"
-                    >mdi-format-quote-close</v-icon
-                  ></v-card-text
-                ><v-divider class="mx-4"></v-divider>
-                <v-card-text class="d-flex"
-                  ><span>{{ "- " + item.author }}</span
-                  ><v-spacer></v-spacer
-                  ><span>{{ item.date }}</span></v-card-text
-                >
-
-                <!-- <v-spacer></v-spacer>
-                  <v-card-text>{{ "วันที่" }}</v-card-text> -->
+                :key="item.Comment_ID"
+              >
+                <v-card-text>
+                  <v-icon style="top:-5px">mdi-format-quote-open</v-icon>
+                  {{ item.Comment_Text }}
+                  <v-icon style="top:-5px">
+                    mdi-format-quote-close
+                  </v-icon>
+                </v-card-text>
+                <v-divider class="mx-4"></v-divider>
+                <v-card-text class="d-flex">
+                  <span>
+                    {{
+                      "- " +
+                        item.Teacher_Firstname +
+                        " " +
+                        item.Teacher_Lastname
+                    }}
+                  </span>
+                  <v-spacer></v-spacer>
+                  <span>
+                    {{
+                      new Date(item.Comment_Time).toLocaleDateString("th-TH")
+                    }}
+                  </span>
+                </v-card-text>
               </v-card>
             </template>
           </div>
@@ -105,6 +114,7 @@
 
 <script>
 import pdf from "vue-pdf";
+import DB from "@/mixins/Database";
 export default {
   components: {
     pdf
@@ -116,22 +126,7 @@ export default {
       pageCount: 0,
       newComment: false,
       newCommentData: "",
-      commentData: [
-        {
-          id: 1,
-          text:
-            "I'm not sure you do the right thing. I mean, I want more thesis in literature review section. Whatever, I think it quite okey for me. just edit a little bit :)",
-          author: "อนุชล หอมเสียง",
-          date: new Date().toLocaleDateString()
-        },
-        {
-          id: 2,
-          text:
-            "ผมว่าไมค่อยดีนะ เอาไปทำมาใหม่ดีกว่านะ ดูยากจังวู้ยยยยยยย วันที่ผิด ขอตรงนั้นเพิ่ม เอาตรงนี้อออก",
-          author: "ทองคำ สมเพาะ",
-          date: "1/2/2541"
-        }
-      ]
+      commentData: []
     };
   },
   computed: {
@@ -139,16 +134,17 @@ export default {
       return this.$route.query.d;
     }
   },
-  mounted() {},
+  mounted() {
+    this.loadData();
+  },
   methods: {
-    saveNewComment() {
-      this.commentData.push({
-        id: 3,
-        text: this.newCommentData,
-        author: JSON.parse(localStorage.getItem("user")).user.name,
-        date: new Date().toLocaleDateString()
-      });
+    async loadData() {
+      this.commentData = await DB.Project.form_comment(this.form_id);
+    },
+    async saveNewComment() {
+      await DB.Project.new_formcomment(this.form_id, 1, this.newCommentData);
       this.newComment = !this.newComment;
+      this.loadData();
     },
     cancelComment() {
       this.newCommentData = "";

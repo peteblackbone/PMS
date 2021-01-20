@@ -9,9 +9,9 @@
         <v-row no-gutters>
           <v-col v-for="item in projectDesc" :key="item" cols="12">
             <v-row>
-              <v-col cols="3" class="d-flex justify-end">{{
-                item.title
-              }}</v-col>
+              <v-col cols="3" class="d-flex justify-end">
+                {{ item.title }}
+              </v-col>
               <v-col v-if="item.id == 3" cols="9">
                 <div v-for="member in item.data" :key="member.id">
                   <v-card class="mb-2 elevation-1" width="50%">
@@ -83,13 +83,19 @@ export default {
           title: "สมาชิก",
           data: [
             {
-              id:1,
+              id: 1,
               name: "Ponlachet Kammung",
               major: "วศ.บ.คพ 4ปี",
               year: "5",
               legacy: "PK"
             },
-            { id:2,name: "b", major: "วศ.บ.คพ เทียบโอน", year: "4", legacy: "BB" }
+            {
+              id: 2,
+              name: "b",
+              major: "วศ.บ.คพ เทียบโอน",
+              year: "4",
+              legacy: "BB"
+            }
           ]
         },
         {

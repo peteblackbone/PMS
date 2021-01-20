@@ -5,7 +5,7 @@
     :footer-props="{ disableItemsPerPage: true }"
     :search="search"
     class="elevation-1 scrolable"
-    height="74vh"
+    height="72vh"
   >
     <template v-slot:top>
       <v-toolbar flat color="white">

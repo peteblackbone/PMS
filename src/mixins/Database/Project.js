@@ -26,14 +26,14 @@ export async function fetchCE(type) {
 }
 export async function form(gID) {
   return await HTTP.post("/form", { Form_GroupID: gID }).then(res => {
-    console.log(res.data.data);
-    return res.data.data;
+    console.log(res.data);
+    return res.data;
   });
 }
 export async function latestEachForm(gID) {
-  return await HTTP.get(`/form/lastformeachtype/${gID}`)
+  return await HTTP.get(`/form/group/${gID}/latest`)
     .then(res => {
-      return res.data.data;
+      return res.data;
     })
     .catch(() => {
       console.error("Can't get latest 'form CE' from each type");
@@ -42,15 +42,47 @@ export async function latestEachForm(gID) {
 export async function formCE(gID, fID) {
   return await HTTP.post("/form", { Form_GroupID: gID, Form_TypeID: fID })
     .then(res => {
-      return res.data.data;
+      if (res.data) {
+        return res.data;
+      }
     })
     .catch(() => {
       console.error("Can't get 'form CE'");
     });
 }
+export async function getFormPrerequisite() {
+  return await HTTP.get("/formprerequisite").then(res => {
+    return res.data;
+  });
+}
 export async function form_ce(gID, fID) {
   return await HTTP.get("/form/group/" + gID + "/type/" + fID).then(res => {
     console.log(res);
     return res.data;
+  });
+}
+export async function form_comment(fID) {
+  return await HTTP.post("/formcomment", { Comment_FormID: fID }).then(res => {
+    return res.data;
+  });
+}
+export async function new_formcomment(fID, tID, text) {
+  HTTP.post("/formcomment/create", {
+    Comment_FormID: fID,
+    Comment_TeacherID: tID,
+    Comment_Text: text,
+    Comment_Time: new Date()
+  });
+}
+export async function upload_form(fID, file, onUploadProgress) {
+  let formData = new FormData();
+
+  formData.append("file", file);
+
+  return await HTTP.post(`/upload/fileCE0${fID}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data"
+    },
+    onUploadProgress
   });
 }

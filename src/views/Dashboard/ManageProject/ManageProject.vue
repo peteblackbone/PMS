@@ -1,5 +1,5 @@
 <template>
-  <v-card class="ma-2" flat>
+  <v-card flat>
     <v-data-table
       :headers="headers"
       :items="data"
@@ -16,17 +16,38 @@
           <v-spacer></v-spacer>
         </v-toolbar>
       </template>
+      <template v-slot:[`item.Prerequisite`]="{ item }">
+        <div
+          class="d-flex align-baseline"
+          v-for="pre in item.Prerequisite"
+          :key="pre.Pre_ID"
+        >
+          <v-icon
+            class="mr-2"
+            :color="pre.Status == 5 ? 'success' : 'error'"
+            small
+            >{{
+              pre.Status == 5
+                ? "mdi-check-circle-outline"
+                : "mdi-close-circle-outline"
+            }}</v-icon
+          >
+          <span>{{ pre.FormReqType_Name }}</span>
+        </div>
+      </template>
       <template v-slot:[`item.Form_StatusID`]="{ item }">
         <form-status :item="item.data"></form-status>
       </template>
       <template v-slot:[`item.FormType_Name`]="{ item }">
         <router-link
+          class="text-none"
           :to="{
             path: 'form_ce',
             query: { gID: item.Form_GroupID, type: item.Form_TypeID }
           }"
-          >{{ item.FormType_Name }}</router-link
         >
+          {{ item.FormType_Name }}
+        </router-link>
       </template>
       <template v-slot:[`item.Form_UpdatedTime`]="{ item }">
         <span v-if="item.data != undefined">
@@ -42,15 +63,15 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-item @click="previewDoc(item)"
-              ><v-list-item-title>Preview</v-list-item-title></v-list-item
-            >
-            <v-list-item @click="editDoc(item)"
-              ><v-list-item-title>Edit</v-list-item-title></v-list-item
-            >
-            <v-list-item @click="deleteDoc(item)"
-              ><v-list-item-title>Delete</v-list-item-title></v-list-item
-            >
+            <v-list-item @click="previewDoc(item)">
+              <v-list-item-title>Preview</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="editDoc(item)">
+              <v-list-item-title>Edit</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="deleteDoc(item)">
+              <v-list-item-title>Delete</v-list-item-title>
+            </v-list-item>
           </v-list>
         </v-menu>
       </template>
@@ -76,8 +97,10 @@ export default {
     dialogDelete: false,
     headers: [
       { text: "ชื่อเอกสาร", value: "FormType_Name" },
+      { text: "จำเป็นต้องทำก่อน", value: "Prerequisite", sortable: false },
       { text: "อัปเดตครั้งที่", value: "rev", sortable: false },
       { text: "อัปเดตล่าสุด", value: "Form_UpdatedTime" },
+      { text: "วันที่แล้วเสร็จ", value: "CompleteDate" },
       { text: "สถานะ", value: "Form_StatusID", sortable: false },
       { text: "", value: "actions", sortable: false }
     ],
@@ -109,19 +132,37 @@ export default {
     async initialize() {
       const initData = [
         { FormType_Name: "CE01", Form_TypeID: 1 },
-        { FormType_Name: "CE02", Form_TypeID: 2 },
-        { FormType_Name: "CE03", Form_TypeID: 3 },
+        {
+          FormType_Name: "CE02",
+          Form_TypeID: 2
+        },
+        {
+          FormType_Name: "CE03",
+          Form_TypeID: 3
+        },
         { FormType_Name: "CE04", Form_TypeID: 4 },
         { FormType_Name: "CE05", Form_TypeID: 5 },
         { FormType_Name: "CE06", Form_TypeID: 6 },
-        { FormType_Name: "CE07", Form_TypeID: 7 }
+        {
+          FormType_Name: "CE07",
+          Form_TypeID: 7
+        }
       ];
+      const preq = await DB.Project.getFormPrerequisite();
       const temp = await DB.Project.latestEachForm(29);
       if (temp) {
         initData.map(element => {
           element.data = temp.find(
             item => item.Form_TypeID == element.Form_TypeID
           );
+          element.Prerequisite = preq.filter(
+            item => item.FormType_ID == element.Form_TypeID
+          );
+          element.Prerequisite.map(item => {
+            item.Status = temp.find(
+              t => t.Form_TypeID == item.FormReqType_ID
+            ).Form_StatusID;
+          });
         });
       }
       this.data = initData;
@@ -145,5 +186,8 @@ export default {
 <style>
 .tb-row {
   height: 10vh;
+}
+.text-none {
+  text-decoration: none;
 }
 </style>

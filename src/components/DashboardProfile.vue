@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <v-menu v-model="menu" close-on-content-click :nudge-width="200" offset-y>
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on">
@@ -12,8 +13,12 @@
         <v-avatar class="mx-auto my-4" size="96">
           <v-icon size="96">{{ "mdi-account-circle" }}</v-icon>
         </v-avatar>
-        <v-card-title class="mx-auto">{{ data.name }}</v-card-title>
-        <v-card-subheader class="mx-auto">{{ data.email }}</v-card-subheader>
+        <v-card-title class="mx-auto">{{
+          data.Student_Firstname + " " +data.Student_Lastname
+        }}</v-card-title>
+        <v-card-subheader class="mx-auto">{{
+          data.Student_Email
+        }}</v-card-subheader>
         <v-btn
           class="my-5 mx-auto"
           rounded
@@ -37,7 +42,10 @@
 <script>
 export default {
   props: {
-    data: Object
+    data: {
+      type: Object,
+      default: () => {}
+    }
   },
   data() {
     return {

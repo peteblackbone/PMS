@@ -35,7 +35,7 @@ export const auth = {
       userService.login(username, password).then(
         user => {
           commit("loginSuccess", user);
-          router.push("/" + user.data.user.role);
+          router.push("/student");
         },
         error => {
           console.log(error);
@@ -46,6 +46,7 @@ export const auth = {
     },
     logout({ commit }) {
       userService.logout();
+      router.push("/");
       commit("logout");
     }
   },
