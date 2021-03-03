@@ -1,17 +1,17 @@
 <template>
-  <v-card width="800" height="520">
+  <v-card height="625">
     <v-card-title>
-      <span class="blue--text">
-        <v-icon>mdi-file-document-multiple-outline</v-icon>
-        เสนอหัวข้อใหม่</span
+      <v-icon large class="blue--text text--lighten-2 ma-2 mr-5"
+        >mdi-file-document-multiple-outline</v-icon
       >
+      <span>เสนอหัวข้อใหม่</span>
 
       <v-spacer></v-spacer>
       <v-btn icon @click="close">
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-card-title>
-    <v-container class="">
+    <v-container>
       <ValidationObserver ref="observer">
         <form class="new-topic">
           <ValidationProvider
@@ -23,6 +23,8 @@
               v-model="th_name"
               :error-messages="errors"
               label="ชื่อภาษาไทย"
+              outlined
+              dense
             ></v-text-field>
           </ValidationProvider>
           <ValidationProvider
@@ -34,31 +36,48 @@
               v-model="en_name"
               :error-messages="errors"
               label="ชื่อภาษาอังกฤษ"
+              outlined
+              dense
             ></v-text-field>
           </ValidationProvider>
-          <ValidationProvider v-slot="{ errors }" name="จำนวน" rules="required">
-            <v-text-field
-              v-model.number="number"
-              :error-messages="errors"
-              label="จำนวน"
-              type="number"
-              min="1"
+          <v-textarea v-model="detail" outlined rows="3" no-resize label="Detail"></v-textarea>
+          <div class="d-flex" style="width:100%">
+            <ValidationProvider
+              v-slot="{ errors }"
+              name="จำนวน"
+              rules="required"
             >
-            </v-text-field>
-          </ValidationProvider>
-          <ValidationProvider
-            v-slot="{ errors }"
-            name="ประเภท"
-            rules="required"
-          >
-            <v-select
-              v-model="type"
-              :items="[`ซอฟท์แวร์`, `ฮาร์ดแวร์`]"
-              label="ประเภท"
-              :error-messages="errors"
+              <v-text-field
+                v-model.number="number"
+                :error-messages="errors"
+                label="จำนวน"
+                type="number"
+                min="1"
+                outlined
+                dense
+                class="mr-5"
+              >
+              </v-text-field>
+            </ValidationProvider>
+            <ValidationProvider
+              v-slot="{ errors }"
+              name="ประเภท"
+              rules="required"
             >
-            </v-select>
-          </ValidationProvider>
+              <v-select
+                v-model="type"
+                :items="alltype"
+                label="ประเภท"
+                item-text="ProjectType_Name"
+                item-value="ProjectType_ID"
+                :error-messages="errors"
+                outlined
+                dense
+              >
+              </v-select>
+            </ValidationProvider>
+          </div>
+
           <ValidationProvider
             v-slot="{ errors }"
             name="อาจารย์ที่ปรึกษา"
@@ -76,6 +95,8 @@
               multiple
               hide-no-data
               clearable
+              outlined
+              dense
             >
               <template v-slot:selection="data">
                 <v-chip
@@ -83,6 +104,7 @@
                   :input-value="data.selected"
                   @click="data.select"
                   @click:close="remove(data.item)"
+                  small
                 >
                   <v-avatar left class="d-flex justify-center" color="blue">
                     <!-- <v-img :src="data.item.avatar"></v-img> -->
@@ -108,7 +130,7 @@
       </ValidationObserver>
       <div class="d-flex">
         <v-spacer></v-spacer>
-        <v-btn class="ma-2" color="success" @click="submit">submit</v-btn>
+        <v-btn class="ma-2" color="success" @click="submit">Create</v-btn>
       </div>
     </v-container>
   </v-card>
@@ -154,7 +176,11 @@ export default {
   },
   props: {
     data: {
-      type: Object,
+      type: Array,
+      default: () => []
+    },
+    alltype: {
+      type: Array,
       default: () => []
     }
   },
@@ -162,8 +188,9 @@ export default {
     return {
       th_name: "",
       en_name: "",
-      type: null,
+      detail:"",
       number: 1,
+      type: null,
       selected: [],
       autoUpdate: true,
       isUpdating: false,
@@ -180,18 +207,13 @@ export default {
     },
     submitForm() {
       this.$emit("newProject", {
-        // GROUP_TH_NAME: this.th_name,
-        Group_Name: this.en_name,
-        Group_Detail: "aaa",
+        Project_NameTH: this.th_name,
+        Project_NameEN: this.en_name,
+        Project_Detail: this.detail,
         Group_Type: this.type,
-        Group_Year: 2020,
-        Group_Term: 1,
-        // GROUP_ADVISOR: this.selected,
-        Group_Member: this.number,
-        Group_Status: "In Progress",
-        Group_RequestStatus: "Pending"
-
-        // MEMBERS: [],
+        Project_MaxMember: this.number,
+        Project_SectionID: 1,
+        Project_TeacherID: 1
       });
     },
     remove(item) {

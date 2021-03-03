@@ -1,5 +1,8 @@
 import HTTP from "./config";
-export async function GetAllTeacher() {
+
+//#region outbound
+
+export async function UserTeacher() {
   return HTTP.get("/userteacher").then(res => {
     return res.data;
   });
@@ -29,3 +32,8 @@ export async function GetAllStudentByGroupID(gID) {
 //       console.error("Can't fetch group.");
 //     });
 // }
+
+//#endregion outbound
+
+//#region inbound
+//#endregion inbound

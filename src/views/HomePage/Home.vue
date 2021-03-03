@@ -11,25 +11,30 @@
         </v-avatar>
         <span v-t="{ path: 'APP.APP_NAME' }"></span>
       </v-toolbar-title>
-      <div :style="isLogin ? 'width:260%' : 'width:168%'"></div>
-      <v-tabs
-        v-model="tab"
-        background-color="transparent"
-        color="primary"
-        v-if="!$vuetify.breakpoint.mdAndDown"
-      >
-        <v-tab
-          class="tabs"
-          v-for="item in tabs"
-          :key="item.title"
-          :to="item.route"
-          >{{ item.title }}
-          <v-icon class="ml-2" v-if="item.icon">{{ item.icon }}</v-icon>
-        </v-tab>
-      </v-tabs>
+      <!-- <div :style="isLogin ? 'width:260%' : 'width:168%'"></div> -->
+      <v-spacer></v-spacer>
+      <div>
+        <v-tabs
+          v-model="tab"
+          background-color="transparent"
+          color="primary"
+          v-if="!$vuetify.breakpoint.mdAndDown"
+        >
+          <v-tab
+            class="tabs"
+            v-for="item in tabs"
+            :key="item.title"
+            :to="item.route"
+            >{{ item.title }}
+            <v-icon class="ml-2" v-if="item.icon">{{ item.icon }}</v-icon>
+          </v-tab>
+        </v-tabs>
+      </div>
+
       <dashboard-profile
         v-if="isLogin"
         :data="account_data"
+        :size="36"
         @logout="logout"
       ></dashboard-profile>
     </v-app-bar>
@@ -166,5 +171,8 @@ export default {
     min-width: 0;
     padding-left: 0 !important;
   }
+}
+.v-tabs-bar {
+  height: 60px !important;
 }
 </style>

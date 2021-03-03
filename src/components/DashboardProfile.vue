@@ -1,11 +1,10 @@
 <template>
   <div>
-    
     <v-menu v-model="menu" close-on-content-click :nudge-width="200" offset-y>
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on">
-          <v-avatar>
-            <v-icon>{{ "mdi-account-circle" }}</v-icon>
+          <v-avatar :size="size">
+            <v-icon :size="size">{{ "mdi-account-circle" }}</v-icon>
           </v-avatar>
         </v-btn>
       </template>
@@ -14,7 +13,7 @@
           <v-icon size="96">{{ "mdi-account-circle" }}</v-icon>
         </v-avatar>
         <v-card-title class="mx-auto">{{
-          data.Student_Firstname + " " +data.Student_Lastname
+          data.Student_Firstname + " " + data.Student_Lastname
         }}</v-card-title>
         <v-card-subheader class="mx-auto">{{
           data.Student_Email
@@ -45,6 +44,10 @@ export default {
     data: {
       type: Object,
       default: () => {}
+    },
+    size: {
+      type: Number,
+      default: 32
     }
   },
   data() {

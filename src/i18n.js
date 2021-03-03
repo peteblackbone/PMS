@@ -22,7 +22,7 @@ function loadLocaleMessages() {
 }
 
 export default new VueI18n({
-  locale: store.state.lang || "th",
-  fallbackLocale: "th",
+  locale: store.state.lang || process.env.VUE_APP_I18N_LOCALE,
+  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE,
   messages: loadLocaleMessages()
 });

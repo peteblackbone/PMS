@@ -2,26 +2,39 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import NProgress from "nprogress";
 
-import Login from "../views/Login/Login.vue";
+//public pages
+// import Login from "../views/Login/Login.vue";
+import MainLogin from "../views/Login/MainLogin.vue";
 import Home from "../views/HomePage/Home.vue";
-import Dashboard from "../views/Dashboard/Dashboard.vue";
-import Profile from "../views/Dashboard/Profile/Profile.vue";
-import Appointment from "../views/Dashboard/Appointment/Appointment.vue";
-import Overview from "../views/Dashboard/Overview/Overview.vue";
-import Description from "../views/Dashboard/ProjecDescription/Description.vue";
-import Github from "../views/Dashboard/Github/Github.vue";
-import GoogleCalendar from "../views/Dashboard/GoogleCalendar/GoogleCalendar.vue";
-import Trello from "../views/Dashboard/Trello/TrelloBoard.vue";
-import GoogleDrive from "../views/Dashboard/GoogleDrive/GoogleDrive.vue";
-import ProjectManual from "../views/Dashboard/ProjectManual/ProjectManual.vue";
-import ManageGroup from "../views/Dashboard/ManageGroup/ManageGroup.vue";
-import ManageProject from "../views/Dashboard/ManageProject/ManageProject.vue";
-import ProgressionRecord from "../views/Dashboard/ProgressionRecord/ProgressionRecord.vue";
-import FormCE from "../views/Dashboard/ManageProject/FormCE.vue";
-import FormPreview from "../views/Dashboard/ManageProject/FormPreview.vue";
-
 import SearchProject from "../components/SearchProject.vue";
 import About from "../components/About.vue";
+
+//non-public, co-using pages
+import Github from "../views/Github/Github.vue";
+import GoogleCalendar from "../views/GoogleCalendar/GoogleCalendar.vue";
+import GoogleDrive from "../views/GoogleDrive/GoogleDrive.vue";
+import Profile from "../views/Profile/Profile.vue";
+import Trello from "../views/Trello/TrelloBoard.vue";
+import Dashboard from "../views/Dashboard.vue";
+
+//student pages
+import Student_Appointment from "../views/Student/Appointment/Appointment.vue";
+import Student_Overview from "../views/Student/Overview/Overview.vue";
+import Student_Description from "../views/Student/ProjecDescription/Description.vue";
+import Student_ProjectManual from "../views/Student/ProjectManual/ProjectManual.vue";
+import Student_ManageGroup from "../views/Student/ManageGroup/ManageGroup.vue";
+import Student_ManageProject from "../views/Student/ManageProject/ManageProject.vue";
+import Student_ProgressionRecord from "../views/Student/ProgressionRecord/ProgressionRecord.vue";
+import Student_FormCE from "../views/Student/ManageProject/FormCE.vue";
+import Student_FormPreview from "../views/Student/ManageProject/FormPreview.vue";
+
+//teacher pages
+import Teacher_Overview from "../views/Teacher/Overview/Overview.vue";
+import Teacher_ManageGroup from "../views/Teacher/ManageGroup/ManageGroup.vue";
+import Teacher_ManageProject from "../views/Teacher/ManageProject/ManageProject.vue";
+import Teacher_TestReq from "../views/Teacher/Request/TestRequest.vue";
+import Teacher_ApprovementReq from "../views/Teacher/Request/ApprovementRequest.vue";
+import Teacher_ProjectManual from "../views/Teacher/ProjectManual/ProjectManual.vue";
 
 Vue.use(VueRouter);
 
@@ -64,29 +77,29 @@ const routes = [
       {
         path: "/login",
         name: "Login",
-        component: Login,
+        component: MainLogin,
         meta: { title: "Login | PMS" }
       }
     ]
   },
 
   {
-    path: "/:role",
+    path: "/student",
     name: "Student",
     meta: { guest: false },
     component: Dashboard,
-    redirect: "/:role/overview",
+    redirect: "/student/overview",
     children: [
       {
         path: "overview",
         name: "Overview",
-        component: Overview,
+        component: Student_Overview,
         meta: { title: "Overview | PMS" }
       },
       {
         path: "description",
         name: "Description",
-        component: Description,
+        component: Student_Description,
         meta: { title: "Project Descriptions | PMS" }
       },
       {
@@ -104,7 +117,7 @@ const routes = [
       {
         path: "appointment",
         name: "Appointment",
-        component: Appointment,
+        component: Student_Appointment,
         meta: { title: "Appointment | PMS" }
       },
       {
@@ -128,38 +141,84 @@ const routes = [
       {
         path: "assocdoc",
         name: "ProjectManual",
-        component: ProjectManual,
+        component: Student_ProjectManual,
         meta: { title: "Associated Documents | PMS" }
       },
       {
         path: "manage_group",
         name: "Manage Group",
-        component: ManageGroup,
+        component: Student_ManageGroup,
         meta: { title: "Topic Proposal | PMS" }
       },
       {
         path: "manage_project",
         name: "Manage Project",
-        component: ManageProject,
+        component: Student_ManageProject,
         meta: { title: "Manage Project | PMS" }
       },
       {
         path: "progression_record",
         name: "Progression Record",
-        component: ProgressionRecord,
+        component: Student_ProgressionRecord,
         meta: { title: "Progression Record | PMS" }
       },
       {
         path: "form_ce",
         name: "Form CE",
-        component: FormCE,
+        component: Student_FormCE,
         meta: { title: "Form CE | PMS" }
       },
       {
         path: "form_preview",
         name: "Form Preview",
-        component: FormPreview,
+        component: Student_FormPreview,
         meta: { title: "Form Preview | PMS" }
+      }
+    ]
+  },
+
+  {
+    path: "/teacher",
+    name: "Teacher",
+    meta: { guest: false },
+    component: Dashboard,
+    redirect: "/teacher/overview",
+    children: [
+      {
+        path: "overview",
+        name: "Overview",
+        component: Teacher_Overview,
+        meta: { title: "Overview | PMS" }
+      },
+      {
+        path: "manage_group",
+        name: "Manage Group",
+        component: Teacher_ManageGroup,
+        meta: { title: "Manage Group | PMS" }
+      },
+      {
+        path: "manage_project",
+        name: "Manage Project",
+        component: Teacher_ManageProject,
+        meta: { title: "Topic Proposal | PMS" }
+      },
+      {
+        path: "test_req",
+        name: "Test Request",
+        component: Teacher_TestReq,
+        meta: { title: "Test Request | PMS" }
+      },
+      {
+        path: "approvement_req",
+        name: "Approvement Request",
+        component: Teacher_ApprovementReq,
+        meta: { title: "Documents Approvement Request | PMS" }
+      },
+      {
+        path: "project_manual",
+        name: "Project Manual",
+        component: Teacher_ProjectManual,
+        meta: { title: "Project Manual | PMS" }
       }
     ]
   },
@@ -184,14 +243,42 @@ router.afterEach(() => {
 });
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ["/", "/search", "/login", "/about"];
-  const authRequired = publicPages.includes(to.path);
-  const loggedIn = sessionStorage.getItem("user");
-  if (!authRequired && !loggedIn) {
-    return next("/login");
-  } else if (["/login"].includes(to.path) && loggedIn) {
-    return next("/");
-  }
+  // const publicPages = ["/", "/search", "/login", "/about"];
+  // let restrictedPage = [];
+
+  // const authRequired = publicPages.includes(to.path);
+  // const loggedIn = sessionStorage.getItem("user");
+  // const role = "Advisor";
+  // switch (role) {
+  //   case "Advisor":
+  //     restrictedPage = ["student", "admin"];
+  //     break;
+  //   case "Instructor":
+  //     restrictedPage = ["student", "admin"];
+  //     break;
+  //   case "Student":
+  //     restrictedPage = ["teacher", "admin"];
+  //     break;
+  //   default:
+  //     break;
+  // }
+  // if (!authRequired && !loggedIn) {
+  //   return next("/login");
+  // } else if (["/login"].includes(to.path) && loggedIn) {
+  //   return next("/");
+  // } else
+  // if (restrictedPage.includes(to.path.split('/')[1])) {
+  //   if(role == "Advisor")
+  //     return next("/teacher");
+  //   else if(role == "Instructor")
+  //     return next("/teacher");
+  //   else if(role == "Student")
+  //     return next("/student");
+  //   else
+  //   return next("/");
+  // }
+
+  
   // This goes through the matched routes from last to first, finding the closest route with a title.
   // eg. if we have /some/deep/nested/route and /some, /deep, and /nested have titles, nested's will be chosen.
   const nearestWithTitle = to.matched

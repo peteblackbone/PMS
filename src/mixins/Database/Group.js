@@ -1,5 +1,8 @@
 import HTTP from "./config";
-export async function GetAllGroup() {
+
+//#region outbound
+
+export async function GetAll() {
   return await HTTP.get("groupproject")
     .then(res => {
       return res.data;
@@ -8,7 +11,7 @@ export async function GetAllGroup() {
       console.error("Can't fetch group.");
     });
 }
-export async function GetSelfGroup(gID) {
+export async function GetSelf(gID) {
   return await HTTP.get(`/groupproject/${gID}`)
     .then(res => {
       return res.data[0];
@@ -17,8 +20,12 @@ export async function GetSelfGroup(gID) {
       console.error("Can't fetch group.");
     });
 }
-export async function joinGroup(gid, uid) {
-  // console.log(gid, uid);
+
+//#endregion outbound
+
+//#region inbound
+
+export async function Join(gid, uid) {
   await HTTP.post("/group/join", {
     STD_GroupID: gid,
     STD_ID: uid
@@ -26,8 +33,10 @@ export async function joinGroup(gid, uid) {
     console.error("Can't join group");
   });
 }
-export function updateGroup(val) {
+export function Update(val) {
   HTTP.post("/student/update_" + val.type, val).catch(() => {
     console.error("Can't update group");
   });
 }
+
+//#endregion inbound
