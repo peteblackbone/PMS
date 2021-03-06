@@ -21,17 +21,17 @@ export async function LatestEachForm(gID) {
     });
 }
 export async function FormPrerequisite() {
-  return await HTTP.get("/formprerequisite").then(res => {
+  return await HTTP.get("/form_prerequisite").then(res => {
     return res.data;
   });
 }
 export async function AllType() {
-  return HTTP.get("/groupprojecttype").then(res => {
+  return HTTP.get("/project_type").then(res => {
     return res.data;
   });
 }
 export async function AllStatus() {
-  return HTTP.get("/groupprojectstatus").then(res => {
+  return HTTP.get("/project_status").then(res => {
     return res.data;
   });
 }

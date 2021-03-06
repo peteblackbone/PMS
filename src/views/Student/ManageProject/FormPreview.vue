@@ -34,7 +34,7 @@
             <div>
               <pdf
                 ref="pdfComponent"
-                src="http://26.50.177.239:8080/uploads/file.pdf"
+                src="http://www.africau.edu/images/default/sample.pdf"
                 @num-pages="pageCount = $event"
                 @page-loaded="currentPage = $event"
                 :page="page"

@@ -3,7 +3,7 @@ import HTTP from "./config";
 //#region outbound
 
 export async function GetAll() {
-  return await HTTP.get("groupproject")
+  return await HTTP.get("/project_info")
     .then(res => {
       return res.data;
     })
@@ -12,9 +12,27 @@ export async function GetAll() {
     });
 }
 export async function GetSelf(gID) {
-  return await HTTP.get(`/groupproject/${gID}`)
+  return await HTTP.get(`/project/${gID}/info`)
     .then(res => {
       return res.data[0];
+    })
+    .catch(() => {
+      console.error("Can't fetch group.");
+    });
+}
+export async function GetSelfGroupMember(gID) {
+  return await HTTP.get(`/project/${gID}/member`)
+    .then(res => {
+      return res.data;
+    })
+    .catch(() => {
+      console.error("Can't fetch group.");
+    });
+}
+export async function GetAdvisor(gID) {
+  return await HTTP.get(`/project/${gID}/advisor`)
+    .then(res => {
+      return res.data;
     })
     .catch(() => {
       console.error("Can't fetch group.");

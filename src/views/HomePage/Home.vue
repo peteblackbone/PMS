@@ -50,7 +50,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-main style="height:80%;">
+    <v-main style="height:78%;">
       <transition name="fade" mode="out-in">
         <router-view></router-view>
       </transition>

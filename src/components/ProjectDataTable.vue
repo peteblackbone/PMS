@@ -11,7 +11,7 @@
       <template v-slot:top>
         <v-toolbar flat color="white">
           <v-toolbar-title>
-            Manage Group
+            จัดการกลุ่ม
           </v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-text-field
@@ -20,7 +20,7 @@
             label="Search"
             single-line
             hide-details
-            class="mr-2"
+            class="mr-10"
           ></v-text-field>
           <v-select
             v-model="typeFilter"
@@ -52,13 +52,13 @@
           </v-btn>
         </v-toolbar>
       </template>
-      <template v-slot:[`item.ProjectType_Name`]="{ item }">
+      <template v-slot:[`item.Project_Type`]="{ item }">
         <v-chip
           class=" white--text"
-          :class="`type-${item.ProjectType_ID}`"
+          :class="`type-${item.Project_Type.ProjectType_ID}`"
           small
         >
-          {{ item.ProjectType_Name }}
+          {{ item.Project_Type.ProjectType_Name }}
         </v-chip>
       </template>
       <template v-slot:[`item.Project_MaxMember`]="{ item }">
@@ -69,8 +69,8 @@
           mdi-magnify
         </v-icon>
       </template>
-      <template v-slot:[`item.Project_StatusID`]="{ item }">
-        <group-status :status="item.Project_StatusID"></group-status>
+      <template v-slot:[`item.Project_Status`]="{ item }">
+        <group-status :status="item.Project_Status.ProjectStatus_ID"></group-status>
       </template>
     </v-data-table>
     <template>
@@ -151,11 +151,11 @@ export default {
           width: 500
         },
         // { text: "อาจารย์ที่ปรึกษา", value: "GROUP_ADVISOR" },
-        { text: "ประเภท", value: "ProjectType_Name", sortable: false },
+        { text: "ประเภท", value: "Project_Type", sortable: false },
         { text: "สมาชิก", value: "Project_MaxMember", sortable: false },
         { text: "รายละเอียด", value: "Project_Detail", sortable: false },
         { text: "ปีการศึกษา", value: "Section_Year" },
-        { text: "สถานะ", value: "Project_StatusID" },
+        { text: "สถานะ", value: "Project_Status" },
         { text: "Action", value: "actions" }
       ]
     };
@@ -164,22 +164,19 @@ export default {
     filteredItems() {
       return this.data
         .filter(item => {
-          return !this.typeFilter || item.ProjectType_ID == this.typeFilter;
+          return !this.typeFilter || item.Project_Type.ProjectType_ID == this.typeFilter;
         })
         .filter(item => {
           return (
-            !this.statusFilter || item.ProjectStatus_ID == this.statusFilter
+            !this.statusFilter || item.Project_Status.ProjectStatus_ID == this.statusFilter
           );
         });
     }
-    // windowHeight() {
-    //   return window.innerHeight - 203;
-    // }
   },
   methods: {
     async loadData() {
-      this.allType = await DB.Project.alltype();
-      const status = await DB.Project.allstatus();
+      this.allType = await DB.Project.AllType();
+      const status = await DB.Project.AllStatus();
       this.allType.forEach(item => {
         this.projectType.push(item);
       });
@@ -192,7 +189,6 @@ export default {
       //table header 64px
       //ma-2 8+8 px
       //table footer 59px
-      console.log(window.innerHeight);
       this.windowHeight = window.innerHeight - 64 - 64 - 16 - 59;
     },
     async newProject(val) {

@@ -59,7 +59,7 @@ const routes = [
       {
         path: "",
         name: "Home",
-        // component: SearchProject,
+        component: SearchProject,
         meta: { title: "Home | PMS" }
       },
       {
@@ -243,42 +243,43 @@ router.afterEach(() => {
 });
 
 router.beforeEach((to, from, next) => {
-  // const publicPages = ["/", "/search", "/login", "/about"];
-  // let restrictedPage = [];
+  const publicPages = ["/", "/search", "/login", "/about"];
+  let restrictedPage = [];
 
-  // const authRequired = publicPages.includes(to.path);
-  // const loggedIn = sessionStorage.getItem("user");
-  // const role = "Advisor";
-  // switch (role) {
-  //   case "Advisor":
-  //     restrictedPage = ["student", "admin"];
-  //     break;
-  //   case "Instructor":
-  //     restrictedPage = ["student", "admin"];
-  //     break;
-  //   case "Student":
-  //     restrictedPage = ["teacher", "admin"];
-  //     break;
-  //   default:
-  //     break;
-  // }
-  // if (!authRequired && !loggedIn) {
-  //   return next("/login");
-  // } else if (["/login"].includes(to.path) && loggedIn) {
-  //   return next("/");
-  // } else
-  // if (restrictedPage.includes(to.path.split('/')[1])) {
-  //   if(role == "Advisor")
-  //     return next("/teacher");
-  //   else if(role == "Instructor")
-  //     return next("/teacher");
-  //   else if(role == "Student")
-  //     return next("/student");
-  //   else
-  //   return next("/");
-  // }
+  const authRequired = publicPages.includes(to.path);
+  const loggedIn = JSON.parse(sessionStorage.getItem("user"));
+  let role;
+  if (loggedIn) {
+    if (loggedIn.User_ID == 1) {
+      role = "Student";
+    } else {
+      role = "Advisor";
+    }
+  }
+  switch (role) {
+    case "Advisor":
+      restrictedPage = ["student", "admin"];
+      break;
+    case "Instructor":
+      restrictedPage = ["student", "admin"];
+      break;
+    case "Student":
+      restrictedPage = ["teacher", "admin"];
+      break;
+    default:
+      break;
+  }
+  if (!authRequired && !loggedIn) {
+    return next("/login");
+  } else if (["/login"].includes(to.path) && loggedIn) {
+    return next("/");
+  } else if (restrictedPage.includes(to.path.split("/")[1])) {
+    if (role == "Advisor") return next("/teacher");
+    else if (role == "Instructor") return next("/teacher");
+    else if (role == "Student") return next("/student");
+    else return next("/");
+  }
 
-  
   // This goes through the matched routes from last to first, finding the closest route with a title.
   // eg. if we have /some/deep/nested/route and /some, /deep, and /nested have titles, nested's will be chosen.
   const nearestWithTitle = to.matched

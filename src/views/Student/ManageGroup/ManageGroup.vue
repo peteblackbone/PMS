@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!user.Student_GroupID">
+  <div v-if="!gID">
     <project-data-table
       :data="allGroup"
       :loading="loading"
@@ -22,7 +22,8 @@ export default {
   },
   data() {
     return {
-      // user: { Student_GroupID: 5 },
+      user: {},
+      // gID: 28,
       loading: true,
       allGroup: [],
       GroupData: [],
@@ -34,19 +35,20 @@ export default {
       this.user = JSON.parse(sessionStorage.getItem("user"));
       if (this.gID) {
         let temp = {};
-        temp = await DB.Group.GetSelfGroup(this.gID);
-        temp.Members = await DB.User.GetAllStudentByGroupID(this.gID);
-        // temp.Teachers = await DB.User.
+        temp = await DB.Group.GetSelf(this.gID);
+        console.log(temp)
+        temp.Members = await DB.Group.GetSelfGroupMember(this.gID);
+        temp.Advisor = await DB.Group.GetAdvisor(this.gID);
         this.selfGroup = temp;
-        // this.GroupData = await DB.Group.GetAllStudentByGroupID(this.gID);
         console.log(this.selfGroup);
       } else {
-        this.allGroup = await DB.Group.GetAllGroup();
+        this.allGroup = await DB.Group.GetAll();
+        console.log(this.allGroup)
       }
       this.loading = false;
     }
   },
-  beforeMounted() {
+  beforeMount() {
     this.loadData();
   }
 };

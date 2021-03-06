@@ -1,11 +1,10 @@
 <template>
-  <v-card v-resize="onResize" class="ma-2" flat>
+  <v-card v-resize="onResize" class="ma-2 elevation-1" tile>
     <v-data-table
       :headers="headers"
       :items="data"
       :loading="loading"
       loading-text="Loading... Please wait"
-      class="elevation-1"
       :height="windowHeight"
       ><template v-slot:top>
         <v-toolbar flat>
@@ -26,6 +25,7 @@
                   </v-card-title>
                   <div class="pa-5">
                     <v-file-input
+                      accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                       show-size
                       truncate-length="50"
                       outlined
@@ -116,7 +116,7 @@ export default {
   },
   methods: {
     async loadData() {
-      this.data = await DB.Project.formCE(this.gID, this.fID);
+      this.data = await DB.Project.FormCE(this.gID, this.fID);
 
       // if (temp) {
       //   temp.map(async item => {
@@ -136,7 +136,6 @@ export default {
       //table header 64px
       //ma-2 8+8 px
       //table footer 59px
-      console.log(window.innerHeight);
       this.windowHeight = window.innerHeight - 64 - 64 - 16 - 59;
     },
     selectFile(file) {

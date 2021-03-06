@@ -1,55 +1,134 @@
 <template>
-  <div>
-    <div v-if="!isTeacher & !isStudent">
-      <v-row>
-        <v-col cols="6" class="d-flex justify-center">
-          <v-card color="red" width="400" min-height="480">
-            <v-btn @click="isTeacher = !isTeacher"
-              >เข้าสู่ระบบสำหรับอาจารย์</v-btn
-            >
-          </v-card>
-        </v-col>
-        <v-col cols="6" class="d-flex justify-center">
-          <v-card color="blue" width="400"
-            ><v-btn @click="isStudent = !isStudent"
-              >เข้าสู่ระบบสำหรับนักศึกษา</v-btn
-            ></v-card
-          >
-        </v-col>
-      </v-row>
-    </div>
-    <transition name="slide-fade">
-      <login-form v-if="isStudent"></login-form>
-      <login-form v-if="isTeacher"></login-form>
-    </transition>
+  <div class="form-container">
+    <v-card class="login">
+      <v-avatar size="96" class="avatar">
+        <v-icon size="80" color="white">mdi-account-outline</v-icon>
+      </v-avatar>
+      <div class="form-login">
+        <v-card-title class="d-block">Login</v-card-title>
+        <div class="mx-8">
+          <ValidationObserver ref="observer">
+            <form>
+              <ValidationProvider
+                v-slot="{ errors }"
+                name="Username"
+                rules="required"
+              >
+                <v-text-field
+                  v-model="username"
+                  label="ID"
+                  :error-messages="errors"
+                  prepend-inner-icon="mdi-account"
+                ></v-text-field>
+              </ValidationProvider>
+              <ValidationProvider
+                v-slot="{ errors }"
+                name="Password"
+                rules="required"
+              >
+                <v-text-field
+                  v-model="password"
+                  label="Password"
+                  :error-messages="errors"
+                  prepend-inner-icon="mdi-lock"
+                  @keydown.enter="submit"
+                  type="password"
+                ></v-text-field>
+              </ValidationProvider>
+              <v-btn class="my-5" width="100%" color="primary" @click="submit"
+                >Login</v-btn
+              >
+              <div class="d-flex">
+                <!-- <v-checkbox
+                  v-model="rememberChecked"
+                  label="Remember me"
+                ></v-checkbox> -->
+                <v-spacer></v-spacer>
+                <span class="forget-password">Forgot Password?</span>
+              </div>
+            </form>
+          </ValidationObserver>
+        </div>
+        <v-alert v-if="isLoggedIn.loggedIn == false" dense type="error"
+          >Incorrect <strong>Username</strong> or <strong>Password</strong>
+        </v-alert>
+      </div>
+    </v-card>
   </div>
 </template>
 
 <script>
-import LoginForm from "@/components/LoginForm";
+import { required } from "vee-validate/dist/rules";
+import Auth from "@/mixins/Auth";
+// import { required, email, max, length } from "vee-validate/dist/rules";
+import {
+  extend,
+  ValidationObserver,
+  ValidationProvider,
+  setInteractionMode
+} from "vee-validate";
+import { mapGetters } from "vuex";
+setInteractionMode("eager");
+extend("required", {
+  ...required,
+  message: "{_field_} is require"
+});
 export default {
   components: {
-    LoginForm
+    ValidationObserver,
+    ValidationProvider
   },
   data() {
     return {
-      isStudent: false,
-      isTeacher: false
+      username: null,
+      password: null,
+      rememberChacked: false
     };
+  },
+  methods: {
+    async submit() {
+      if (await this.$refs.observer.validate()) {
+        Auth.login(this.username, this.password);
+      }
+    }
+  },
+  computed: {
+    ...mapGetters({
+      isLoggedIn: "auth/loggedIn"
+    })
   }
 };
 </script>
 
 <style>
-.slide-fade-enter-active {
-  transition: all 0.3s ease;
+.form-container {
+  height: 70vh;
+  position: relative;
 }
-.slide-fade-leave-active {
-  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+.login {
+  background-color: rgba(255, 255, 255, 0.6) !important;
+  width: 400px;
+  height: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
-.slide-fade-enter, .slide-fade-leave-to
-/* .slide-fade-leave-active below version 2.1.8 */ {
-  transform: translateX(10px);
-  opacity: 0;
+.avatar {
+  border-top-left-radius: 50% !important;
+  border-top-right-radius: 50% !important;
+  background-color: #1976d2bb;
+  top: -48px;
+}
+.forget-password {
+  margin-top: 16px;
+  padding-top: 4px;
+  color: #00000099;
+}
+.form-login {
+  position: absolute;
+  top: 60px;
+  width: inherit;
 }
 </style>

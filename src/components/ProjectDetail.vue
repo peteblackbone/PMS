@@ -21,10 +21,10 @@
         <v-divider></v-divider>
         <v-list>
           <template v-for="(item, index) in data.Members">
-            <v-list-item :key="item.Student_ID">
+            <v-list-item :key="item.Member_Info.User_ID">
               <v-list-item-content>
                 <v-list-item-title>{{
-                  item.Student_Firstname + " " + item.Student_Lastname
+                  item.Member_Info.User_Firstname + " " + item.Member_Info.User_Lastname
                 }}</v-list-item-title>
                 <v-list-item-subtitle>asdasd</v-list-item-subtitle>
               </v-list-item-content>
@@ -40,11 +40,11 @@
       <v-card tile class="elevation-1"
         ><v-card-text>{{ "Teacher" }}</v-card-text>
         <v-divider></v-divider>
-        <!-- <v-list>
-            <template v-for="(item, index) in ['a', 'b']">
-              <v-list-item :key="item">
+        <v-list>
+            <template v-for="(item, index) in data.Advisor">
+              <v-list-item :key="item.Advisor_Info.User_ID">
                 <v-list-item-content
-                  ><v-list-item-title>{{ item }}</v-list-item-title
+                  ><v-list-item-title>{{ item.Advisor_Info.User_Firstname + " " + item.Advisor_Info.User_Firstname }}</v-list-item-title
                   ><v-list-item-subtitle
                     >asdasdasd</v-list-item-subtitle
                   ></v-list-item-content
@@ -56,8 +56,8 @@
                 :key="item"
               ></v-divider>
             </template>
-          </v-list> -->
-        <v-list>
+          </v-list>
+        <!-- <v-list>
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>{{
@@ -66,7 +66,7 @@
               <v-list-item-subtitle>asdadadsadzxc</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-        </v-list>
+        </v-list> -->
       </v-card>
     </div>
   </div>

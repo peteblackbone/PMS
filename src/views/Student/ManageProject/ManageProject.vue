@@ -1,18 +1,17 @@
 <template>
-  <v-card v-resize="onResize" class="ma-2" tile>
+  <v-card v-resize="onResize" class="ma-2 elevation-1" tile>
     <v-data-table
       :headers="headers"
       :items="data"
       :item-class="rowStyle"
       :loading="loading"
-      :custom-sort="dateSorting"
       loading-text="Loading... Please wait"
-      class="elevation-1"
       :height="windowHeight"
     >
+    <!-- :custom-sort="dateSorting" -->
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Manage Project</v-toolbar-title>
+          <v-toolbar-title>จัดการโปรเจ็ค</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
         </v-toolbar>
@@ -122,7 +121,7 @@ export default {
       val || this.closeDelete();
     }
   },
-  beforeMounted() {
+  beforeMount() {
     this.loadData();
   },
 
@@ -165,6 +164,7 @@ export default {
       }
       this.data = initData;
       this.loading = false;
+      console.log(this.loading,this.data)
     },
     onResize() {
       //page header 64px

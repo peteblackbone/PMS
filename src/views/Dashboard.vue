@@ -6,7 +6,7 @@
       app
     >
       <v-list dense>
-        <template v-for="item in menu" class="scrollable">
+        <template v-for="(item,index) in menu" class="scrollable">
           <v-list-group
             v-if="item.children"
             :key="item.text"
@@ -19,7 +19,7 @@
                 <v-list-item-title v-t="{ path: item.name }">
                 </v-list-item-title>
                 <v-badge
-                  v-if="item.name == 'Request'"
+                  v-if="index == 3"
                   :content="allRequest"
                   color="red"
                   style="right:20px;top:-3px"
@@ -103,33 +103,33 @@ import DashboardNotification from "@/components/DashboardNotification";
 const advisorMenu = [
   {
     icon: "mdi-chart-bar",
-    name: "Overview",
+    name: "ถาพรวม",
     route: "/teacher/overview"
   },
   {
     icon: "mdi-group",
-    name: "Manage Group",
+    name: "จัดการกลุ่ม",
     route: "/teacher/manage_group"
   },
   {
     icon: "mdi-bookshelf",
-    name: "Manage Project",
+    name: "จัดการโปรเจ็ค",
     route: "/teacher/manage_project"
   },
   {
     icon: "mdi-chevron-up",
     "icon-alt": "mdi-chevron-down",
-    name: "Request",
+    name: "คำร้อง",
     children: [
       {
         icon: "mdi-teach",
-        name: "Exam Request",
+        name: "ขอสอบ",
         route: "/teacher/test_req",
         req: 4
       },
       {
         icon: "mdi-file-document-edit-outline",
-        name: "Documents Approvement Request",
+        name: "ขออนุมัติเอกสาร",
         route: "/teacher/approvement_req",
         req: 7
       }
@@ -252,9 +252,12 @@ export default {
     }
   },
   beforeMount() {
-    // this.user = JSON.parse(sessionStorage.getItem("user"));
-    this.user.role = "Advisor";
-    console.log(this.user)
+    this.user = JSON.parse(sessionStorage.getItem("user"));
+    if(this.user.User_ID == 1){
+      this.user.role = "Student";
+    } else {
+      this.user.role = "Advisor";
+    }
     this.loadData();
   },
 
