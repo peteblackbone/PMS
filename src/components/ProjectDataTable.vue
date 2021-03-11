@@ -1,7 +1,7 @@
 <template>
   <v-card class="ma-2 elevation-1" tile v-resize="onResize">
     <v-data-table
-      :headers="allGroupHeaders"
+      :headers="headers"
       :items="filteredItems"
       :loading="loading"
       :search="searchText"
@@ -24,7 +24,7 @@
           ></v-text-field>
           <v-select
             v-model="typeFilter"
-            :items="projectType"
+            :items="type"
             item-text="ProjectType_Name"
             item-value="ProjectType_ID"
             hide-details
@@ -36,7 +36,7 @@
           ></v-select>
           <v-select
             v-model="statusFilter"
-            :items="projectStatus"
+            :items="status"
             item-text="ProjectStatus_Name"
             item-value="ProjectStatus_ID"
             hide-details
@@ -52,25 +52,28 @@
           </v-btn>
         </v-toolbar>
       </template>
-      <template v-slot:[`item.Project_Type`]="{ item }">
-        <v-chip
-          class=" white--text"
-          :class="`type-${item.Project_Type.ProjectType_ID}`"
-          small
-        >
-          {{ item.Project_Type.ProjectType_Name }}
-        </v-chip>
-      </template>
       <template v-slot:[`item.Project_MaxMember`]="{ item }">
         {{ 1 + " / " + item.Project_MaxMember }}
+      </template>
+      <template v-slot:[`item.Project_TypeID`]="{ item }">
+        <v-chip
+          class=" white--text"
+          :class="`type-${item.Project_TypeID}`"
+          small
+        >
+          {{ item.Project_TypeID }}
+        </v-chip>
+      </template>
+      <template v-slot:[`item.Project_NameTH`]="{ item }">
+        {{ `${item.Project_NameTH} (${item.Project_NameEN})` }}
       </template>
       <template v-slot:[`item.actions`]="{ item }">
         <v-icon small class="mr-2" @click="showJoinGroupModal(item)">
           mdi-magnify
         </v-icon>
       </template>
-      <template v-slot:[`item.Project_Status`]="{ item }">
-        <group-status :status="item.Project_Status.ProjectStatus_ID"></group-status>
+      <template v-slot:[`item.Project_StatusID`]="{ item }">
+        <group-status :status="item.Project_StatusID"></group-status>
       </template>
     </v-data-table>
     <template>
@@ -93,11 +96,7 @@
         :cancellable="1"
         @close="hideModal"
       >
-        <join-group
-          @submit="joinGroup"
-          @close="hideModal"
-          :data="selectedGroup"
-        >
+        <join-group @submit="join" @close="hideModal" :data="selectedGroup">
         </join-group>
       </modal-container>
     </template>
@@ -105,8 +104,6 @@
 </template>
 
 <script>
-import DB from "@/mixins/Database";
-
 import ModalContainer from "@/components/ModalContainer";
 import NewTopic from "@/components/TopicProposalNewTopic";
 import JoinGroup from "@/components/TopicProposalJoinGroup";
@@ -127,63 +124,46 @@ export default {
     loading: {
       type: Boolean,
       default: true
+    },
+    type: {
+      type: Array,
+      default: () => []
+    },
+    status: {
+      type: Array,
+      default: () => []
+    },
+    headers: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
     return {
       selectedGroup: null,
-      allType: [],
       typeFilter: 0,
-      projectType: [{ ProjectType_ID: 0, ProjectType_Name: "ทั้งหมด" }],
       statusFilter: 0,
-      projectStatus: [{ ProjectStatus_ID: 0, ProjectStatus_Name: "ทั้งหมด" }],
       searchText: "",
       proposal_modal: false,
       joinGroup_modal: false,
       teacher_list: [],
-      windowHeight: 0,
-      allGroupHeaders: [
-        {
-          text: "ชื่อโครงงาน",
-          align: "start",
-          sortable: true,
-          value: "Project_NameTH",
-          width: 500
-        },
-        // { text: "อาจารย์ที่ปรึกษา", value: "GROUP_ADVISOR" },
-        { text: "ประเภท", value: "Project_Type", sortable: false },
-        { text: "สมาชิก", value: "Project_MaxMember", sortable: false },
-        { text: "รายละเอียด", value: "Project_Detail", sortable: false },
-        { text: "ปีการศึกษา", value: "Section_Year" },
-        { text: "สถานะ", value: "Project_Status" },
-        { text: "Action", value: "actions" }
-      ]
+      windowHeight: 0
     };
   },
   computed: {
     filteredItems() {
       return this.data
         .filter(item => {
-          return !this.typeFilter || item.Project_Type.ProjectType_ID == this.typeFilter;
+          return !this.typeFilter || item.Project_TypeID == this.typeFilter;
         })
         .filter(item => {
           return (
-            !this.statusFilter || item.Project_Status.ProjectStatus_ID == this.statusFilter
+            !this.statusFilter || item.Project_StatusID == this.statusFilter
           );
         });
     }
   },
   methods: {
-    async loadData() {
-      this.allType = await DB.Project.AllType();
-      const status = await DB.Project.AllStatus();
-      this.allType.forEach(item => {
-        this.projectType.push(item);
-      });
-      status.forEach(item => {
-        this.projectStatus.push(item);
-      });
-    },
     onResize() {
       //page header 64px
       //table header 64px
@@ -191,17 +171,19 @@ export default {
       //table footer 59px
       this.windowHeight = window.innerHeight - 64 - 64 - 16 - 59;
     },
-    async newProject(val) {
-      await DB.Project.proposeNewProject(val);
-      this.getGroupData();
+    async add(val) {
+      this.$emit("newProject", val);
+      // await DB.Project.proposeNewProject(val);
+      // this.getGroupData();
     },
 
-    async joinGroup(val) {
-      await DB.join(val, JSON.parse(localStorage.getItem("user")).user.STD_ID);
+    async join(val) {
+      this.$emit("joinProject", val);
+      // await DB.join(val, JSON.parse(localStorage.getItem("user")).user.STD_ID);
       this.hideModal();
     },
     async getAllTeacher() {
-      this.teacher_list = await DB.User.GetAllTeacher();
+      // this.teacher_list = await DB.User.GetAllTeacher();
     },
     hideModal() {
       this.proposal_modal = false;
@@ -215,9 +197,6 @@ export default {
       this.selectedGroup = Group;
       this.joinGroup_modal = true;
     }
-  },
-  mounted() {
-    this.loadData();
   }
 };
 </script>

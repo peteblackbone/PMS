@@ -2,6 +2,42 @@ import HTTP from "./config";
 
 //#region outbound
 
+export async function GetAll() {
+  return await HTTP.get("/project")
+    .then(res => {
+      return res.data;
+    })
+    .catch(() => {
+      console.error("Can't fetch group.");
+    });
+}
+export async function GetSelf(gID) {
+  return await HTTP.get(`/project/${gID}/info`)
+    .then(res => {
+      return res.data[0];
+    })
+    .catch(() => {
+      console.error("Can't fetch group.");
+    });
+}
+export async function GroupMember(gID) {
+  return await HTTP.get(`/project/member?projectid=${gID}`)
+    .then(res => {
+      return res.data;
+    })
+    .catch(() => {
+      console.error("Can't fetch group.");
+    });
+}
+export async function GetAdvisor(gID) {
+  return await HTTP.get(`/project/${gID}/advisor`)
+    .then(res => {
+      return res.data;
+    })
+    .catch(() => {
+      console.error("Can't fetch group.");
+    });
+}
 export async function GetCE(type) {
   return await HTTP.get(type)
     .then(res => {
@@ -21,17 +57,17 @@ export async function LatestEachForm(gID) {
     });
 }
 export async function FormPrerequisite() {
-  return await HTTP.get("/form_prerequisite").then(res => {
+  return await HTTP.get("/form/prerequisite").then(res => {
     return res.data;
   });
 }
 export async function AllType() {
-  return HTTP.get("/project_type").then(res => {
+  return HTTP.get("/project/type").then(res => {
     return res.data;
   });
 }
 export async function AllStatus() {
-  return HTTP.get("/project_status").then(res => {
+  return HTTP.get("/project/status").then(res => {
     return res.data;
   });
 }

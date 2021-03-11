@@ -1,13 +1,12 @@
 <template>
-  <v-tooltip v-if="item != undefined" bottom>
+  <v-tooltip v-if="status != undefined" bottom>
     <template v-slot:activator="{ on, attrs }">
       <span v-bind="attrs" v-on="on">
-        <span class="circle-dot mr-2" :class="`status-${item.Form_StatusID}`">
-        </span>
-        {{ statusText[item.Form_StatusID].text }}
+        <span class="circle-dot mr-2" :class="`status-${status}`"> </span>
+        {{ statusText[status].text }}
       </span>
     </template>
-    <span>{{ statusText[item.Form_StatusID].detail }}</span>
+    <span>{{ statusText[status].detail }}</span>
   </v-tooltip>
   <v-tooltip v-else bottom>
     <template v-slot:activator="{ on, attrs }">
@@ -23,9 +22,9 @@
 <script>
 export default {
   props: {
-    item: {
-      type: Object,
-      default: () => undefined
+    status: {
+      type: Number,
+      default: undefined
     }
   },
   data() {

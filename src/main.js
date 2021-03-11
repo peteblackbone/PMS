@@ -8,9 +8,10 @@ import VueAxios from "vue-axios";
 import axios from "axios";
 import "./plugins/codemirror";
 import CKEditor from "@ckeditor/ckeditor5-vue";
+import Database from "./mixins/Database/";
 Vue.use(CKEditor);
+Vue.use(Database);
 
-// import Nprogress from "../node_modules/nprogress/nprogress.css";
 require("../node_modules/nprogress/nprogress.css");
 
 Vue.config.productionTip = false;
@@ -18,6 +19,7 @@ Vue.config.productionTip = false;
 // Vue.use(VeeValidate);
 
 new Vue({
+  Database,
   router,
   store,
   vuetify,

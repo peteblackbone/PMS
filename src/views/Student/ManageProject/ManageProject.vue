@@ -78,7 +78,6 @@
   </v-card>
 </template>
 <script>
-import DB from "@/mixins/Database";
 import FormStatus from "@/components/FormStatus";
 export default {
   components: {
@@ -145,8 +144,8 @@ export default {
           Form_TypeID: 7
         }
       ];
-      const preq = await DB.Project.FormPrerequisite();
-      const temp = await DB.Project.LatestEachForm(29);
+      const preq = await this.Project.FormPrerequisite();
+      const temp = await this.Project.LatestEachForm(29);
       if (temp) {
         initData.map(element => {
           element.data = temp.find(
