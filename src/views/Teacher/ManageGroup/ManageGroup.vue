@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     async loadData() {
-      this.allGroup = await DB.Group.GetAll();
+      this.allGroup = await DB.Project.GetAll();
       this.loading = false;
     }
   },

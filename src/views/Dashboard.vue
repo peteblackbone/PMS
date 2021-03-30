@@ -253,7 +253,7 @@ export default {
   },
   beforeMount() {
     this.user = JSON.parse(sessionStorage.getItem("user"));
-    if(this.user.User_ID == 1){
+    if(this.user.User_ID == 3){
       this.user.role = "Student";
     } else {
       this.user.role = "Advisor";

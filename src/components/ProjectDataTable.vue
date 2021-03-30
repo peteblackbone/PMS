@@ -84,9 +84,9 @@
       >
         <new-topic
           @close="hideModal"
-          @newProject="newProject"
+          @newProject="add"
           :data="teacher_list"
-          :alltype="allType"
+          :alltype="type"
         ></new-topic>
       </modal-container>
     </template>

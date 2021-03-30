@@ -7,7 +7,6 @@ import NProgress from "nprogress";
 import MainLogin from "../views/Login/MainLogin.vue";
 import Home from "../views/HomePage/Home.vue";
 import SearchProject from "../components/SearchProject.vue";
-import About from "../components/About.vue";
 
 //non-public, co-using pages
 import Github from "../views/Github/Github.vue";
@@ -67,12 +66,6 @@ const routes = [
         name: "Search",
         component: SearchProject,
         meta: { title: "Search Project | PMS" }
-      },
-      {
-        path: "about",
-        name: "About",
-        component: About,
-        meta: { title: "About | PMS" }
       },
       {
         path: "/login",
@@ -250,7 +243,7 @@ router.beforeEach((to, from, next) => {
   const loggedIn = JSON.parse(sessionStorage.getItem("user"));
   let role;
   if (loggedIn) {
-    if (loggedIn.User_ID == 1) {
+    if (loggedIn.User_ID == 3) {
       role = "Student";
     } else {
       role = "Advisor";

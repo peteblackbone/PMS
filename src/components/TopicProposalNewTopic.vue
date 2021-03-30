@@ -22,6 +22,7 @@
             <v-text-field
               v-model="th_name"
               :error-messages="errors"
+              prepend-inner-icon="mdi-alpha-t"
               label="ชื่อภาษาไทย"
               outlined
               dense
@@ -35,6 +36,7 @@
             <v-text-field
               v-model="en_name"
               :error-messages="errors"
+              prepend-inner-icon="mdi-alpha-e"
               label="ชื่อภาษาอังกฤษ"
               outlined
               dense
